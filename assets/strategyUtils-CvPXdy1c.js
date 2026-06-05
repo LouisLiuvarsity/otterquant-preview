@@ -1,0 +1,1 @@
+function i(r){const e=Number.parseFloat(r.replace(/%/g,""));return Number.isFinite(e)?e:0}function p(r,e,a,s){const t=Math.max(2,r);return Array.from({length:t},(h,o)=>{const n=o/(t-1),c=e+n*a*t,u=Math.sin(n*Math.PI*5.2)*s*1.6,b=Math.cos(n*Math.PI*2.6)*s*.65;return Number((c+u+b).toFixed(2))})}export{p as b,i as p};
