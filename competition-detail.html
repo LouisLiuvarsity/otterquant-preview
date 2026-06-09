@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Competition Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 24px; background: #0B0B0B;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            height: 52px; flex-shrink: 0;
+        }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .header-logo { width: 32px; height: 32px; border-radius: 50%; }
+        .header-brand { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px; color: #F5B70A; letter-spacing: 0.05em; }
+        .header-nav { display: flex; align-items: center; gap: 20px; }
+        .nav-link { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; text-decoration: none; transition: all 0.2s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover { color: #F5B70A; }
+        .nav-link.active { color: #F5B70A; border-bottom-color: #F5B70A; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-email { font-size: 11px; color: rgba(255,255,255,0.6); }
+        .logout-btn { background: none; border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 5px 8px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; }
+        .logout-btn:hover { border-color: #F5B70A; color: #F5B70A; }
+        .logout-btn svg { width: 13px; height: 13px; stroke: currentColor; }
+
+        /* ===== MAIN ===== */
+        main {
+            flex: 1;
+            padding: 10px 24px 44px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top bar: back + state toggle */
+        .top-bar {
+            display: flex; align-items: center; gap: 16px;
+            margin-bottom: 10px; flex-shrink: 0;
+        }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 12px; color: rgba(255,255,255,0.5);
+            text-decoration: none; cursor: pointer;
+            background: none; border: none; transition: color 0.2s ease;
+        }
+        .back-btn:hover { color: #F5B70A; }
+        .back-btn svg { width: 14px; height: 14px; stroke: currentColor; }
+        .state-toggle {
+            display: flex; align-items: center; gap: 2px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            padding: 2px;
+        }
+        .state-toggle-btn {
+            padding: 4px 12px; font-size: 10px; font-weight: 500;
+            color: rgba(255,255,255,0.5); background: none; border: none;
+            cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .state-toggle-btn.active { background: #F5B70A; color: #000; font-weight: 600; }
+        .state-toggle-btn:hover:not(.active) { color: #fff; }
+
+        /* ===== CONTENT LAYOUT ===== */
+        .content-layout {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        /* Hero spans full width */
+        .comp-hero {
+            grid-column: 1 / -1;
+            padding: 16px 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .comp-hero-bg {
+            position: absolute; top: 0; right: 0; width: 200px; height: 100%;
+            opacity: 0.06; background: radial-gradient(circle at 80% 50%, #F5B70A 0%, transparent 70%);
+        }
+        .hero-left { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
+        .comp-hero-tags { display: flex; align-items: center; gap: 6px; }
+        .hero-tag { font-size: 9px; padding: 2px 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .hero-tag.live { background: rgba(34,197,94,0.15); color: #22C55E; border: 1px solid rgba(34,197,94,0.3); }
+        .hero-tag.registering { background: rgba(245,183,10,0.15); color: #F5B70A; border: 1px solid rgba(245,183,10,0.3); }
+        .hero-tag.beginner { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); }
+        .hero-tag.pair { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.1); }
+        .comp-hero-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #fff; }
+        .comp-hero-meta { display: flex; align-items: center; gap: 24px; }
+        .meta-item { display: flex; flex-direction: column; gap: 2px; }
+        .meta-item-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; }
+        .meta-item-value { font-size: 12px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 4px; }
+        .meta-item-value.prize { color: #F5B70A; }
+        .meta-item-value.countdown-live { color: #22C55E; }
+        .meta-item-value.countdown-upcoming { color: #F5B70A; }
+        .meta-item-value svg { width: 12px; height: 12px; stroke: currentColor; }
+
+        .hero-right { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+        .action-btn {
+            font-size: 11px; font-weight: 600; padding: 8px 18px; border: none;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em;
+            transition: all 0.2s ease; display: flex; align-items: center; gap: 5px;
+        }
+        .action-btn.spectator { background: #F5B70A; color: #000; }
+        .action-btn.spectator:hover { background: #d4a00a; }
+        .action-btn.register { background: #22C55E; color: #000; }
+        .action-btn.register:hover { background: #1ca04e; }
+        .action-btn.withdraw { background: none; border: 1px solid #EF4444; color: #EF4444; }
+        .action-btn.withdraw:hover { background: rgba(239,68,68,0.1); }
+        .action-btn svg { width: 12px; height: 12px; stroke: currentColor; }
+        .status-badge { font-size: 10px; font-weight: 600; padding: 4px 10px; background: rgba(34,197,94,0.15); color: #22C55E; border: 1px solid rgba(34,197,94,0.3); }
+
+        /* Left column: About */
+        .left-col {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            padding: 14px 18px;
+            overflow-y: auto;
+        }
+        .left-col::-webkit-scrollbar { width: 3px; }
+        .left-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
+        .section-title {
+            font-size: 12px; font-weight: 600; color: #fff;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+        }
+        .section-title svg { width: 13px; height: 13px; stroke: #F5B70A; }
+        .about-banner {
+            font-size: 10px; color: #F5B70A;
+            background: rgba(245,183,10,0.08); border-left: 2px solid #F5B70A;
+            padding: 6px 10px; margin-bottom: 12px; font-weight: 500;
+        }
+        .about-group { margin-bottom: 10px; }
+        .about-group:last-child { margin-bottom: 0; }
+        .about-group-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .about-group-title .icon { font-size: 10px; }
+        .about-group ul { list-style: none; padding-left: 0; }
+        .about-group ul li { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.6; padding-left: 10px; position: relative; }
+        .about-group ul li::before { content: "•"; position: absolute; left: 0; color: rgba(255,255,255,0.3); }
+        .highlight-num { display: inline-flex; align-items: center; justify-content: center; background: rgba(245,183,10,0.15); color: #F5B70A; font-weight: 600; font-size: 10px; padding: 0 4px; }
+
+        /* Right column: Rules + Prize */
+        .right-col {
+            display: flex; flex-direction: column; gap: 10px;
+            overflow-y: auto;
+        }
+        .right-col::-webkit-scrollbar { width: 3px; }
+        .right-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
+        .rules-box, .prize-box {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            padding: 14px 18px;
+        }
+        .rules-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+        }
+        .rule-card { padding: 10px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
+        .rule-card-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+        .rule-card-value { font-size: 14px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+
+        .prize-table { width: 100%; border-collapse: collapse; }
+        .prize-table th { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 500; }
+        .prize-table td { font-size: 11px; color: rgba(255,255,255,0.7); padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .prize-table tr:last-child td { border-bottom: none; }
+        .prize-table td.rank { font-weight: 600; color: #F5B70A; }
+        .prize-table td.amount { font-weight: 600; color: #fff; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 24px; background: #0B0B0B;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            height: 38px; flex-shrink: 0;
+        }
+        .footer-left { display: flex; align-items: center; gap: 14px; }
+        .crypto-ticker { display: flex; align-items: center; gap: 6px; }
+        .crypto-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+        .crypto-icon.btc { background: #F7931A; color: #fff; }
+        .crypto-icon.eth { background: #627EEA; color: #fff; }
+        .crypto-icon.sol { background: #9945FF; color: #fff; }
+        .crypto-pair { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500; }
+        .crypto-change { font-size: 10px; font-weight: 600; }
+        .crypto-change.negative { color: #EF4444; }
+        .crypto-change.positive { color: #22C55E; }
+        .crypto-price { font-size: 10px; color: rgba(255,255,255,0.8); font-weight: 500; }
+        .ticker-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.1); }
+        .footer-right { display: flex; align-items: center; gap: 6px; }
+        .footer-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s ease; position: relative; }
+        .footer-btn:hover { border-color: #F5B70A; }
+        .footer-btn svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.7); }
+        .footer-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.1); margin: 0 3px; }
+        .social-link { text-decoration: none; }
+        .social-link:hover svg path { fill: #F5B70A; }
+        .notification-badge { position: absolute; top: 3px; right: 3px; width: 5px; height: 5px; background: #EF4444; border-radius: 50%; }
+        .lang-dropdown { position: absolute; bottom: 100%; right: 0; margin-bottom: 6px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.15); min-width: 160px; display: none; z-index: 2000; }
+        .lang-dropdown.active { display: block; }
+        .lang-option { padding: 8px 14px; font-size: 12px; color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.15s ease; }
+        .lang-option:hover { background: rgba(245,183,10,0.1); color: #fff; }
+        .lang-option.selected { color: #F5B70A; }
+        .lang-option .check-icon { width: 12px; height: 12px; stroke: #F5B70A; display: none; }
+        .lang-option.selected .check-icon { display: block; }
+
+        .state-view { display: none; }
+        .state-view.active { display: contents; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Otter Trade" class="header-logo">
+            <span class="header-brand">OTTER TRADE</span>
+        </div>
+        <nav class="header-nav">
+            <a href="dashboard-new.html" class="nav-link">Dashboard</a>
+            <a href="dashboard.html" class="nav-link">Arena</a>
+            <a href="competitions.html" class="nav-link active">Competitions</a>
+            <a href="watch-live.html" class="nav-link">Watch Live</a>
+            <a href="rewards.html" class="nav-link">Rewards</a>
+        </nav>
+        <div class="header-right">
+            <span class="header-email">trader@ottertrade.com</span>
+            <button class="logout-btn" title="Logout">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <div class="top-bar">
+            <button class="back-btn" onclick="history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+            </button>
+            <div class="state-toggle">
+                <button class="state-toggle-btn active" onclick="switchState('live', this)">Live</button>
+                <button class="state-toggle-btn" onclick="switchState('upcoming', this)">Upcoming</button>
+            </div>
+        </div>
+
+        <!-- ===== LIVE STATE ===== -->
+        <div class="state-view active" id="state-live">
+            <div class="content-layout">
+                <!-- Hero (full width) -->
+                <section class="comp-hero">
+                    <div class="comp-hero-bg"></div>
+                    <div class="hero-left">
+                        <div class="comp-hero-tags">
+                            <span class="hero-tag live">&#9679; Live</span>
+                            <span class="hero-tag beginner">Beginner</span>
+                            <span class="hero-tag pair">BTC/USDT</span>
+                        </div>
+                        <h1 class="comp-hero-title">Qualification Challenge Round 24</h1>
+                        <div class="comp-hero-meta">
+                            <div class="meta-item">
+                                <span class="meta-item-label">Schedule</span>
+                                <span class="meta-item-value"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Jun 08, 04:30 PM</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Participants</span>
+                                <span class="meta-item-value"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>687 / 1,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Prize Pool</span>
+                                <span class="meta-item-value prize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>250 USDT</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Remaining</span>
+                                <span class="meta-item-value countdown-live"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4h 26m</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <button class="action-btn spectator">Spectator Mode <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+                    </div>
+                </section>
+
+                <!-- Left: About -->
+                <div class="left-col">
+                    <h2 class="section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        About this competition
+                    </h2>
+                    <div class="about-banner">Match Execution Rules &amp; Compliant Trading Behavior</div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#9632;</span> To Qualify</div>
+                        <ul>
+                            <li>Complete a minimum of <span class="highlight-num">5</span> trades to be eligible for ranking and prizes.</li>
+                            <li>Rankings are based on return rate (percentage gain/loss), not trade frequency.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#9881;</span> Trading Mechanics</div>
+                        <ul>
+                            <li>Hold only ONE position at any given time — close it before opening a new one.</li>
+                            <li>A simulated trading fee applies to every trade and impacts your final return.</li>
+                            <li>All open positions are automatically closed at market price at match end.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#128308;</span> Not Allowed</div>
+                        <ul>
+                            <li>Martingale strategies.</li>
+                            <li>Consecutive bets — interval between orders must be &gt; <span class="highlight-num">3</span> min.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#10071;</span> Risk Management</div>
+                        <ul>
+                            <li>Always set up a Stop Loss for every trade.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right: Rules + Prize -->
+                <div class="right-col">
+                    <div class="rules-box">
+                        <h2 class="section-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            Rules
+                        </h2>
+                        <div class="rules-grid">
+                            <div class="rule-card">
+                                <div class="rule-card-label">Starting Capital</div>
+                                <div class="rule-card-value">5,000 USDT</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Max Trades</div>
+                                <div class="rule-card-value">40 trades</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Close-only Period</div>
+                                <div class="rule-card-value">Last 1 min</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Fee Rate</div>
+                                <div class="rule-card-value">0.05%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prize-box">
+                        <h2 class="section-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                            Prize Distribution
+                        </h2>
+                        <table class="prize-table">
+                            <thead><tr><th>Rank</th><th>Prize</th><th>%</th></tr></thead>
+                            <tbody>
+                                <tr><td class="rank">#1</td><td class="amount">50 USDT</td><td>20%</td></tr>
+                                <tr><td class="rank">#2</td><td class="amount">35 USDT</td><td>14%</td></tr>
+                                <tr><td class="rank">#3</td><td class="amount">25 USDT</td><td>10%</td></tr>
+                                <tr><td class="rank">#4-10</td><td class="amount">10 USDT ea.</td><td>28%</td></tr>
+                                <tr><td class="rank">#11-50</td><td class="amount">1.75 USDT ea.</td><td>28%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== UPCOMING STATE ===== -->
+        <div class="state-view" id="state-upcoming">
+            <div class="content-layout">
+                <!-- Hero (full width) -->
+                <section class="comp-hero">
+                    <div class="comp-hero-bg"></div>
+                    <div class="hero-left">
+                        <div class="comp-hero-tags">
+                            <span class="hero-tag registering">Registration Open</span>
+                            <span class="hero-tag beginner">Beginner</span>
+                            <span class="hero-tag pair">SOL/USDT</span>
+                        </div>
+                        <h1 class="comp-hero-title">Qualification Challenge Round 25</h1>
+                        <div class="comp-hero-meta">
+                            <div class="meta-item">
+                                <span class="meta-item-label">Schedule</span>
+                                <span class="meta-item-value"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Jun 09, 11:00 PM</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Participants</span>
+                                <span class="meta-item-value"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>96 / 1,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Prize Pool</span>
+                                <span class="meta-item-value prize"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>250 USDT</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-item-label">Reg. Closes</span>
+                                <span class="meta-item-value countdown-upcoming"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>in 6h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-right" id="upcoming-actions">
+                        <span class="status-badge">&#10003; Accepted</span>
+                        <button class="action-btn withdraw" onclick="withdrawComp()">Withdraw</button>
+                    </div>
+                </section>
+
+                <!-- Left: About -->
+                <div class="left-col">
+                    <h2 class="section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        About this competition
+                    </h2>
+                    <div class="about-banner">Match Execution Rules &amp; Compliant Trading Behavior</div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#9632;</span> To Qualify</div>
+                        <ul>
+                            <li>Complete a minimum of <span class="highlight-num">5</span> trades to be eligible for ranking and prizes.</li>
+                            <li>Rankings are based on return rate (percentage gain/loss), not trade frequency.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#9881;</span> Trading Mechanics</div>
+                        <ul>
+                            <li>Hold only ONE position at any given time — close it before opening a new one.</li>
+                            <li>A simulated trading fee applies to every trade and impacts your final return.</li>
+                            <li>All open positions are automatically closed at market price at match end.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#128308;</span> Not Allowed</div>
+                        <ul>
+                            <li>Martingale strategies.</li>
+                            <li>Consecutive bets — interval between orders must be &gt; <span class="highlight-num">3</span> min.</li>
+                        </ul>
+                    </div>
+                    <div class="about-group">
+                        <div class="about-group-title"><span class="icon">&#10071;</span> Risk Management</div>
+                        <ul>
+                            <li>Always set up a Stop Loss for every trade.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right: Rules + Prize -->
+                <div class="right-col">
+                    <div class="rules-box">
+                        <h2 class="section-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            Rules
+                        </h2>
+                        <div class="rules-grid">
+                            <div class="rule-card">
+                                <div class="rule-card-label">Starting Capital</div>
+                                <div class="rule-card-value">5,000 USDT</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Max Trades</div>
+                                <div class="rule-card-value">40 trades</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Close-only Period</div>
+                                <div class="rule-card-value">Last 1 min</div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="rule-card-label">Fee Rate</div>
+                                <div class="rule-card-value">0.05%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prize-box">
+                        <h2 class="section-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                            Prize Distribution
+                        </h2>
+                        <table class="prize-table">
+                            <thead><tr><th>Rank</th><th>Prize</th><th>%</th></tr></thead>
+                            <tbody>
+                                <tr><td class="rank">#1</td><td class="amount">50 USDT</td><td>20%</td></tr>
+                                <tr><td class="rank">#2</td><td class="amount">35 USDT</td><td>14%</td></tr>
+                                <tr><td class="rank">#3</td><td class="amount">25 USDT</td><td>10%</td></tr>
+                                <tr><td class="rank">#4-10</td><td class="amount">10 USDT ea.</td><td>28%</td></tr>
+                                <tr><td class="rank">#11-50</td><td class="amount">1.75 USDT ea.</td><td>28%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="crypto-ticker">
+                <div class="crypto-icon btc">B</div>
+                <span class="crypto-pair">BTCUSDT</span>
+                <span class="crypto-change negative">-8.83%</span>
+                <span class="crypto-price">62,640.0</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon eth">E</div>
+                <span class="crypto-pair">ETHUSDT</span>
+                <span class="crypto-change negative">-5.21%</span>
+                <span class="crypto-price">3,412.5</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon sol">S</div>
+                <span class="crypto-pair">SOLUSDT</span>
+                <span class="crypto-change positive">+2.15%</span>
+                <span class="crypto-price">142.8</span>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div style="position: relative;">
+                <button class="footer-btn" id="langBtn" title="Language">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <div class="lang-option selected" data-lang="en">English<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="zh">中文<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="es">Espa&ntilde;ol<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="pt">Portugu&ecirc;s<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="hi">&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ja">日本語<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ko">한국어<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ru">Русский<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="vi">Ti&#x1EBF;ng Vi&#x1EC7;t<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="id">Bahasa Indonesia<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ms">Bahasa Melayu<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                </div>
+            </div>
+            <button class="footer-btn" id="notifBtn" title="Notifications">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="notification-badge"></span>
+            </button>
+            <div class="footer-divider"></div>
+            <a href="#" class="footer-btn social-link" title="Discord" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="rgba(255,255,255,0.7)"/></svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="X" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="rgba(255,255,255,0.7)"/></svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="Gitbook" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174" fill="rgba(255,255,255,0.7)"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Language dropdown
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', (e) => { e.stopPropagation(); langDropdown.classList.toggle('active'); });
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                langDropdown.classList.remove('active');
+            });
+        });
+        document.addEventListener('click', (e) => { if (!langDropdown.contains(e.target) && e.target !== langBtn) langDropdown.classList.remove('active'); });
+
+        // State toggle
+        function switchState(state, btn) {
+            document.querySelectorAll('.state-toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.state-view').forEach(v => v.classList.remove('active'));
+            document.getElementById('state-' + state).classList.add('active');
+        }
+
+        // Withdraw / Register
+        function withdrawComp() {
+            document.getElementById('upcoming-actions').innerHTML = '<button class="action-btn register" onclick="registerComp()">Register</button>';
+        }
+        function registerComp() {
+            document.getElementById('upcoming-actions').innerHTML = '<span class="status-badge">&#10003; Accepted</span><button class="action-btn withdraw" onclick="withdrawComp()">Withdraw</button>';
+        }
+    </script>
+</body>
+</html>

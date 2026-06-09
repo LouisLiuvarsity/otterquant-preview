@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Trading Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 16px; background: #0B0B0B;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            height: 44px; flex-shrink: 0;
+        }
+        .header-left { display: flex; align-items: center; gap: 8px; }
+        .header-logo { width: 28px; height: 28px; border-radius: 50%; }
+        .header-brand { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; color: #F5B70A; letter-spacing: 0.05em; }
+        .header-nav { display: flex; align-items: center; gap: 16px; }
+        .nav-link { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; text-decoration: none; transition: all 0.2s ease; border-bottom: 2px solid transparent; }
+        .nav-link:hover { color: #F5B70A; }
+        .nav-link.active { color: #F5B70A; border-bottom-color: #F5B70A; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-email { font-size: 10px; color: rgba(255,255,255,0.6); }
+        .logout-btn { background: none; border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 4px 6px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; }
+        .logout-btn:hover { border-color: #F5B70A; color: #F5B70A; }
+        .logout-btn svg { width: 12px; height: 12px; stroke: currentColor; }
+
+        /* ===== ROLLING TICKER ===== */
+        .position-ticker {
+            height: 24px; background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            overflow: hidden; display: flex; align-items: center;
+            flex-shrink: 0;
+        }
+        .ticker-track {
+            display: flex; align-items: center; gap: 40px;
+            animation: tickerScroll 40s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item { font-size: 10px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 5px; }
+        .ticker-item .action-long { color: #22C55E; font-weight: 600; }
+        .ticker-item .action-short { color: #EF4444; font-weight: 600; }
+        .ticker-item .amount { color: #F5B70A; }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-layout {
+            flex: 1; display: grid;
+            grid-template-columns: 1fr 320px;
+            overflow: hidden;
+        }
+
+        /* ===== LEFT: TRADING AREA ===== */
+        .trading-area {
+            display: flex; flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        /* Countdown + Info Bar */
+        .info-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
+        }
+        .info-bar-left { display: flex; align-items: center; gap: 12px; }
+        .pair-info { display: flex; align-items: center; gap: 8px; }
+        .pair-name { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; color: #fff; }
+        .pair-price { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #22C55E; }
+        .pair-change { font-size: 10px; font-weight: 600; color: #22C55E; padding: 2px 5px; background: rgba(34,197,94,0.1); }
+        .pair-stats { display: flex; align-items: center; gap: 10px; }
+        .stat-item { display: flex; flex-direction: column; gap: 1px; }
+        .stat-label { font-size: 8px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-size: 10px; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace; }
+
+        /* Countdown */
+        .countdown-container { display: flex; align-items: center; gap: 8px; }
+        .countdown-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+        .countdown-timer {
+            font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700;
+            color: #22C55E;
+            animation: breathe 2s ease-in-out infinite;
+            text-shadow: 0 0 8px rgba(34,197,94,0.5);
+        }
+        @keyframes breathe {
+            0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(34,197,94,0.5); }
+            50% { opacity: 0.7; text-shadow: 0 0 16px rgba(34,197,94,0.8); }
+        }
+        .countdown-timer.warning { color: #F5B70A; animation-name: breatheWarning; text-shadow: 0 0 8px rgba(245,183,10,0.5); }
+        @keyframes breatheWarning {
+            0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(245,183,10,0.5); }
+            50% { opacity: 0.7; text-shadow: 0 0 16px rgba(245,183,10,0.8); }
+        }
+        .countdown-timer.danger { color: #EF4444; animation-name: breatheDanger; text-shadow: 0 0 8px rgba(239,68,68,0.5); }
+        @keyframes breatheDanger {
+            0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(239,68,68,0.5); }
+            50% { opacity: 0.7; text-shadow: 0 0 16px rgba(239,68,68,0.8); }
+        }
+
+        /* My Trading Status */
+        .my-status-bar {
+            display: flex; align-items: center; gap: 10px;
+            padding: 5px 12px;
+            background: rgba(245,183,10,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .status-item { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+        .status-item-label { color: rgba(255,255,255,0.4); }
+        .status-item-value { font-weight: 600; color: #fff; font-family: 'JetBrains Mono', monospace; }
+        .status-item-value.rank { color: #F5B70A; }
+        .status-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.1); }
+        .trades-progress {
+            display: flex; align-items: center; gap: 5px;
+        }
+        .trades-progress-bar {
+            width: 60px; height: 6px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden;
+        }
+        .trades-progress-fill { height: 100%; transition: width 0.3s ease; }
+        .trades-progress-fill.incomplete { background: #EF4444; }
+        .trades-progress-fill.complete { background: #22C55E; }
+        .trades-warning {
+            font-size: 9px; color: #EF4444; font-weight: 600;
+            animation: pulseWarn 1.5s ease-in-out infinite;
+            display: flex; align-items: center; gap: 3px;
+        }
+        .trades-warning.hidden { display: none; }
+        @keyframes pulseWarn {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .trades-ok { font-size: 9px; color: #22C55E; font-weight: 500; display: flex; align-items: center; gap: 3px; }
+
+        /* Chart Area (placeholder) */
+        .chart-area {
+            flex: 1; position: relative;
+            background: #0B0B0B;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .chart-placeholder {
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(34,197,94,0.03) 0%, rgba(239,68,68,0.03) 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .chart-placeholder-text { font-size: 12px; color: rgba(255,255,255,0.2); font-style: italic; }
+        .chart-candles {
+            position: absolute; bottom: 30%; left: 5%; right: 5%; height: 40%;
+            display: flex; align-items: flex-end; gap: 2px;
+        }
+        .candle { width: 4px; background: #22C55E; opacity: 0.3; }
+        .candle.red { background: #EF4444; }
+        .timeframe-btns {
+            position: absolute; top: 8px; left: 8px;
+            display: flex; gap: 2px;
+        }
+        .tf-btn { font-size: 9px; padding: 3px 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s ease; }
+        .tf-btn:hover { border-color: #F5B70A; color: #F5B70A; }
+        .tf-btn.active { background: #F5B70A; color: #000; border-color: #F5B70A; font-weight: 600; }
+
+        /* Order Panel */
+        .order-panel {
+            display: flex; align-items: center; gap: 0;
+            padding: 8px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4);
+            flex-shrink: 0;
+            min-height: 56px;
+        }
+        /* Left: Market Info */
+        .order-market-info {
+            display: flex; align-items: flex-start; gap: 12px;
+            margin-right: 16px; flex-shrink: 0;
+        }
+        .order-info-item { display: flex; flex-direction: column; gap: 1px; }
+        .order-info-label { font-size: 8px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.05em; }
+        .order-info-value { font-size: 12px; font-weight: 600; color: #fff; font-family: 'JetBrains Mono', monospace; }
+        .order-info-value .pnl-neg { color: #EF4444; font-size: 10px; }
+        /* Center: Size + Slider + Presets */
+        .order-center {
+            display: flex; flex-direction: column; gap: 4px;
+            flex: 1; max-width: 320px;
+        }
+        .order-center-top { display: flex; align-items: center; gap: 6px; }
+        .order-input {
+            flex: 1; padding: 5px 8px; font-size: 11px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; font-family: 'JetBrains Mono', monospace; outline: none;
+        }
+        .order-input:focus { border-color: #F5B70A; }
+        .order-input::placeholder { color: rgba(255,255,255,0.3); }
+        .pair-toggle { display: flex; font-size: 9px; flex-shrink: 0; }
+        .pair-toggle-btn { padding: 4px 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s; }
+        .pair-toggle-btn.active { background: #F5B70A; color: #000; border-color: #F5B70A; font-weight: 600; }
+        .order-center-bottom { display: flex; align-items: center; gap: 6px; }
+        .order-slider-wrap { flex: 1; display: flex; align-items: center; position: relative; }
+        .order-slider {
+            -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.15); outline: none; border-radius: 2px; cursor: pointer;
+        }
+        .order-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+            background: #F5B70A; border-radius: 50%; cursor: pointer; border: 2px solid #000;
+        }
+        .leverage-btn {
+            padding: 4px 8px; font-size: 10px; font-weight: 700;
+            background: rgba(245,183,10,0.15); border: 1px solid rgba(245,183,10,0.4);
+            color: #F5B70A; cursor: pointer; flex-shrink: 0;
+        }
+        .size-presets { display: flex; gap: 2px; }
+        .size-preset { font-size: 9px; padding: 3px 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s; }
+        .size-preset:hover { border-color: #F5B70A; color: #F5B70A; }
+        /* TP/SL Section */
+        .tpsl-section {
+            display: flex; align-items: center; gap: 8px;
+            margin-left: 16px; flex-shrink: 0;
+        }
+        .tpsl-toggle {
+            display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600;
+            color: rgba(255,255,255,0.6); cursor: pointer;
+        }
+        .tpsl-toggle input { width: 12px; height: 12px; accent-color: #F5B70A; cursor: pointer; }
+        .tpsl-toggle.active { color: #F5B70A; }
+        .tpsl-panel {
+            display: none; align-items: center; gap: 6px;
+        }
+        .tpsl-panel.active { display: flex; }
+        .tpsl-mode-btns { display: flex; font-size: 9px; flex-shrink: 0; }
+        .tpsl-mode-btn {
+            padding: 3px 7px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5);
+            cursor: pointer; transition: all 0.15s;
+        }
+        .tpsl-mode-btn.active { background: #F5B70A; color: #000; border-color: #F5B70A; font-weight: 600; }
+        .tpsl-inputs { display: flex; gap: 4px; flex-shrink: 0; }
+        .tpsl-input {
+            width: 60px; padding: 4px 6px; font-size: 10px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; font-family: 'JetBrains Mono', monospace; outline: none;
+        }
+        .tpsl-input:focus { border-color: #F5B70A; }
+        .tpsl-input::placeholder { color: rgba(255,255,255,0.25); font-size: 9px; }
+        .tpsl-roi-presets { display: none; gap: 2px; }
+        .tpsl-roi-presets.active { display: flex; }
+        .tpsl-roi-preset {
+            font-size: 8px; padding: 2px 4px;
+            background: rgba(245,183,10,0.1); border: 1px solid rgba(245,183,10,0.3);
+            color: #F5B70A; cursor: pointer; transition: all 0.15s;
+        }
+        .tpsl-roi-preset:hover { background: rgba(245,183,10,0.25); }
+        /* Right: Buy/Sell Buttons */
+        .order-btns { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+        .btn-long {
+            padding: 12px 24px; font-size: 11px; font-weight: 700;
+            background: rgba(34,197,94,0.15); color: #22C55E;
+            border: 1px solid rgba(34,197,94,0.4); cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.15s;
+        }
+        .btn-long:hover { background: rgba(34,197,94,0.3); }
+        .btn-short {
+            padding: 12px 24px; font-size: 11px; font-weight: 700;
+            background: rgba(239,68,68,0.15); color: #EF4444;
+            border: 1px solid rgba(239,68,68,0.4); cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.15s;
+        }
+        .btn-short:hover { background: rgba(239,68,68,0.3); }
+
+        /* ===== RIGHT: SIDEBAR ===== */
+        .sidebar {
+            display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Tab bar */
+        .tab-bar {
+            display: flex; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            flex-shrink: 0;
+        }
+        .tab-btn {
+            flex: 1; padding: 8px 4px; font-size: 9px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4); background: none; border: none;
+            cursor: pointer; transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+        .tab-btn:hover { color: rgba(255,255,255,0.7); }
+        .tab-btn.active { color: #F5B70A; border-bottom-color: #F5B70A; font-weight: 600; }
+        .tab-badge {
+            position: absolute; top: 2px; right: 6px;
+            min-width: 14px; height: 14px; padding: 0 3px;
+            background: #EF4444; border-radius: 7px;
+            font-size: 8px; font-weight: 700; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1;
+        }
+
+        /* Chat Room */
+        .tab-content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+        .tab-content.active { display: flex; }
+
+        .chat-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .chat-title { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .chat-online { font-size: 9px; color: #22C55E; display: flex; align-items: center; gap: 4px; }
+        .chat-online::before { content: ''; width: 5px; height: 5px; background: #22C55E; border-radius: 50%; }
+
+        .chat-messages {
+            flex: 1; overflow-y: auto; padding: 6px 10px;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .chat-messages::-webkit-scrollbar { width: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+        .chat-msg { font-size: 10px; line-height: 1.5; padding: 2px 0; cursor: pointer; }
+        .chat-msg:hover { background: rgba(255,255,255,0.03); }
+        .chat-msg .username { font-weight: 600; color: #F5B70A; cursor: pointer; }
+        .chat-msg .username.you { background: #F5B70A; color: #000; padding: 0 4px; font-size: 9px; }
+        .chat-msg .msg-text { color: rgba(255,255,255,0.7); }
+        .chat-msg .reply-ref { font-size: 9px; color: rgba(255,255,255,0.3); font-style: italic; display: block; margin-bottom: 1px; border-left: 2px solid rgba(255,255,255,0.15); padding-left: 5px; }
+
+        /* Vote Section */
+        .vote-section {
+            padding: 8px 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
+        }
+        .vote-title { font-size: 9px; color: rgba(255,255,255,0.4); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .vote-bar-container { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+        .vote-pct { font-size: 10px; font-weight: 700; width: 32px; text-align: center; }
+        .vote-pct.long { color: #22C55E; }
+        .vote-pct.short { color: #EF4444; }
+        .vote-bar { flex: 1; height: 8px; display: flex; overflow: hidden; }
+        .vote-bar-long { background: #22C55E; transition: width 0.3s ease; }
+        .vote-bar-short { background: #EF4444; transition: width 0.3s ease; }
+        .vote-btns { display: flex; gap: 4px; }
+        .vote-btn { flex: 1; padding: 4px; font-size: 9px; font-weight: 600; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.15s ease; }
+        .vote-btn.long { background: rgba(34,197,94,0.15); color: #22C55E; border: 1px solid rgba(34,197,94,0.3); }
+        .vote-btn.long:hover { background: rgba(34,197,94,0.3); }
+        .vote-btn.long.voted { background: #22C55E; color: #000; }
+        .vote-btn.short { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+        .vote-btn.short:hover { background: rgba(239,68,68,0.3); }
+        .vote-btn.short.voted { background: #EF4444; color: #fff; }
+
+        /* Chat Input */
+        .chat-input-area {
+            padding: 6px 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
+        }
+        .chat-reply-indicator {
+            font-size: 9px; color: rgba(255,255,255,0.4); margin-bottom: 4px;
+            display: none; align-items: center; gap: 4px;
+        }
+        .chat-reply-indicator.active { display: flex; }
+        .chat-reply-indicator .reply-cancel { color: #EF4444; cursor: pointer; font-weight: 700; margin-left: auto; }
+        .chat-input-row { display: flex; gap: 4px; }
+        .chat-input {
+            flex: 1; padding: 6px 8px; font-size: 10px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; outline: none;
+        }
+        .chat-input:focus { border-color: #F5B70A; }
+        .chat-send-btn {
+            padding: 6px 12px; font-size: 10px; font-weight: 600;
+            background: #F5B70A; color: #000; border: none; cursor: pointer;
+        }
+        .chat-send-btn:hover { background: #d4a00a; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 16px; background: #0B0B0B;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            height: 32px; flex-shrink: 0;
+        }
+        .footer-left { display: flex; align-items: center; gap: 12px; }
+        .crypto-ticker { display: flex; align-items: center; gap: 5px; }
+        .crypto-icon { width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 700; }
+        .crypto-icon.btc { background: #F7931A; color: #fff; }
+        .crypto-icon.eth { background: #627EEA; color: #fff; }
+        .crypto-icon.sol { background: #9945FF; color: #fff; }
+        .crypto-pair { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 500; }
+        .crypto-change { font-size: 9px; font-weight: 600; }
+        .crypto-change.negative { color: #EF4444; }
+        .crypto-change.positive { color: #22C55E; }
+        .crypto-price { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 500; }
+        .ticker-divider { width: 1px; height: 12px; background: rgba(255,255,255,0.1); }
+        .footer-right { display: flex; align-items: center; gap: 5px; }
+        .footer-btn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; background: none; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s ease; position: relative; }
+        .footer-btn:hover { border-color: #F5B70A; }
+        .footer-btn svg { width: 10px; height: 10px; stroke: rgba(255,255,255,0.7); }
+        .footer-divider { width: 1px; height: 12px; background: rgba(255,255,255,0.1); margin: 0 2px; }
+        .social-link { text-decoration: none; }
+        .social-link:hover svg path { fill: #F5B70A; }
+        .notification-badge { position: absolute; top: 2px; right: 2px; width: 4px; height: 4px; background: #EF4444; border-radius: 50%; }
+
+        /* Trades Tab */
+        .trades-table-wrap { flex: 1; overflow-y: auto; padding: 0; }
+        .trades-table-wrap::-webkit-scrollbar { width: 3px; }
+        .trades-table-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+        .trades-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        .trades-table th {
+            padding: 6px 6px; text-align: left; font-size: 9px; font-weight: 500;
+            color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.04em;
+            border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0;
+            background: #0B0B0B; z-index: 1;
+        }
+        .trades-table td {
+            padding: 5px 6px; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            color: rgba(255,255,255,0.75);
+        }
+        .trades-table .td-dir { font-weight: 700; }
+        .trades-table .td-dir.long { color: #22C55E; }
+        .trades-table .td-dir.short { color: #EF4444; }
+        .trades-table .td-pnl.positive { color: #22C55E; font-weight: 600; }
+        .trades-table .td-pnl.negative { color: #EF4444; font-weight: 600; }
+        .trades-table .td-fee { color: #EF4444; }
+
+        /* Rank Tab */
+        .rank-table-wrap { flex: 1; overflow-y: auto; padding: 0; }
+        .rank-table-wrap::-webkit-scrollbar { width: 3px; }
+        .rank-table-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+        .rank-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        .rank-table th {
+            padding: 6px 8px; text-align: left; font-size: 9px; font-weight: 500;
+            color: rgba(255,255,255,0.35); letter-spacing: 0.04em;
+            border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0;
+            background: #0B0B0B; z-index: 1;
+        }
+        .rank-table th:nth-child(3), .rank-table th:nth-child(4), .rank-table th:nth-child(5) { text-align: right; }
+        .rank-table td {
+            padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            color: rgba(255,255,255,0.75);
+        }
+        .rank-table td:nth-child(3), .rank-table td:nth-child(4), .rank-table td:nth-child(5) { text-align: right; }
+        .rank-table tr.you-row { background: rgba(245,183,10,0.08); }
+        .rank-table tr.you-row td { color: #F5B70A; font-weight: 600; }
+        .rank-table .td-rank { font-weight: 600; color: rgba(255,255,255,0.5); width: 28px; }
+        .rank-table .td-player { font-family: 'Inter', sans-serif; font-weight: 500; color: rgba(255,255,255,0.8); }
+        .rank-table .you-tag { font-size: 8px; background: #F5B70A; color: #000; padding: 1px 4px; font-weight: 700; margin-left: 4px; }
+        .rank-table .td-return { color: #22C55E; font-weight: 600; }
+        .rank-table .td-return.negative { color: #EF4444; }
+        .rank-table .td-prize { color: #F5B70A; font-weight: 600; }
+        .rank-table .td-points { color: rgba(255,255,255,0.5); }
+
+        /* Stats Tab */
+        .stats-content { flex: 1; overflow-y: auto; padding: 10px; }
+        .stats-content::-webkit-scrollbar { width: 3px; }
+        .stats-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+        .stats-section { margin-bottom: 12px; }
+        .stats-section-title { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .stats-card { padding: 8px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
+        .stats-card-label { font-size: 8px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stats-card-value { font-size: 12px; font-weight: 700; color: #fff; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+        .stats-card-value.positive { color: #22C55E; }
+        .stats-card-value.negative { color: #EF4444; }
+        .stats-card-value.accent { color: #F5B70A; }
+        .ls-bar { display: flex; height: 6px; margin-top: 4px; }
+        .ls-bar-long { background: #22C55E; }
+        .ls-bar-short { background: #EF4444; }
+
+        /* News Tab */
+        .news-list { flex: 1; overflow-y: auto; padding: 8px; }
+        .news-list::-webkit-scrollbar { width: 3px; }
+        .news-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+        .news-item { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); cursor: pointer; }
+        .news-item:hover { background: rgba(255,255,255,0.02); }
+        .news-title { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.4; margin-bottom: 3px; }
+        .news-meta { font-size: 9px; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 6px; }
+        .news-sentiment { font-size: 8px; font-weight: 600; padding: 1px 4px; }
+        .news-sentiment.positive { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .news-sentiment.negative { background: rgba(239,68,68,0.15); color: #EF4444; }
+        .news-sentiment.neutral { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+        .news-expand { font-size: 8px; color: rgba(255,255,255,0.3); cursor: pointer; margin-left: auto; }
+        .news-expand:hover { color: #F5B70A; }
+        .news-item { cursor: pointer; }
+        .news-item:hover { background: rgba(255,255,255,0.03); }
+        /* News Detail View */
+        .news-detail { display: none; flex-direction: column; flex: 1; padding: 12px; overflow-y: auto; }
+        .news-detail.active { display: flex; }
+        .news-detail-back { display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255,255,255,0.5); cursor: pointer; margin-bottom: 16px; }
+        .news-detail-back:hover { color: #fff; }
+        .news-detail-close { margin-left: auto; font-size: 14px; color: rgba(255,255,255,0.4); cursor: pointer; }
+        .news-detail-close:hover { color: #fff; }
+        .news-detail-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 8px; }
+        .news-detail-meta { font-size: 10px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+        .news-detail-body { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.6; margin-bottom: 20px; }
+        .news-detail-open { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid rgba(255,255,255,0.2); background: none; color: #fff; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+        .news-detail-open:hover { border-color: #F5B70A; color: #F5B70A; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Otter Trade" class="header-logo">
+            <span class="header-brand">OTTER TRADE</span>
+        </div>
+        <nav class="header-nav">
+            <a href="dashboard-new.html" class="nav-link">Dashboard</a>
+            <a href="dashboard.html" class="nav-link active">Arena</a>
+            <a href="competitions.html" class="nav-link">Competitions</a>
+            <a href="watch-live.html" class="nav-link">Watch Live</a>
+            <a href="rewards.html" class="nav-link">Rewards</a>
+        </nav>
+        <div class="header-right">
+            <span class="header-email">trader@ottertrade.com</span>
+            <button class="logout-btn" title="Logout">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- POSITION TICKER -->
+    <div class="position-ticker">
+        <div class="ticker-track" id="tickerTrack">
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> CryptoKing opened 2,500 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> Suresh opened 3,000 USDT</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> tradinghub opened 1,800 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> AlphaTrader opened 4,200 USDT</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> MoonShot opened 2,000 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> Nix closed +3.2% PnL</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> DeFiWhale opened 5,000 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> sage opened 3,500 USDT</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> CryptoKing opened 2,500 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> Suresh opened 3,000 USDT</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> tradinghub opened 1,800 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> AlphaTrader opened 4,200 USDT</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> MoonShot opened 2,000 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> Nix closed +3.2% PnL</span>
+            <span class="ticker-item"><span class="action-long">&#9650; LONG</span> DeFiWhale opened 5,000 USDT</span>
+            <span class="ticker-item"><span class="action-short">&#9660; SHORT</span> sage opened 3,500 USDT</span>
+        </div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT: TRADING AREA -->
+        <div class="trading-area">
+            <!-- Info Bar -->
+            <div class="info-bar">
+                <div class="info-bar-left">
+                    <div class="pair-info">
+                        <span class="pair-name">SOLUSDT</span>
+                        <span class="pair-price">67.06</span>
+                        <span class="pair-change">+2.23%</span>
+                    </div>
+                    <div class="pair-stats">
+                        <div class="stat-item"><span class="stat-label">24h High</span><span class="stat-value">68.16</span></div>
+                        <div class="stat-item"><span class="stat-label">24h Low</span><span class="stat-value">65.23</span></div>
+                        <div class="stat-item"><span class="stat-label">24h Vol</span><span class="stat-value">24.8M</span></div>
+                    </div>
+                </div>
+                <div class="countdown-container">
+                    <span class="countdown-label">Ends in</span>
+                    <span class="countdown-timer" id="countdown">01:29:58</span>
+                </div>
+            </div>
+
+            <!-- My Status Bar -->
+            <div class="my-status-bar">
+                <div class="status-item">
+                    <span class="status-item-label">Rank</span>
+                    <span class="status-item-value rank">#18 / 687</span>
+                </div>
+                <div class="status-divider"></div>
+                <div class="status-item">
+                    <span class="status-item-label">PnL</span>
+                    <span class="status-item-value" style="color:#22C55E;">+1.16%</span>
+                </div>
+                <div class="status-divider"></div>
+                <div class="status-item">
+                    <span class="status-item-label">Equity</span>
+                    <span class="status-item-value">4,980.94U</span>
+                </div>
+                <div class="status-divider"></div>
+                <div class="trades-progress">
+                    <span class="status-item-label">Trades</span>
+                    <div class="trades-progress-bar">
+                        <div class="trades-progress-fill incomplete" style="width: 40%;" id="tradesFill"></div>
+                    </div>
+                    <span class="status-item-value">2/5</span>
+                    <span class="trades-warning" id="tradesWarning">&#9888; Need 3 more!</span>
+                </div>
+                <div class="status-divider"></div>
+                <div class="status-item">
+                    <span class="status-item-label">Trades Used</span>
+                    <span class="status-item-value">2 / 40</span>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-area">
+                <div class="chart-placeholder">
+                    <div class="timeframe-btns">
+                        <button class="tf-btn">1m</button>
+                        <button class="tf-btn">3m</button>
+                        <button class="tf-btn active">5m</button>
+                        <button class="tf-btn">15m</button>
+                        <button class="tf-btn">30m</button>
+                        <button class="tf-btn">1h</button>
+                        <button class="tf-btn">2h</button>
+                        <button class="tf-btn">4h</button>
+                    </div>
+                    <div class="chart-candles" id="chartCandles"></div>
+                    <span class="chart-placeholder-text">Live Trading Chart — SOLUSDT Perp</span>
+                </div>
+            </div>
+
+            <!-- Order Panel -->
+            <div class="order-panel">
+                <!-- Left: Market Info -->
+                <div class="order-market-info">
+                    <div class="order-info-item">
+                        <span class="order-info-label">Market Price</span>
+                        <span class="order-info-value">66.58</span>
+                    </div>
+                    <div class="order-info-item">
+                        <span class="order-info-label">Equity</span>
+                        <span class="order-info-value">4980.94U <span class="pnl-neg">(-0.38%)</span></span>
+                    </div>
+                    <div class="order-info-item">
+                        <span class="order-info-label">Trades Left</span>
+                        <span class="order-info-value">39/40</span>
+                    </div>
+                </div>
+                <!-- Center: Size + Slider + Presets -->
+                <div class="order-center">
+                    <div class="order-center-top">
+                        <input type="text" class="order-input" placeholder="Size (USDT)" value="">
+                        <div class="pair-toggle">
+                            <button class="pair-toggle-btn active">USDT</button>
+                            <button class="pair-toggle-btn">/</button>
+                            <button class="pair-toggle-btn">SOLUSDT</button>
+                        </div>
+                    </div>
+                    <div class="order-center-bottom">
+                        <div class="order-slider-wrap">
+                            <input type="range" class="order-slider" min="0" max="100" value="25">
+                        </div>
+                        <button class="leverage-btn">1x</button>
+                    </div>
+                    <div class="size-presets">
+                        <button class="size-preset">25%</button>
+                        <button class="size-preset">50%</button>
+                        <button class="size-preset">75%</button>
+                        <button class="size-preset">100%</button>
+                    </div>
+                </div>
+                <!-- TP/SL Section -->
+                <div class="tpsl-section">
+                    <label class="tpsl-toggle" id="tpslToggle">
+                        <input type="checkbox" id="tpslCheckbox"> TP/SL
+                    </label>
+                    <div class="tpsl-panel" id="tpslPanel">
+                        <div class="tpsl-mode-btns">
+                            <button class="tpsl-mode-btn" onclick="switchTpslMode('price')">Price</button>
+                            <button class="tpsl-mode-btn active" onclick="switchTpslMode('roi')">ROI %</button>
+                        </div>
+                        <!-- Price Mode Inputs -->
+                        <div class="tpsl-inputs" id="tpslPriceInputs" style="display:none;">
+                            <input type="text" class="tpsl-input" placeholder="TP Price">
+                            <input type="text" class="tpsl-input" placeholder="SL Price">
+                        </div>
+                        <!-- ROI Mode Inputs -->
+                        <div class="tpsl-inputs" id="tpslRoiInputs">
+                            <input type="text" class="tpsl-input" placeholder="TP ROI">
+                            <input type="text" class="tpsl-input" placeholder="SL ROI">
+                        </div>
+                        <div class="tpsl-roi-presets active" id="tpslRoiPresets">
+                            <button class="tpsl-roi-preset">1%</button>
+                            <button class="tpsl-roi-preset">2%</button>
+                            <button class="tpsl-roi-preset">3%</button>
+                            <button class="tpsl-roi-preset">5%</button>
+                            <button class="tpsl-roi-preset">10%</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Buy/Sell Buttons -->
+                <div class="order-btns">
+                    <button class="btn-long">Buy / Long</button>
+                    <button class="btn-short">Sell / Short</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: SIDEBAR -->
+        <div class="sidebar">
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab('chat')">Chat<span class="tab-badge" id="badge-chat">3</span></button>
+                <button class="tab-btn" onclick="switchTab('trades')">Trades</button>
+                <button class="tab-btn" onclick="switchTab('rank')">Rank</button>
+                <button class="tab-btn" onclick="switchTab('stats')">Stats</button>
+                <button class="tab-btn" onclick="switchTab('news')">News<span class="tab-badge" id="badge-news">5</span></button>
+            </div>
+
+            <!-- CHAT TAB -->
+            <div class="tab-content active" id="tab-chat">
+                <div class="chat-header">
+                    <span class="chat-title">CHAT ROOM</span>
+                    <span class="chat-online">579 online</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-msg" onclick="replyTo('tradinghub')"><span class="username">tradinghub:</span> <span class="msg-text">here we go again xd</span></div>
+                    <div class="chat-msg" onclick="replyTo('rabu')"><span class="username">rabu:</span> <span class="msg-text">short it will go down to 64$ in an hour</span></div>
+                    <div class="chat-msg" onclick="replyTo('Mmbaya')"><span class="username">Mmbaya:</span> <span class="msg-text">Faaack &#128514;&#128514;</span></div>
+                    <div class="chat-msg" onclick="replyTo('tradinghub')"><span class="username">tradinghub:</span> <span class="msg-text">you said hope bro and you know when one hopes market breaks their hopes</span></div>
+                    <div class="chat-msg"><span class="reply-ref">&#8627; replying to rabu</span><span class="username">Mmbaya:</span> <span class="msg-text">I pressed short and that thing spiked up 41u from position 7 to 350 &#128514;&#128514;</span></div>
+                    <div class="chat-msg" onclick="replyTo('sunaraj')"><span class="username">sunaraj:</span> <span class="msg-text">1.3 u 97 rank</span></div>
+                    <div class="chat-msg" onclick="replyTo('sunaraj')"><span class="username">sunaraj:</span> <span class="msg-text">price will reverse after sweeping 67.07 high</span></div>
+                    <div class="chat-msg" onclick="replyTo('Alfa')"><span class="username">Alfa:</span> <span class="msg-text">How to join this competition</span></div>
+                    <div class="chat-msg"><span class="reply-ref">&#8627; replying to Alfa</span><span class="username">RRZ:</span> <span class="msg-text">you have to wait for next one, always check the site or discord lol</span></div>
+                    <div class="chat-msg"><span class="username you">YOU</span> <span class="msg-text">looking good for a long entry here around 67</span></div>
+                    <div class="chat-msg" onclick="replyTo('vasc')"><span class="username">vasc:</span> <span class="msg-text">next target may 68</span></div>
+                    <div class="chat-msg" onclick="replyTo('Sannidam')"><span class="username">Sannidam:</span> <span class="msg-text">Hellob</span></div>
+                    <div class="chat-msg" onclick="replyTo('avvarusambasivarao95')"><span class="username">avvarusambasivarao95:</span> <span class="msg-text">1st rank let me see what happened</span></div>
+                </div>
+
+                <!-- Vote Section -->
+                <div class="vote-section">
+                    <div class="vote-title">Vote: What's your market outlook?</div>
+                    <div class="vote-bar-container">
+                        <span class="vote-pct long" id="voteLongPct">64%</span>
+                        <div class="vote-bar">
+                            <div class="vote-bar-long" id="voteLongBar" style="width: 64%;"></div>
+                            <div class="vote-bar-short" id="voteShortBar" style="width: 36%;"></div>
+                        </div>
+                        <span class="vote-pct short" id="voteShortPct">36%</span>
+                    </div>
+                    <div class="vote-btns">
+                        <button class="vote-btn long" id="voteLongBtn" onclick="vote('long')">&#9650; Long</button>
+                        <button class="vote-btn short" id="voteShortBtn" onclick="vote('short')">&#9660; Short</button>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-area">
+                    <div class="chat-reply-indicator" id="replyIndicator">
+                        <span>&#8627; Replying to <strong id="replyTarget"></strong></span>
+                        <span class="reply-cancel" onclick="cancelReply()">&#10005;</span>
+                    </div>
+                    <div class="chat-input-row">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Send message..." onkeydown="if(event.key==='Enter')sendMsg()">
+                        <button class="chat-send-btn" onclick="sendMsg()">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRADES TAB -->
+            <div class="tab-content" id="tab-trades">
+                <div class="chat-header">
+                    <span class="chat-title">TRADE HISTORY</span>
+                    <span style="font-size:9px;color:rgba(255,255,255,0.4);">2 TRADES</span>
+                </div>
+                <div class="trades-table-wrap">
+                    <table class="trades-table">
+                        <thead><tr><th>Dir</th><th>USDT</th><th>SOLUSDT</th><th>PNL</th><th>Fee</th><th>Hold</th><th>Open</th></tr></thead>
+                        <tbody>
+                            <tr><td class="td-dir long">L</td><td>4967.38</td><td>74.14</td><td class="td-pnl negative">-14.09</td><td class="td-fee">-2.48</td><td>0s</td><td>14:58:11</td></tr>
+                            <tr><td class="td-dir long">L</td><td>4981.47</td><td>74.14</td><td class="td-pnl">---</td><td class="td-fee">-2.49</td><td>---</td><td>14:00:02</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RANK TAB -->
+            <div class="tab-content" id="tab-rank">
+                <div class="chat-header">
+                    <span class="chat-title">LEADERBOARD — LIVE</span>
+                    <span style="font-size:9px;color:rgba(255,255,255,0.4);">687 players</span>
+                </div>
+                <div class="rank-table-wrap">
+                    <table class="rank-table">
+                        <thead><tr><th>#</th><th>Player</th><th>Return%</th><th>Prize</th><th>Points</th></tr></thead>
+                        <tbody>
+                            <tr><td class="td-rank">1</td><td class="td-player">sage</td><td class="td-return">+9.76%</td><td class="td-prize">50 U</td><td class="td-points">+70</td></tr>
+                            <tr><td class="td-rank">2</td><td class="td-player">tradinghub</td><td class="td-return">+8.32%</td><td class="td-prize">35 U</td><td class="td-points">+70</td></tr>
+                            <tr><td class="td-rank">3</td><td class="td-player">Suresh</td><td class="td-return">+6.92%</td><td class="td-prize">25 U</td><td class="td-points">+70</td></tr>
+                            <tr><td class="td-rank">4</td><td class="td-player">Nix</td><td class="td-return">+6.51%</td><td class="td-prize">15 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">5</td><td class="td-player">Hoangminh</td><td class="td-return">+6.32%</td><td class="td-prize">15 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">6</td><td class="td-player">AlphaTrader</td><td class="td-return">+5.44%</td><td class="td-prize">10 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">7</td><td class="td-player">MoonShot</td><td class="td-return">+5.21%</td><td class="td-prize">10 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">8</td><td class="td-player">DeFiWhale</td><td class="td-return">+4.98%</td><td class="td-prize">10 U</td><td class="td-points">+50</td></tr>
+                            <tr style="color:rgba(255,255,255,0.2);"><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+                            <tr class="you-row"><td class="td-rank">18</td><td class="td-player">OtterTrader_01<span class="you-tag">YOU</span></td><td class="td-return">+1.16%</td><td class="td-prize">5 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">19</td><td class="td-player">BlockRunner</td><td class="td-return">+1.02%</td><td class="td-prize">5 U</td><td class="td-points">+50</td></tr>
+                            <tr><td class="td-rank">20</td><td class="td-player">SatoshiFan</td><td class="td-return">+0.88%</td><td class="td-prize">5 U</td><td class="td-points">+50</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- STATS TAB -->
+            <div class="tab-content" id="tab-stats">
+                <div class="chat-header">
+                    <span class="chat-title">📊 Live Market Stats</span>
+                    <span style="font-size:9px;color:rgba(255,255,255,0.4);">Match 23h 19m / 1d 0h · 687 participants</span>
+                </div>
+                <div class="stats-content">
+                    <!-- Long/Short Ratio -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">Long/Short Ratio</div>
+                        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:3px;"><span style="color:#22C55E;">35%</span><span style="color:#EF4444;">65%</span></div>
+                        <div class="ls-bar"><div class="ls-bar-long" style="width:35%;"></div><div class="ls-bar-short" style="width:65%;"></div></div>
+                        <div style="display:flex;justify-content:space-between;font-size:9px;margin-top:3px;color:rgba(255,255,255,0.4);"><span>Long 193</span><span>5min: 51,430.84 USDT</span><span>Short 352</span></div>
+                    </div>
+                    <!-- Win Rate -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">Win Rate</div>
+                        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:3px;"><span style="color:#22C55E;">40.0%</span><span style="color:#EF4444;">60%</span></div>
+                        <div class="ls-bar"><div class="ls-bar-long" style="width:40%;"></div><div class="ls-bar-short" style="width:60%;"></div></div>
+                        <div style="display:flex;justify-content:space-between;font-size:9px;margin-top:3px;color:rgba(255,255,255,0.4);"><span>Profit · avg +1.86%</span><span>Loss · avg -1.65%</span></div>
+                    </div>
+                    <!-- Trading Activity -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">Trading Activity</div>
+                        <div class="stats-grid">
+                            <div class="stats-card"><div class="stats-card-label">Avg trades</div><div class="stats-card-value">4.5 trades</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Your trades left</div><div class="stats-card-value accent">39 / 40</div></div>
+                            <div class="stats-card"><div class="stats-card-label">In position</div><div class="stats-card-value">545 traders</div></div>
+                            <div class="stats-card"><div class="stats-card-label">5min volume</div><div class="stats-card-value">51,430.84 USDT</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Median trades</div><div class="stats-card-value">3 trades</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Dominant dir</div><div class="stats-card-value negative">📉 Short</div></div>
+                        </div>
+                    </div>
+                    <!-- Funding Rate -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">Funding Rate</div>
+                        <div class="stats-grid">
+                            <div class="stats-card"><div class="stats-card-label">Funding Rate</div><div class="stats-card-value negative">-0.00264%</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Next Funding</div><div class="stats-card-value">0:10</div></div>
+                        </div>
+                    </div>
+                    <!-- Votes & Predictions -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">🗳️ Votes &amp; Predictions</div>
+                        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:3px;"><span style="color:#22C55E;">54%</span><span style="color:#EF4444;">46%</span></div>
+                        <div class="ls-bar"><div class="ls-bar-long" style="width:54%;"></div><div class="ls-bar-short" style="width:46%;"></div></div>
+                        <div style="display:flex;justify-content:space-between;font-size:9px;margin-top:3px;color:rgba(255,255,255,0.4);"><span style="color:#22C55E;">Long 54%</span><span>Neutral 0%</span><span style="color:#EF4444;">Short 46%</span></div>
+                        <div class="stats-grid" style="margin-top:6px;">
+                            <div class="stats-card"><div class="stats-card-label">Total votes</div><div class="stats-card-value">629</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Your vote</div><div class="stats-card-value accent">Long</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Long</div><div class="stats-card-value">342</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Short</div><div class="stats-card-value">287</div></div>
+                        </div>
+                    </div>
+                    <!-- Risk & Anomalies -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">🚨 Risk &amp; Anomalies</div>
+                        <div class="stats-grid">
+                            <div class="stats-card"><div class="stats-card-label">Loss streak leader</div><div class="stats-card-value negative">Maya 17 consecutive</div></div>
+                            <div class="stats-card"><div class="stats-card-label">On losing streak</div><div class="stats-card-value">43</div></div>
+                        </div>
+                    </div>
+                    <!-- Near Prize Line -->
+                    <div class="stats-section">
+                        <div class="stats-section-title">⚡ Near Prize Line</div>
+                        <div class="stats-grid">
+                            <div class="stats-card"><div class="stats-card-label">Prize line rank</div><div class="stats-card-value accent">#100</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Near count</div><div class="stats-card-value">142 traders</div></div>
+                            <div class="stats-card"><div class="stats-card-label">Your rank</div><div class="stats-card-value">#282</div></div>
+                            <div class="stats-card"><div class="stats-card-label">To prize line</div><div class="stats-card-value negative">Behind 182</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEWS TAB -->
+            <div class="tab-content" id="tab-news">
+                <div class="chat-header">
+                    <span class="chat-title">NEWS FEED <span style="color:#22C55E;font-size:8px;">●</span> LIVE</span>
+                    <span style="font-size:9px;color:rgba(255,255,255,0.4);">CoinDesk News</span>
+                </div>
+                <div class="news-list" id="news-list-view">
+                    <div class="news-item"><div class="news-title">Why is H's price down today? Inside Humanity Protocol's $32M exploit</div><div class="news-meta"><span>AMB Crypto • 5m ago</span><span class="news-sentiment negative">NEGATIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Bitcoin Elliott Wave: Unfinished Bearish Business</div><div class="news-meta"><span>Investing.Com Crypto Opinion and Analysis • 12m ago</span><span class="news-sentiment negative">NEGATIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Zcash Finalizes Ironwood for July, New Shielded Pool Bounds ZEC Supply After Orchard Flaw</div><div class="news-meta"><span>CoinOtag • 17m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">CLARITY Act Odds Slip to 47% as 200 Firms Press Senate; AI Agent Risks Flagged</div><div class="news-meta"><span>CoinOtag • 16m ago</span><span class="news-sentiment negative">NEGATIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">All about DEXE's 16% surge and what that means for altcoin's price prediction</div><div class="news-meta"><span>AMB Crypto • 19m ago</span><span class="news-sentiment positive">POSITIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Gold Holds Near Support as Weaker Dollar Offsets Fed Rate Hike Pressure</div><div class="news-meta"><span>Bitcoin World • 40m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Euro strengthens to near 1.1550 as markets bet on further ECB rate hikes</div><div class="news-meta"><span>Bitcoin World • 35m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Japanese Yen Hovers Near One-Month Low as Intervention Fears Cap Further Losses</div><div class="news-meta"><span>Bitcoin World • 30m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">USD/CAD Pulls Back from 1.3960 Peak as Bullish Momentum Remains Intact</div><div class="news-meta"><span>Bitcoin World • 25m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">The XRP Dream Has Changed: Why A Rally To $10 Could Happen Despite Disappointment</div><div class="news-meta"><span>NewsBTC • 20m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Worldcoin Rival Humanity Protocol's Token Crashes 88% as $30M Wallet Drain Sparks Security Panic</div><div class="news-meta"><span>Crypto Potato • 40m ago</span><span class="news-sentiment negative">NEGATIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">BTC tumbles 14 percent to $60,000 after Strategy sale</div><div class="news-meta"><span>CoinTurk News • 40m ago</span><span class="news-sentiment negative">NEGATIVE</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Strategy buys 1550 BTC, but Bitcoin has a bigger problem – Here's why!</div><div class="news-meta"><span>AMB Crypto • 49m ago</span><span class="news-sentiment neutral">NEUTRAL</span><span class="news-expand">Expand original</span></div></div>
+                    <div class="news-item"><div class="news-title">Ripple (XRP) Officially Confirmed for DTCC's July 2026 Launch. Here's What Is Coming</div><div class="news-meta"><span>TimesTabloid • 48m ago</span><span class="news-sentiment positive">POSITIVE</span><span class="news-expand">Expand original</span></div></div>
+                </div>
+                <!-- News Detail View -->
+                <div class="news-detail" id="news-detail-view">
+                    <div class="news-detail-back" onclick="closeNewsDetail()">
+                        <span>← Back to list</span>
+                        <span class="news-detail-close">×</span>
+                    </div>
+                    <div class="news-detail-title" id="news-detail-title"></div>
+                    <div class="news-detail-meta" id="news-detail-meta"></div>
+                    <div class="news-detail-body" id="news-detail-body"></div>
+                    <button class="news-detail-open" onclick="window.open('#','_blank')">↗ Open Original</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="crypto-ticker"><div class="crypto-icon btc">B</div><span class="crypto-pair">BTCUSDT</span><span class="crypto-change negative">-8.83%</span><span class="crypto-price">62,640.0</span></div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker"><div class="crypto-icon eth">E</div><span class="crypto-pair">ETHUSDT</span><span class="crypto-change negative">-5.21%</span><span class="crypto-price">3,412.5</span></div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker"><div class="crypto-icon sol">S</div><span class="crypto-pair">SOLUSDT</span><span class="crypto-change positive">+2.15%</span><span class="crypto-price">142.8</span></div>
+        </div>
+        <div class="footer-right">
+            <button class="footer-btn" title="Language"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <button class="footer-btn" title="Notifications"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="notification-badge"></span></button>
+            <div class="footer-divider"></div>
+            <a href="#" class="footer-btn social-link" title="Discord"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="rgba(255,255,255,0.7)"/></svg></a>
+            <a href="#" class="footer-btn social-link" title="X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="rgba(255,255,255,0.7)"/></svg></a>
+            <a href="#" class="footer-btn social-link" title="Gitbook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0"><path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174" fill="rgba(255,255,255,0.7)"/></svg></a>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+            // Clear badge when tab is opened
+            const badge = document.getElementById('badge-' + tab);
+            if (badge) badge.style.display = 'none';
+        }
+
+        // Chat reply
+        let replyingTo = null;
+        function replyTo(username) {
+            replyingTo = username;
+            document.getElementById('replyIndicator').classList.add('active');
+            document.getElementById('replyTarget').textContent = username;
+            document.getElementById('chatInput').focus();
+            document.getElementById('chatInput').placeholder = '@' + username + ': ';
+        }
+        function cancelReply() {
+            replyingTo = null;
+            document.getElementById('replyIndicator').classList.remove('active');
+            document.getElementById('chatInput').placeholder = 'Send message...';
+        }
+        function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-msg';
+            let html = '';
+            if (replyingTo) {
+                html += '<span class="reply-ref">&#8627; replying to ' + replyingTo + '</span>';
+            }
+            html += '<span class="username you">YOU</span> <span class="msg-text">' + text + '</span>';
+            msgDiv.innerHTML = html;
+            document.getElementById('chatMessages').appendChild(msgDiv);
+            input.value = '';
+            cancelReply();
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        // Vote
+        function vote(direction) {
+            document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted'));
+            if (direction === 'long') {
+                document.getElementById('voteLongBtn').classList.add('voted');
+                document.getElementById('voteLongPct').textContent = '65%';
+                document.getElementById('voteShortPct').textContent = '35%';
+                document.getElementById('voteLongBar').style.width = '65%';
+                document.getElementById('voteShortBar').style.width = '35%';
+            } else {
+                document.getElementById('voteShortBtn').classList.add('voted');
+                document.getElementById('voteLongPct').textContent = '63%';
+                document.getElementById('voteShortPct').textContent = '37%';
+                document.getElementById('voteLongBar').style.width = '63%';
+                document.getElementById('voteShortBar').style.width = '37%';
+            }
+        }
+
+        // Countdown simulation
+        let totalSeconds = 5398;
+        function updateCountdown() {
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            const el = document.getElementById('countdown');
+            el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+            // Color logic
+            if (totalSeconds > 28800) { el.className = 'countdown-timer'; } // >8h green
+            else if (totalSeconds > 1800) { el.className = 'countdown-timer warning'; } // >30min yellow
+            else { el.className = 'countdown-timer danger'; } // <30min red
+            totalSeconds--;
+            if (totalSeconds < 0) totalSeconds = 0;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Generate fake candles
+        const candlesEl = document.getElementById('chartCandles');
+        for (let i = 0; i < 120; i++) {
+            const candle = document.createElement('div');
+            candle.className = 'candle' + (Math.random() > 0.5 ? '' : ' red');
+            candle.style.height = (10 + Math.random() * 80) + '%';
+            candlesEl.appendChild(candle);
+        }
+
+        // News detail view
+        const newsSummaries = {
+            "Why is H's price down today? Inside Humanity Protocol's $32M exploit": "Humanity Protocol suffered a major exploit resulting in $32M in losses. The token price dropped sharply as investors reacted to the security breach. The team has paused withdrawals and is investigating the vulnerability.",
+            "Bitcoin Elliott Wave: Unfinished Bearish Business": "Technical analysis using Elliott Wave theory suggests Bitcoin has not yet completed its corrective wave pattern. The current structure points to further downside before a meaningful recovery can begin.",
+            "Zcash Finalizes Ironwood for July, New Shielded Pool Bounds ZEC Supply After Orchard Flaw": "Zcash developers have confirmed the Ironwood upgrade for July, introducing new shielded pool boundaries that address the Orchard flaw discovered earlier this year.",
+            "CLARITY Act Odds Slip to 47% as 200 Firms Press Senate; AI Agent Risks Flagged": "The CLARITY Act's passage odds have declined as 200 firms lobby the Senate. Concerns about AI agent risks in financial markets have been raised during hearings.",
+            "All about DEXE's 16% surge and what that means for altcoin's price prediction": "DEXE token surged 16% following increased adoption of its decentralized asset management protocol. Analysts suggest this could signal broader altcoin recovery.",
+            "Gold Holds Near Support as Weaker Dollar Offsets Fed Rate Hike Pressure": "Gold prices remained steady near key support levels as a weakening dollar offset concerns about potential Federal Reserve rate hikes.",
+            "Euro strengthens to near 1.1550 as markets bet on further ECB rate hikes": "The Euro strengthened against the dollar as markets priced in additional ECB rate increases, reaching near the 1.1550 level.",
+            "Japanese Yen Hovers Near One-Month Low as Intervention Fears Cap Further Losses": "The Japanese Yen traded near one-month lows but fears of government intervention prevented further depreciation.",
+            "USD/CAD Pulls Back from 1.3960 Peak as Bullish Momentum Remains Intact": "USD/CAD pulled back from its recent peak at 1.3960 but the overall bullish momentum remains intact according to technical indicators.",
+            "The XRP Dream Has Changed: Why A Rally To $10 Could Happen Despite Disappointment": "Despite recent disappointments, analysts argue XRP could still reach $10 based on institutional adoption and regulatory clarity.",
+            "Worldcoin Rival Humanity Protocol's Token Crashes 88% as $30M Wallet Drain Sparks Security Panic": "Humanity Protocol's token crashed 88% after a $30M wallet drain triggered widespread security concerns among investors.",
+            "BTC tumbles 14 percent to $60,000 after Strategy sale": "Bitcoin dropped 14% to $60,000 following a large sell-off by Strategy (formerly MicroStrategy), causing market-wide panic.",
+            "Strategy buys 1550 BTC, but Bitcoin has a bigger problem \u2013 Here's why!": "While Strategy purchased 1,550 BTC, analysts warn that Bitcoin faces larger structural issues including declining network activity and regulatory headwinds.",
+            "Ripple (XRP) Officially Confirmed for DTCC's July 2026 Launch. Here's What Is Coming": "Ripple has been officially confirmed for DTCC's July 2026 launch, marking a significant milestone for institutional XRP adoption."
+        };
+
+        // Add click handlers to news items
+        document.querySelectorAll('.news-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.news-title').textContent;
+                const meta = this.querySelector('.news-meta span:first-child').textContent;
+                const sentimentEl = this.querySelector('.news-sentiment');
+                const sentiment = sentimentEl.textContent;
+                const sentimentClass = sentimentEl.classList.contains('positive') ? 'positive' : sentimentEl.classList.contains('negative') ? 'negative' : 'neutral';
+                openNewsDetail(title, meta, sentiment, sentimentClass);
+            });
+        });
+
+        function openNewsDetail(title, meta, sentiment, sentimentClass) {
+            document.getElementById('news-list-view').style.display = 'none';
+            document.getElementById('news-detail-view').classList.add('active');
+            document.getElementById('news-detail-title').textContent = title;
+            document.getElementById('news-detail-meta').innerHTML = meta + ' &bull; <span class="news-sentiment ' + sentimentClass + '">' + sentiment + '</span>';
+            document.getElementById('news-detail-body').textContent = newsSummaries[title] || 'Full article content loading...';
+        }
+
+        function closeNewsDetail() {
+            document.getElementById('news-detail-view').classList.remove('active');
+            document.getElementById('news-list-view').style.display = '';
+        }
+
+        // TP/SL Toggle
+        const tpslCheckbox = document.getElementById('tpslCheckbox');
+        const tpslToggle = document.getElementById('tpslToggle');
+        const tpslPanel = document.getElementById('tpslPanel');
+        tpslCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                tpslToggle.classList.add('active');
+                tpslPanel.classList.add('active');
+            } else {
+                tpslToggle.classList.remove('active');
+                tpslPanel.classList.remove('active');
+            }
+        });
+
+        // TP/SL Mode Switch
+        function switchTpslMode(mode) {
+            document.querySelectorAll('.tpsl-mode-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const priceInputs = document.getElementById('tpslPriceInputs');
+            const roiInputs = document.getElementById('tpslRoiInputs');
+            const roiPresets = document.getElementById('tpslRoiPresets');
+            if (mode === 'price') {
+                priceInputs.style.display = 'flex';
+                roiInputs.style.display = 'none';
+                roiPresets.classList.remove('active');
+            } else {
+                priceInputs.style.display = 'none';
+                roiInputs.style.display = 'flex';
+                roiPresets.classList.add('active');
+            }
+        }
+
+        // Leverage button click cycle
+        const leverageBtn = document.querySelector('.leverage-btn');
+        const leverages = ['1x', '2x', '3x', '5x', '10x'];
+        let levIdx = 0;
+        leverageBtn.addEventListener('click', function() {
+            levIdx = (levIdx + 1) % leverages.length;
+            this.textContent = leverages[levIdx];
+        });
+
+        // Size presets
+        document.querySelectorAll('.size-preset').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.size-preset').forEach(b => b.style.borderColor = 'rgba(255,255,255,0.1)');
+                this.style.borderColor = '#F5B70A';
+                const pct = parseInt(this.textContent);
+                document.querySelector('.order-slider').value = pct;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Competitions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: #0B0B0B;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .header-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: #F5B70A;
+            letter-spacing: 0.05em;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #F5B70A;
+        }
+
+        .nav-link.active {
+            color: #F5B70A;
+            border-bottom-color: #F5B70A;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-email {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logout-btn:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+
+        .logout-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+        }
+
+        /* ===== MAIN ===== */
+        main {
+            flex: 1;
+            padding: 80px 32px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Arena Filter */
+        .arena-filter {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px;
+        }
+
+        .arena-filter-btn {
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .arena-filter-btn.active {
+            background: #F5B70A;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .arena-filter-btn:hover:not(.active) {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== SUMMARY STATS ===== */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .summary-stat {
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .summary-stat-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .summary-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .summary-stat-value.gold {
+            color: #F5B70A;
+        }
+
+        .summary-stat-value.green {
+            color: #22C55E;
+        }
+
+        /* ===== THREE COLUMN LAYOUT ===== */
+        .competitions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .competition-column {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 280px);
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .column-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .column-title .dot.live {
+            background: #22C55E;
+            box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .column-title .dot.upcoming {
+            background: #F5B70A;
+        }
+
+        .column-title .dot.completed {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .column-count {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 8px;
+        }
+
+        .column-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .column-body::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .column-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .column-body::-webkit-scrollbar-thumb {
+            background: rgba(245, 183, 10, 0.2);
+        }
+
+        /* ===== COMPETITION CARD ===== */
+        .comp-card {
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .comp-card:hover {
+            border-color: rgba(245, 183, 10, 0.3);
+            background: rgba(245, 183, 10, 0.03);
+        }
+
+        .comp-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .comp-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .comp-card-tags {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .comp-tag {
+            font-size: 9px;
+            padding: 2px 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .comp-tag.live {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .comp-tag.registering {
+            background: rgba(245, 183, 10, 0.15);
+            color: #F5B70A;
+            border: 1px solid rgba(245, 183, 10, 0.3);
+        }
+
+        .comp-tag.completed {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comp-tag.pair {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comp-card-time {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .comp-card-time.urgent {
+            color: #EF4444;
+            font-weight: 500;
+        }
+
+        .comp-card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .comp-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comp-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .comp-meta-item svg {
+            width: 12px;
+            height: 12px;
+            stroke: rgba(255, 255, 255, 0.4);
+        }
+
+        .comp-meta-item.prize {
+            color: #F5B70A;
+            font-weight: 600;
+        }
+
+        .comp-meta-item.prize svg {
+            stroke: #F5B70A;
+        }
+
+        .comp-meta-item.pnl-pos {
+            color: #22C55E;
+        }
+
+        .comp-meta-item.pnl-neg {
+            color: #EF4444;
+        }
+
+        .comp-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comp-card-status {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .comp-card-btn {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .comp-card-btn.enter {
+            background: #F5B70A;
+            color: #000000;
+        }
+
+        .comp-card-btn.enter:hover {
+            background: #d4a00a;
+        }
+
+        .comp-card-btn.register {
+            background: #22C55E;
+            color: #000000;
+        }
+
+        .comp-card-btn.register:hover {
+            background: #1ca04e;
+        }
+
+        .comp-card-btn.registered {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            cursor: default;
+        }
+
+        .comp-card-btn.results {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .comp-card-btn.results:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+
+        /* Result badge */
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+        }
+
+        .result-badge.win {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .result-badge.loss {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ===== PAGINATION ===== */
+        .column-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+        }
+
+        .page-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+
+        .page-btn.active {
+            background: #F5B70A;
+            color: #000000;
+            border-color: #F5B70A;
+            font-weight: 600;
+        }
+
+        .page-btn.nav {
+            font-size: 10px;
+        }
+
+        .page-btn svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 24px;
+            background: #0B0B0B;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 44px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .crypto-ticker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .crypto-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .crypto-icon.btc { background: #F7931A; color: #fff; }
+        .crypto-icon.eth { background: #627EEA; color: #fff; }
+        .crypto-icon.sol { background: #9945FF; color: #fff; }
+
+        .crypto-pair {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .crypto-change {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .crypto-change.negative { color: #EF4444; }
+        .crypto-change.positive { color: #22C55E; }
+
+        .crypto-price {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .ticker-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .footer-btn:hover {
+            border-color: #F5B70A;
+        }
+
+        .footer-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 4px;
+        }
+
+        .social-link {
+            text-decoration: none;
+        }
+
+        .social-link:hover svg path {
+            fill: #F5B70A;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            background: #EF4444;
+            border-radius: 50%;
+        }
+
+        /* Language dropdown */
+        .lang-dropdown {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            margin-bottom: 8px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            min-width: 180px;
+            display: none;
+            z-index: 2000;
+        }
+
+        .lang-dropdown.active {
+            display: block;
+        }
+
+        .lang-option {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s ease;
+        }
+
+        .lang-option:hover {
+            background: rgba(245, 183, 10, 0.1);
+            color: #ffffff;
+        }
+
+        .lang-option.selected {
+            color: #F5B70A;
+        }
+
+        .lang-option .check-icon {
+            width: 14px;
+            height: 14px;
+            stroke: #F5B70A;
+            display: none;
+        }
+
+        .lang-option.selected .check-icon {
+            display: block;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .competitions-grid {
+                grid-template-columns: 1fr;
+            }
+            .competition-column {
+                max-height: 400px;
+            }
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Otter Trade" class="header-logo">
+            <span class="header-brand">OTTER TRADE</span>
+        </div>
+        <nav class="header-nav">
+            <a href="dashboard-new.html" class="nav-link">Dashboard</a>
+            <a href="dashboard.html" class="nav-link">Arena</a>
+            <a href="competitions.html" class="nav-link active">Competitions</a>
+            <a href="watch-live.html" class="nav-link">Watch Live</a>
+            <a href="rewards.html" class="nav-link">Rewards</a>
+        </nav>
+        <div class="header-right">
+            <span class="header-email">trader@ottertrade.com</span>
+            <button class="logout-btn" title="Logout">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Competitions</h1>
+            <div class="arena-filter">
+                <button class="arena-filter-btn active" onclick="filterArena('all', this)">All</button>
+                <button class="arena-filter-btn" onclick="filterArena('beginner', this)">Beginner</button>
+                <button class="arena-filter-btn" onclick="filterArena('advanced', this)">Advanced</button>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="summary-stats">
+            <div class="summary-stat">
+                <div class="summary-stat-label">Live</div>
+                <div class="summary-stat-value green">1</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-stat-label">Upcoming</div>
+                <div class="summary-stat-value">3</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-stat-label">Total Prize Pool</div>
+                <div class="summary-stat-value gold">6,750 USDT</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-stat-label">Joined</div>
+                <div class="summary-stat-value green">2</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-stat-label">Completed</div>
+                <div class="summary-stat-value">24</div>
+            </div>
+        </div>
+
+        <!-- Three Column Layout -->
+        <div class="competitions-grid">
+            <!-- LIVE Column -->
+            <div class="competition-column">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="dot live"></span>
+                        <span>Live</span>
+                    </div>
+                    <span class="column-count">1 match</span>
+                </div>
+                <div class="column-body">
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag live">Live</span>
+                                <span class="comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <span class="comp-card-time urgent">4h 26m left</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 24</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                687 / 1,000
+                            </div>
+                            <div class="comp-meta-item pnl-pos">+1.16%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Your rank: #18 / 687</span>
+                            <a href="competition-detail.html" class="comp-card-btn enter" style="text-decoration:none;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPCOMING Column -->
+            <div class="competition-column">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="dot upcoming"></span>
+                        <span>Upcoming</span>
+                    </div>
+                    <span class="column-count">3 matches</span>
+                </div>
+                <div class="column-body">
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag registering">Registering</span>
+                                <span class="comp-tag pair">ETH/USDT</span>
+                            </div>
+                            <span class="comp-card-time urgent">Closes in 6h</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 25</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                96 / 1,000
+                            </div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Starts Jun 08, 00:00 UTC</span>
+                            <button class="comp-card-btn registered">&#10003; Registered</button>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag registering">Registering</span>
+                                <span class="comp-tag pair">SOL/USDT</span>
+                            </div>
+                            <span class="comp-card-time">Closes in 18h</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 26</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                42 / 1,000
+                            </div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Starts Jun 08, 12:00 UTC</span>
+                            <button class="comp-card-btn register" onclick="registerCard(this)">Register</button>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="advanced">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag registering">Registering</span>
+                                <span class="comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <span class="comp-card-time">Closes in 24h</span>
+                        </div>
+                        <div class="comp-card-title">Advanced Championship Round 5</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                18 / 200
+                            </div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                2,500 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Starts Jun 09, 00:00 UTC</span>
+                            <button class="comp-card-btn register" onclick="registerCard(this)">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPLETED Column -->
+            <div class="competition-column">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="dot completed"></span>
+                        <span>Completed</span>
+                    </div>
+                    <span class="column-count">24 matches</span>
+                </div>
+                <div class="column-body">
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag completed">Ended</span>
+                                <span class="comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <span class="result-badge win">#12 &#9650;</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 23</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                58 / 1,000
+                            </div>
+                            <div class="comp-meta-item pnl-pos">+3.42%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Jun 07, 2026</span>
+                            <a href="competition-results.html" class="comp-card-btn results" style="text-decoration:none;">View Results</a>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag completed">Ended</span>
+                                <span class="comp-tag pair">ETH/USDT</span>
+                            </div>
+                            <span class="result-badge loss">#156</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 22</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                722 / 1,000
+                            </div>
+                            <div class="comp-meta-item pnl-neg">-1.28%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Jun 06, 2026</span>
+                            <a href="competition-results.html" class="comp-card-btn results" style="text-decoration:none;">View Results</a>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag completed">Ended</span>
+                                <span class="comp-tag pair">SOL/USDT</span>
+                            </div>
+                            <span class="result-badge win">#8 &#9650;</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 21</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                890 / 1,000
+                            </div>
+                            <div class="comp-meta-item pnl-pos">+5.67%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Jun 05, 2026</span>
+                            <a href="competition-results.html" class="comp-card-btn results" style="text-decoration:none;">View Results</a>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="advanced">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag completed">Ended</span>
+                                <span class="comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <span class="result-badge win">#3 &#9650;</span>
+                        </div>
+                        <div class="comp-card-title">Advanced Championship Round 4</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                145 / 200
+                            </div>
+                            <div class="comp-meta-item pnl-pos">+8.21%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                2,500 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Jun 04, 2026</span>
+                            <a href="competition-results.html" class="comp-card-btn results" style="text-decoration:none;">View Results</a>
+                        </div>
+                    </div>
+
+                    <div class="comp-card" data-arena="beginner">
+                        <div class="comp-card-header">
+                            <div class="comp-card-tags">
+                                <span class="comp-tag completed">Ended</span>
+                                <span class="comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <span class="result-badge loss">#203</span>
+                        </div>
+                        <div class="comp-card-title">Qualification Challenge Round 20</div>
+                        <div class="comp-card-meta">
+                            <div class="comp-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                950 / 1,000
+                            </div>
+                            <div class="comp-meta-item pnl-neg">-0.54%</div>
+                            <div class="comp-meta-item prize">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                                250 USDT
+                            </div>
+                        </div>
+                        <div class="comp-card-footer">
+                            <span class="comp-card-status">Jun 03, 2026</span>
+                            <a href="competition-results.html" class="comp-card-btn results" style="text-decoration:none;">View Results</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="column-pagination">
+                    <button class="page-btn nav" onclick="changePage(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn nav" onclick="changePage(1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="crypto-ticker">
+                <div class="crypto-icon btc">B</div>
+                <span class="crypto-pair">BTCUSDT</span>
+                <span class="crypto-change negative">-8.83%</span>
+                <span class="crypto-price">62,640.0</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon eth">E</div>
+                <span class="crypto-pair">ETHUSDT</span>
+                <span class="crypto-change negative">-5.21%</span>
+                <span class="crypto-price">3,412.5</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon sol">S</div>
+                <span class="crypto-pair">SOLUSDT</span>
+                <span class="crypto-change positive">+2.15%</span>
+                <span class="crypto-price">142.8</span>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div style="position: relative;">
+                <button class="footer-btn" id="langBtn" title="Language">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <div class="lang-option selected" data-lang="en">English<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="zh">中文<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="es">Espa&ntilde;ol<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="pt">Portugu&ecirc;s<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="hi">&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ja">日本語<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ko">한국어<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ru">Русский<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="vi">Ti&#x1EBF;ng Vi&#x1EC7;t<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="id">Bahasa Indonesia<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ms">Bahasa Melayu<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                </div>
+            </div>
+            <button class="footer-btn" id="notifBtn" title="Notifications">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="notification-badge"></span>
+            </button>
+            <div class="footer-divider"></div>
+            <a href="#" class="footer-btn social-link" title="Discord" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="X" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="Gitbook" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Language dropdown
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                langDropdown.classList.remove('active');
+            });
+        });
+        document.addEventListener('click', (e) => {
+            if (!langDropdown.contains(e.target) && e.target !== langBtn) {
+                langDropdown.classList.remove('active');
+            }
+        });
+
+        // Arena filter
+        function filterArena(type, btn) {
+            document.querySelectorAll('.arena-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.comp-card').forEach(card => {
+                if (type === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.dataset.arena === type ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Register button
+        function registerCard(btn) {
+            btn.outerHTML = '<button class="comp-card-btn registered">&#10003; Registered</button>';
+        }
+
+        // Pagination
+        document.querySelectorAll('.page-btn:not(.nav)').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

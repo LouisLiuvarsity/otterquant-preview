@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: #0B0B0B;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .header-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #F5B70A;
+            letter-spacing: 0.05em;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #F5B70A;
+        }
+
+        .nav-link.active {
+            color: #F5B70A;
+            border-bottom-color: #F5B70A;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            border-color: #F5B70A;
+            background: rgba(245, 183, 10, 0.1);
+        }
+
+        .logout-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: rgba(255, 255, 255, 0.7);
+        }
+
+        .logout-btn:hover svg {
+            stroke: #F5B70A;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-top: 60px;
+            margin-bottom: 48px;
+            padding: 32px 40px;
+            overflow-y: auto;
+        }
+
+        /* ===== WELCOME SECTION ===== */
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+
+        .welcome-greeting {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .welcome-greeting span {
+            color: #F5B70A;
+        }
+
+        .welcome-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== USER STATS SECTION ===== */
+        .user-stats {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .user-tier-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding-right: 24px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tier-image {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid #F5B70A;
+        }
+
+        .tier-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #F5B70A;
+        }
+
+        .tier-leverage {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(245, 183, 10, 0.1);
+            border: 1px solid rgba(245, 183, 10, 0.25);
+            padding: 2px 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1.5fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-value.highlight {
+            color: #F5B70A;
+        }
+
+        .stat-sub {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Points progress to next tier */
+        .points-progress-wrap {
+            margin-top: 6px;
+        }
+
+        .points-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .points-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #F5B70A, #C0C0C0);
+            width: 49%;
+            transition: width 0.3s ease;
+        }
+
+        .points-progress-labels {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 3px;
+        }
+
+        .points-progress-left {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .points-progress-right {
+            font-size: 9px;
+            color: rgba(192, 192, 192, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .next-tier-icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid #C0C0C0;
+        }
+
+        /* ===== REFERRAL SECTION ===== */
+        .referral-section {
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            border: 1px solid rgba(245, 183, 10, 0.2);
+            background: linear-gradient(135deg, rgba(245, 183, 10, 0.05) 0%, rgba(245, 183, 10, 0.02) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .referral-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .referral-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(245, 183, 10, 0.15);
+            border: 1px solid rgba(245, 183, 10, 0.3);
+        }
+
+        .referral-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: #F5B70A;
+        }
+
+        .referral-text h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .referral-text p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.4;
+        }
+
+        .referral-text p strong {
+            color: #F5B70A;
+        }
+
+        .referral-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .referral-link-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .copy-btn {
+            padding: 8px 16px;
+            background: #F5B70A;
+            color: #020100;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn:hover {
+            background: #ffc933;
+        }
+
+        /* ===== ARENA SECTION ===== */
+        .arena-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .arena-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .arena-card {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 28px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .arena-card:hover {
+            border-color: rgba(245, 183, 10, 0.4);
+        }
+
+        .arena-card-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 180px;
+            height: 180px;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        .arena-card.beginner {
+            background: linear-gradient(135deg, rgba(245, 183, 10, 0.08) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        .arena-card.advanced {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        .arena-tier-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 4px 10px;
+            margin-bottom: 12px;
+        }
+
+        .arena-card.beginner .arena-tier-tag {
+            background: rgba(245, 183, 10, 0.2);
+            color: #F5B70A;
+            border: 1px solid rgba(245, 183, 10, 0.3);
+        }
+
+        .arena-card.advanced .arena-tier-tag {
+            background: rgba(139, 92, 246, 0.2);
+            color: #A78BFA;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .arena-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .arena-card.beginner .arena-card-title {
+            color: #F5B70A;
+        }
+
+        .arena-card.advanced .arena-card-title {
+            color: #A78BFA;
+        }
+
+        .arena-rules {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .arena-rules li {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 4px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .arena-rules li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .arena-card.beginner .arena-rules li::before {
+            border-color: #F5B70A;
+        }
+
+        .arena-card.advanced .arena-rules li::before {
+            border-color: #A78BFA;
+        }
+
+        .arena-prize {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .arena-prize strong {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .arena-enter-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .arena-card.beginner .arena-enter-btn {
+            background: #F5B70A;
+            color: #020100;
+        }
+
+        .arena-card.beginner .arena-enter-btn:hover {
+            background: #ffc933;
+        }
+
+        .arena-card.advanced .arena-enter-btn {
+            background: rgba(139, 92, 246, 0.2);
+            color: #A78BFA;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            cursor: not-allowed;
+        }
+
+        /* ===== UNLOCK PROGRESS ===== */
+        .unlock-section {
+            margin-top: 16px;
+            padding: 14px 16px;
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        .unlock-title {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .unlock-item {
+            margin-bottom: 10px;
+        }
+
+        .unlock-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .unlock-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .unlock-item-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .unlock-item-value {
+            font-size: 11px;
+            color: #A78BFA;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.points {
+            background: linear-gradient(90deg, #A78BFA, #7C3AED);
+            width: 45%;
+        }
+
+        .progress-fill.credit {
+            background: linear-gradient(90deg, #A78BFA, #7C3AED);
+            width: 72%;
+        }
+
+        /* ===== CARD VIEW SWITCHING ===== */
+        .card-view {
+            position: relative;
+        }
+
+        .card-schedule {
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .card-schedule::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .card-schedule::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .card-schedule::-webkit-scrollbar-thumb {
+            background: rgba(245, 183, 10, 0.3);
+        }
+
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .schedule-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #F5B70A;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .schedule-back-btn {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .schedule-back-btn:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+
+        .schedule-category {
+            margin-bottom: 16px;
+        }
+
+        .schedule-category-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .schedule-category-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot.live {
+            background: #22C55E;
+            animation: pulse 2s infinite;
+        }
+
+        .dot.upcoming {
+            background: #F5B70A;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .competition-card {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.2s ease;
+        }
+
+        .competition-card:hover {
+            border-color: rgba(245, 183, 10, 0.3);
+        }
+
+        .comp-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .comp-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .comp-tag {
+            font-size: 10px;
+            padding: 3px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .comp-tag.live {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .comp-tag.registering {
+            background: rgba(245, 183, 10, 0.15);
+            color: #F5B70A;
+            border: 1px solid rgba(245, 183, 10, 0.3);
+        }
+
+        .comp-tag.type {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comp-countdown {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .comp-countdown span {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+            font-size: 11px;
+        }
+
+        .comp-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 2px;
+        }
+
+        .comp-card-date {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .comp-card-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .comp-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .comp-stat svg {
+            width: 14px;
+            height: 14px;
+            stroke: rgba(255, 255, 255, 0.4);
+        }
+
+        .comp-stat.prize {
+            color: #F5B70A;
+            font-weight: 600;
+        }
+
+        .comp-stat.pnl-positive {
+            color: #22C55E;
+        }
+
+        .comp-time-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .comp-time-item {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .comp-time-item strong {
+            color: #EF4444;
+            font-weight: 600;
+        }
+
+        .comp-time-item.start {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .comp-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Registered state */
+        .comp-btn.registered {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .comp-registered-notice {
+            font-size: 10px;
+            color: rgba(34, 197, 94, 0.8);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .comp-registered-notice svg {
+            width: 12px;
+            height: 12px;
+            stroke: #22C55E;
+        }
+
+        .comp-participants {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .comp-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comp-btn {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 7px 16px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .comp-btn.primary {
+            background: #F5B70A;
+            color: #020100;
+        }
+
+        .comp-btn.primary:hover {
+            background: #ffc933;
+        }
+
+        .comp-btn.secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .comp-btn.secondary:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+
+        .comp-btn.register {
+            background: #22C55E;
+            color: #ffffff;
+        }
+
+        .comp-btn.register:hover {
+            background: #16A34A;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 24px;
+            background: #0B0B0B;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 48px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .crypto-ticker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .crypto-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        .crypto-icon.btc { background: #F7931A; color: #fff; }
+        .crypto-icon.eth { background: #627EEA; color: #fff; }
+        .crypto-icon.sol { background: linear-gradient(135deg, #9945FF, #14F195); color: #fff; }
+
+        .crypto-pair {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 11px;
+        }
+
+        .crypto-change { font-size: 11px; font-weight: 500; }
+        .crypto-change.negative { color: #EF4444; }
+        .crypto-change.positive { color: #22C55E; }
+
+        .crypto-price {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ticker-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .footer-btn:hover {
+            border-color: #F5B70A;
+            background: rgba(245, 183, 10, 0.1);
+        }
+
+        .footer-btn svg {
+            width: 15px;
+            height: 15px;
+            stroke: rgba(255, 255, 255, 0.7);
+            transition: stroke 0.2s ease;
+        }
+
+        .footer-btn:hover svg {
+            stroke: #F5B70A;
+        }
+
+        .social-link:hover svg path {
+            fill: #F5B70A;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            border: 1.5px solid #0B0B0B;
+        }
+
+        .footer-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
+            position: absolute;
+            bottom: 40px;
+            right: 0;
+            background: #1A1A2E;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 180px;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .lang-dropdown.active { display: block; }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .lang-option:hover {
+            background: rgba(245, 183, 10, 0.1);
+            color: #F5B70A;
+        }
+
+        .lang-option.selected { color: #F5B70A; }
+
+        .lang-option .check-icon {
+            width: 14px;
+            height: 14px;
+            stroke: #F5B70A;
+            display: none;
+        }
+
+        .lang-option.selected .check-icon { display: block; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .main-content {
+                padding: 24px 20px;
+            }
+
+            .arena-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .user-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .user-tier-badge {
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-right: 0;
+                padding-bottom: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .referral-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .referral-actions {
+                width: 100%;
+            }
+
+            .referral-link-box {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-greeting {
+                font-size: 22px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .footer-left {
+                gap: 12px;
+            }
+
+            .crypto-price { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Otter Trade" class="header-logo">
+            <span class="header-brand">OTTER TRADE</span>
+        </div>
+        <nav class="header-nav">
+            <a href="dashboard-new.html" class="nav-link">Dashboard</a>
+            <a href="dashboard.html" class="nav-link active">Arena</a>
+            <a href="competitions.html" class="nav-link">Competitions</a>
+            <a href="watch-live.html" class="nav-link">Watch Live</a>
+            <a href="rewards.html" class="nav-link">Rewards</a>
+        </nav>
+        <div class="header-right">
+            <span class="user-email">trader@ottertrade.com</span>
+            <button class="logout-btn" title="Logout">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Welcome -->
+        <section class="welcome-section">
+            <h1 class="welcome-greeting">Welcome back, <span>OtterTrader_01</span></h1>
+            <p class="welcome-subtitle">Ready to compete? Check your stats and enter the arena.</p>
+        </section>
+
+        <!-- User Stats -->
+        <section class="user-stats">
+            <div class="user-tier-badge">
+                <img src="tier-bronze.png" alt="Tier" class="tier-image">
+                <span class="tier-label">Bronze</span>
+                <span class="tier-leverage">5x Leverage</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Username</span>
+                    <span class="stat-value">OtterTrader_01</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Points</span>
+                    <span class="stat-value highlight">2,450</span>
+                    <div class="points-progress-wrap">
+                        <div class="points-progress-bar">
+                            <div class="points-progress-fill"></div>
+                        </div>
+                        <div class="points-progress-labels">
+                            <span class="points-progress-left">2,550 pts to next</span>
+                            <span class="points-progress-right"><img src="tier-gold.png" alt="" class="next-tier-icon"> Silver · 10x</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Prize Won</span>
+                    <span class="stat-value">$380</span>
+                    <span class="stat-sub">USDT</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Competitions Joined</span>
+                    <span class="stat-value">12</span>
+                    <span class="stat-sub">Beginner: 10 / Advanced: 2</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referral -->
+        <section class="referral-section">
+            <div class="referral-left">
+                <div class="referral-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <div class="referral-text">
+                    <h3>Invite Friends, Earn More</h3>
+                    <p>Share your referral link and earn <strong>+10% bonus</strong> on your winnings, plus <strong>35% commission</strong> when your referrals win prizes. Rewards stack across 3 levels.</p>
+                </div>
+            </div>
+            <div class="referral-actions">
+                <div class="referral-link-box">ottertrade.com/ref/OT01X7</div>
+                <button class="copy-btn" id="copyBtn">Copy Link</button>
+            </div>
+        </section>
+
+        <!-- Arena Section -->
+        <section class="arena-section" id="arenaSection">
+            <h2 class="section-title">Enter the Arena</h2>
+            <div class="arena-cards" id="arenaCards">
+                <!-- Beginner Arena -->
+                <div class="arena-card beginner" id="beginnerCard">
+                    <!-- View 1: Intro -->
+                    <div class="card-view" id="beginnerIntro">
+                        <img src="tier-bronze.png" alt="" class="arena-card-bg">
+                        <span class="arena-tier-tag">Beginner</span>
+                        <h3 class="arena-card-title">BEGINNER ARENA</h3>
+                        <ul class="arena-rules">
+                            <li>Open to all registered users</li>
+                            <li>24-hour match duration</li>
+                            <li>Trade BTC/ETH/SOL pairs</li>
+                            <li>Min 5 trades required to qualify</li>
+                            <li>Top 100 share the prize pool</li>
+                        </ul>
+                        <div class="arena-prize">
+                            Prize Pool: <strong>250 USDT</strong> per round
+                        </div>
+                        <button class="arena-enter-btn" id="enterBeginnerBtn">Enter Arena</button>
+                    </div>
+
+                    <!-- View 2: Competition Schedule (replaces intro) -->
+                    <div class="card-view card-schedule" id="beginnerSchedule" style="display:none;">
+                        <div class="schedule-header">
+                            <span class="schedule-title">Beginner Competitions</span>
+                            <button class="schedule-back-btn" id="backToArenaBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                                Back
+                            </button>
+                        </div>
+
+                        <!-- Live -->
+                        <div class="schedule-category">
+                            <div class="schedule-category-title">
+                                <span class="dot live"></span>
+                                <span style="color: #22C55E;">LIVE NOW</span>
+                            </div>
+                            <div class="competition-card">
+                                <div class="comp-card-top">
+                                    <div class="comp-tags">
+                                        <span class="comp-tag live">Live</span>
+                                        <span class="comp-tag type">BTC/USDT</span>
+                                    </div>
+                                    <div class="comp-countdown">4h 26m <span>remaining</span></div>
+                                </div>
+                                <h3 class="comp-card-title">Qualification Challenge Round 23</h3>
+                                <p class="comp-card-date">Started: Jun 07, 2026 17:00 UTC</p>
+                                <div class="comp-card-stats">
+                                    <div class="comp-stat">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                        #18 / 48
+                                    </div>
+                                    <div class="comp-stat pnl-positive">+1.16%</div>
+                                    <div class="comp-stat prize">250 USDT</div>
+                                </div>
+                                <div class="comp-card-bottom">
+                                    <span class="comp-participants">48 traders competing</span>
+                                    <div class="comp-actions">
+                                        <a href="competition-detail.html" class="comp-btn secondary" style="text-decoration:none;">Details</a>
+                                        <button class="comp-btn primary">Enter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming -->
+                        <div class="schedule-category">
+                            <div class="schedule-category-title">
+                                <span class="dot upcoming"></span>
+                                <span style="color: #F5B70A;">UPCOMING</span>
+                            </div>
+                            <div class="competition-card">
+                                <div class="comp-card-top">
+                                    <div class="comp-tags">
+                                        <span class="comp-tag registering">Registering</span>
+                                        <span class="comp-tag type">ETH/USDT</span>
+                                    </div>
+                                    <div class="comp-time-info">
+                                        <span class="comp-time-item"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>6h</strong></span>
+                                        <span class="comp-time-item start"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00 UTC</span>
+                                    </div>
+                                </div>
+                                <h3 class="comp-card-title">Qualification Challenge Round 24</h3>
+                                <div class="comp-card-stats">
+                                    <div class="comp-stat">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                        12 / 100 registered
+                                    </div>
+                                    <div class="comp-stat prize">250 USDT</div>
+                                </div>
+                                <div class="comp-card-bottom">
+                                    <span class="comp-participants">Registration open</span>
+                                    <div class="comp-actions">
+                                        <button class="comp-btn secondary">Details</button>
+                                        <button class="comp-btn register" onclick="registerComp(this)">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="competition-card">
+                                <div class="comp-card-top">
+                                    <div class="comp-tags">
+                                        <span class="comp-tag registering">Registering</span>
+                                        <span class="comp-tag type">SOL/USDT</span>
+                                    </div>
+                                    <div class="comp-time-info">
+                                        <span class="comp-time-item"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>18h</strong></span>
+                                        <span class="comp-time-item start"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00 UTC</span>
+                                    </div>
+                                </div>
+                                <h3 class="comp-card-title">Qualification Challenge Round 25</h3>
+                                <div class="comp-card-stats">
+                                    <div class="comp-stat">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                        5 / 100 registered
+                                    </div>
+                                    <div class="comp-stat prize">250 USDT</div>
+                                </div>
+                                <div class="comp-card-bottom">
+                                    <span class="comp-participants">Registration open</span>
+                                    <div class="comp-actions">
+                                        <button class="comp-btn secondary">Details</button>
+                                        <button class="comp-btn register" onclick="registerComp(this)">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Arena -->
+                <div class="arena-card advanced">
+                    <img src="tier-gold.png" alt="" class="arena-card-bg">
+                    <span class="arena-tier-tag">Advanced</span>
+                    <h3 class="arena-card-title">ADVANCED ARENA</h3>
+                    <ul class="arena-rules">
+                        <li>Requires unlock conditions</li>
+                        <li>48-hour match duration</li>
+                        <li>All trading pairs available</li>
+                        <li>Advanced strategies allowed</li>
+                        <li>Top 50 share the prize pool</li>
+                    </ul>
+                    <div class="arena-prize">
+                        Prize Pool: <strong>2,500 USDT</strong> per round
+                    </div>
+                    <button class="arena-enter-btn">Locked</button>
+
+                    <!-- Unlock Progress -->
+                    <div class="unlock-section">
+                        <div class="unlock-title">Unlock Requirements</div>
+                        <div class="unlock-item">
+                            <div class="unlock-item-header">
+                                <span class="unlock-item-label">Accumulated Points</span>
+                                <span class="unlock-item-value">2,450 / 5,000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill points"></div>
+                            </div>
+                        </div>
+                        <div class="unlock-item">
+                            <div class="unlock-item-header">
+                                <span class="unlock-item-label">Trading Credit Score</span>
+                                <span class="unlock-item-value">72 / 100</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill credit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="crypto-ticker">
+                <div class="crypto-icon btc">B</div>
+                <span class="crypto-pair">BTCUSDT</span>
+                <span class="crypto-change negative">-8.83%</span>
+                <span class="crypto-price">62,640.0</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon eth">E</div>
+                <span class="crypto-pair">ETHUSDT</span>
+                <span class="crypto-change negative">-5.21%</span>
+                <span class="crypto-price">3,412.5</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="crypto-ticker">
+                <div class="crypto-icon sol">S</div>
+                <span class="crypto-pair">SOLUSDT</span>
+                <span class="crypto-change positive">+2.15%</span>
+                <span class="crypto-price">142.8</span>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div style="position: relative;">
+                <button class="footer-btn" id="langBtn" title="Language">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <div class="lang-option selected" data-lang="en">English<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="zh">中文<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="es">Espa&ntilde;ol<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="pt">Portugu&ecirc;s<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="hi">&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ja">日本語<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ko">한국어<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ru">Русский<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="vi">Ti&#x1EBF;ng Vi&#x1EC7;t<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="id">Bahasa Indonesia<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="lang-option" data-lang="ms">Bahasa Melayu<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                </div>
+            </div>
+            <button class="footer-btn" id="notifBtn" title="Notifications">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="notification-badge"></span>
+            </button>
+            <div class="footer-divider"></div>
+            <a href="#" class="footer-btn social-link" title="Discord" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="X" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+            <a href="#" class="footer-btn social-link" title="Gitbook" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="0">
+                    <path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174" fill="rgba(255,255,255,0.7)"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Language dropdown
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                langDropdown.classList.remove('active');
+            });
+        });
+        document.addEventListener('click', (e) => {
+            if (!langDropdown.contains(e.target) && e.target !== langBtn) {
+                langDropdown.classList.remove('active');
+            }
+        });
+
+        // Copy referral link
+        const copyBtn = document.getElementById('copyBtn');
+        copyBtn.addEventListener('click', function() {
+            this.textContent = 'Copied!';
+            this.style.background = '#22C55E';
+            setTimeout(() => {
+                this.textContent = 'Copy Link';
+                this.style.background = '#F5B70A';
+            }, 2000);
+        });
+
+        // Enter Beginner Arena - switch card view (replace, not expand)
+        const enterBeginnerBtn = document.getElementById('enterBeginnerBtn');
+        const beginnerIntro = document.getElementById('beginnerIntro');
+        const beginnerSchedule = document.getElementById('beginnerSchedule');
+        const backToArenaBtn = document.getElementById('backToArenaBtn');
+
+        enterBeginnerBtn.addEventListener('click', function() {
+            beginnerIntro.style.display = 'none';
+            beginnerSchedule.style.display = 'block';
+        });
+
+        backToArenaBtn.addEventListener('click', function() {
+            beginnerSchedule.style.display = 'none';
+            beginnerIntro.style.display = 'block';
+        });
+
+        // Register for competition - switch to registered state
+        function registerComp(btn) {
+            const card = btn.closest('.competition-card');
+            // Change button to registered state
+            btn.outerHTML = '<button class="comp-btn registered"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Registered</button>';
+            // Change bottom text
+            const participants = card.querySelector('.comp-participants');
+            participants.innerHTML = '<span class="comp-registered-notice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> You\'re in! Competition starts automatically.</span>';
+            // Update registered count
+            const statEl = card.querySelector('.comp-stat');
+            const text = statEl.textContent.trim();
+            const match = text.match(/(\d+)\s*\/\s*(\d+)/);
+            if (match) {
+                const newCount = parseInt(match[1]) + 1;
+                statEl.innerHTML = statEl.querySelector('svg').outerHTML + ' ' + newCount + ' / ' + match[2] + ' registered';
+            }
+        }
+    </script>
+</body>
+</html>
