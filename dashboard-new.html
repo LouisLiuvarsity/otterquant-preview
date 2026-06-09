@@ -661,43 +661,70 @@
             height: fit-content;
             position: sticky;
             top: 80px;
+            border-radius: 8px;
         }
         .task-system-header {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 16px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         .task-system-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            color: #F5B70A;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
             letter-spacing: 0.05em;
         }
         .task-points-total {
-            font-size: 10px;
-            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 700;
+            color: #22c55e;
         }
-        .task-points-total span { color: #F5B70A; font-weight: 600; }
+        .task-progress-bar {
+            margin: 0 16px 14px;
+            height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .task-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #F5B70A);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
         .task-list {
-            padding: 8px 0;
+            padding: 0;
+        }
+        .task-category {
+            padding: 10px 16px 6px;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .task-category:first-child {
+            border-top: none;
         }
         .task-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 9px 16px;
             transition: background 0.2s;
         }
         .task-item:hover { background: rgba(255,255,255,0.02); }
-        .task-item:last-child { border-bottom: none; }
+        .task-item.done {
+            opacity: 0.5;
+        }
         .task-check {
-            width: 18px;
-            height: 18px;
-            border: 1px solid rgba(255,255,255,0.2);
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1.5px solid rgba(255,255,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -709,7 +736,7 @@
         }
         .task-check.done::after {
             content: '✓';
-            font-size: 10px;
+            font-size: 11px;
             color: #000;
             font-weight: 700;
         }
@@ -719,33 +746,75 @@
         }
         .task-name {
             font-size: 11px;
-            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .task-name.done { color: rgba(255,255,255,0.4); text-decoration: line-through; }
-        .task-desc {
+        .task-item.done .task-name {
+            color: rgba(255,255,255,0.4);
+            text-decoration: line-through;
+        }
+        .task-subtitle {
+            font-size: 9px;
+            color: #22c55e;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        .task-subtitle:hover { text-decoration: underline; }
+        .task-progress-text {
             font-size: 9px;
             color: rgba(255,255,255,0.3);
             margin-top: 2px;
         }
+        .task-progress-mini {
+            width: 40px;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 3px;
+            overflow: hidden;
+        }
+        .task-progress-mini-fill {
+            height: 100%;
+            background: #F5B70A;
+            border-radius: 2px;
+        }
         .task-reward {
-            font-size: 10px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             color: #F5B70A;
             white-space: nowrap;
+            min-width: 36px;
+            text-align: right;
         }
-        .task-reward.done { color: rgba(255,255,255,0.3); }
-        .task-category {
-            padding: 6px 16px;
+        .task-item.done .task-reward { color: rgba(255,255,255,0.3); }
+        .task-action-btn {
             font-size: 9px;
             font-weight: 600;
-            color: rgba(255,255,255,0.3);
+            padding: 4px 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: none;
+            color: rgba(255,255,255,0.7);
+            border-radius: 3px;
+            cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: 4px;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .task-action-btn:hover {
+            border-color: #F5B70A;
+            color: #F5B70A;
+        }
+        .task-action-btn.link-btn {
+            border-color: rgba(96,165,250,0.4);
+            color: #60a5fa;
+        }
+        .task-action-btn.link-btn:hover {
+            border-color: #60a5fa;
+            background: rgba(96,165,250,0.1);
         }
 
         /* ===== EDIT PROFILE MODAL ===== */
@@ -1224,117 +1293,128 @@
                 <div class="task-system">
                     <div class="task-system-header">
                         <span class="task-system-title">TASKS</span>
-                        <span class="task-points-total">Earned: <span>48 pts</span></span>
+                        <span class="task-points-total">125/450 PTS</span>
+                    </div>
+                    <div class="task-progress-bar">
+                        <div class="task-progress-fill" style="width: 28%"></div>
                     </div>
                     <div class="task-list">
-                        <div class="task-category">Daily Tasks</div>
-                        <div class="task-item">
+                        <!-- ONE-TIME -->
+                        <div class="task-category">ONE-TIME</div>
+                        <div class="task-item done">
                             <div class="task-check done"></div>
                             <div class="task-info">
-                                <div class="task-name done">Log in today</div>
-                                <div class="task-desc">Visit the platform daily</div>
+                                <div class="task-name">Follow Twitter</div>
                             </div>
-                            <span class="task-reward done">+2 pts</span>
+                            <span class="task-reward">+10</span>
                         </div>
-                        <div class="task-item">
+                        <div class="task-item done">
                             <div class="task-check done"></div>
                             <div class="task-info">
-                                <div class="task-name done">Complete 1 trade</div>
-                                <div class="task-desc">Execute at least 1 trade in any match</div>
+                                <div class="task-name">Link Discord</div>
                             </div>
-                            <span class="task-reward done">+3 pts</span>
+                            <span class="task-reward">+15</span>
+                        </div>
+                        <!-- Example: if Twitter/Discord were NOT yet linked, they would show Link buttons:
+                        <div class="task-item">
+                            <div class="task-check"></div>
+                            <div class="task-info">
+                                <div class="task-name">Follow Twitter</div>
+                            </div>
+                            <span class="task-reward">+10</span>
+                            <button class="task-action-btn link-btn" onclick="linkTask(this,'twitter')">Link</button>
                         </div>
                         <div class="task-item">
                             <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name">Complete 5 trades</div>
-                                <div class="task-desc">Execute 5 trades in a single match</div>
+                                <div class="task-name">Link Discord</div>
                             </div>
-                            <span class="task-reward">+5 pts</span>
+                            <span class="task-reward">+15</span>
+                            <button class="task-action-btn link-btn" onclick="linkTask(this,'discord')">Link</button>
+                        </div>
+                        -->
+                        <div class="task-item done">
+                            <div class="task-check done"></div>
+                            <div class="task-info">
+                                <div class="task-name">Register first competition</div>
+                            </div>
+                            <span class="task-reward">+10</span>
+                        </div>
+                        <div class="task-item done">
+                            <div class="task-check done"></div>
+                            <div class="task-info">
+                                <div class="task-name">Complete first competition</div>
+                            </div>
+                            <span class="task-reward">+20</span>
+                        </div>
+                        <div class="task-item done">
+                            <div class="task-check done"></div>
+                            <div class="task-info">
+                                <div class="task-name">Bind wallet address</div>
+                            </div>
+                            <span class="task-reward">+15</span>
+                        </div>
+                        <div class="task-item done">
+                            <div class="task-check done"></div>
+                            <div class="task-info">
+                                <div class="task-name">First chat in arena</div>
+                            </div>
+                            <span class="task-reward">+5</span>
+                        </div>
+                        <div class="task-item done">
+                            <div class="task-check done"></div>
+                            <div class="task-info">
+                                <div class="task-name">First vote in competition</div>
+                            </div>
+                            <span class="task-reward">+5</span>
                         </div>
                         <div class="task-item">
                             <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name">Send a chat message</div>
-                                <div class="task-desc">Participate in match chat</div>
+                                <div class="task-name">First win a prize</div>
+                                <div class="task-subtitle">Enter arena →</div>
                             </div>
-                            <span class="task-reward">+1 pt</span>
+                            <span class="task-reward">+30</span>
+                            <button class="task-action-btn" onclick="verifyTask(this)">Verify</button>
                         </div>
 
-                        <div class="task-category">Weekly Tasks</div>
+                        <!-- MILESTONES -->
+                        <div class="task-category">MILESTONES</div>
                         <div class="task-item">
-                            <div class="task-check done"></div>
+                            <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name done">Join 3 competitions</div>
-                                <div class="task-desc">Register for 3 matches this week</div>
+                                <div class="task-name">Complete 10 matches</div>
+                                <div class="task-progress-text">4 / 10</div>
+                                <div class="task-progress-mini"><div class="task-progress-mini-fill" style="width:40%"></div></div>
                             </div>
-                            <span class="task-reward done">+10 pts</span>
+                            <span class="task-reward">+50</span>
+                            <button class="task-action-btn" onclick="verifyTask(this)">Verify</button>
                         </div>
                         <div class="task-item">
                             <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name">Finish Top 50</div>
-                                <div class="task-desc">Rank in top 50 in any match</div>
+                                <div class="task-name">Complete 50 matches</div>
+                                <div class="task-progress-text">4 / 50</div>
+                                <div class="task-progress-mini"><div class="task-progress-mini-fill" style="width:8%"></div></div>
                             </div>
-                            <span class="task-reward">+15 pts</span>
+                            <span class="task-reward">+100</span>
+                            <button class="task-action-btn" onclick="verifyTask(this)">Verify</button>
                         </div>
                         <div class="task-item">
                             <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name">Win a prize</div>
-                                <div class="task-desc">Earn USDT from any competition</div>
+                                <div class="task-name">Complete 100 matches</div>
                             </div>
-                            <span class="task-reward">+20 pts</span>
+                            <span class="task-reward">+150</span>
+                            <button class="task-action-btn" onclick="verifyTask(this)">Verify</button>
                         </div>
                         <div class="task-item">
                             <div class="task-check"></div>
                             <div class="task-info">
-                                <div class="task-name">Refer a friend</div>
-                                <div class="task-desc">Invite someone who joins a match</div>
+                                <div class="task-name">Complete 150 matches</div>
                             </div>
-                            <span class="task-reward">+25 pts</span>
-                        </div>
-
-                        <div class="task-category">One-time Tasks</div>
-                        <div class="task-item">
-                            <div class="task-check done"></div>
-                            <div class="task-info">
-                                <div class="task-name done">Complete first match</div>
-                                <div class="task-desc">Finish your first competition</div>
-                            </div>
-                            <span class="task-reward done">+10 pts</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check"></div>
-                            <div class="task-info">
-                                <div class="task-name">Bind wallet</div>
-                                <div class="task-desc">Connect your SOL wallet</div>
-                            </div>
-                            <span class="task-reward">+5 pts</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check"></div>
-                            <div class="task-info">
-                                <div class="task-name">Follow on X</div>
-                                <div class="task-desc">Follow @OtterTrade_X</div>
-                            </div>
-                            <span class="task-reward">+5 pts</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check"></div>
-                            <div class="task-info">
-                                <div class="task-name">Join Discord</div>
-                                <div class="task-desc">Join our Discord community</div>
-                            </div>
-                            <span class="task-reward">+5 pts</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check"></div>
-                            <div class="task-info">
-                                <div class="task-name">Set up profile</div>
-                                <div class="task-desc">Add bio and country</div>
-                            </div>
-                            <span class="task-reward">+3 pts</span>
+                            <span class="task-reward">+200</span>
+                            <button class="task-action-btn" onclick="verifyTask(this)">Verify</button>
                         </div>
                     </div>
                 </div>
@@ -1434,6 +1514,37 @@
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             // In a real app, this would filter the match list
+        }
+
+        // Task System: Verify task
+        function verifyTask(btn) {
+            btn.textContent = '...';
+            btn.disabled = true;
+            // Simulate verification check
+            setTimeout(() => {
+                const item = btn.closest('.task-item');
+                item.classList.add('done');
+                item.querySelector('.task-check').classList.add('done');
+                btn.remove();
+            }, 1200);
+        }
+
+        // Task System: Link (Twitter/Discord auth)
+        function linkTask(btn, platform) {
+            // Simulate redirect to OAuth
+            const urls = {
+                twitter: 'https://twitter.com/intent/follow?screen_name=OtterTrade_X',
+                discord: 'https://discord.gg/ottertrade'
+            };
+            window.open(urls[platform], '_blank');
+            btn.textContent = '...';
+            // Simulate returning with auth success
+            setTimeout(() => {
+                const item = btn.closest('.task-item');
+                item.classList.add('done');
+                item.querySelector('.task-check').classList.add('done');
+                btn.remove();
+            }, 2000);
         }
     </script>
 </body>
