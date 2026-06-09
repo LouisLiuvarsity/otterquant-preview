@@ -199,30 +199,81 @@
         }
         .tier-progress-hint .accent { color: #F5B70A; font-weight: 500; }
 
-        /* ===== BOUND WALLET ===== */
-        .wallet-section {
+        /* ===== WITHDRAW STEPS ===== */
+        .withdraw-step {
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             overflow: hidden;
         }
-        .wallet-header {
+        .withdraw-step-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
             padding: 14px 20px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .wallet-header-left {
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(245,183,10,0.15);
+            border: 1.5px solid #F5B70A;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #F5B70A;
+        }
+        .step-title {
             font-size: 13px;
             font-weight: 600;
+            flex: 1;
         }
-        .wallet-header-left svg { color: #F5B70A; }
+        .step-status {
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background: rgba(245,183,10,0.1);
+            border: 1px solid rgba(245,183,10,0.3);
+            color: #F5B70A;
+            font-weight: 500;
+        }
+        .step-status.pending {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.5);
+        }
+        .step-status.done {
+            background: rgba(34,197,94,0.1);
+            border-color: rgba(34,197,94,0.3);
+            color: #22c55e;
+        }
+        .withdraw-step-body {
+            padding: 16px 20px;
+        }
+        .withdrawal-rules {
+            margin-bottom: 16px;
+        }
+        .rule-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            padding: 6px 0;
+        }
+        .rule-item::before {
+            content: '\2022';
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ===== WALLET BINDING (inside step) ===== */
         /* Unbound state */
         .wallet-unbound {
-            padding: 0 20px 16px;
+            padding: 0;
         }
         .wallet-unbound-alert {
             display: flex;
@@ -252,7 +303,7 @@
         /* Bind form (hidden by default) */
         .wallet-bind-form {
             display: none;
-            padding: 0 20px 16px;
+            padding: 0;
         }
         .wallet-bind-form.show { display: block; }
         .wallet-form-group {
@@ -323,7 +374,7 @@
         /* Bound state (hidden by default) */
         .wallet-bound {
             display: none;
-            padding: 0 20px 16px;
+            padding: 0;
         }
         .wallet-bound.show { display: block; }
         .wallet-bound-info {
@@ -801,63 +852,10 @@
             </div>
         </div>
 
-        <!-- ===== BOUND WALLET ===== -->
-        <div class="wallet-section" id="walletSection">
-            <div class="wallet-header">
-                <div class="wallet-header-left">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B70A" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M16 12h.01"/><path d="M2 10h20"/></svg>
-                    Bound Wallet
-                </div>
-            </div>
-            <!-- Unbound State (default) -->
-            <div class="wallet-unbound" id="walletUnbound">
-                <div class="wallet-unbound-alert">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    No wallet bound — Bind your USDT wallet address to enable withdrawals
-                </div>
-                <button class="wallet-bind-btn" onclick="showBindForm()">Bind Wallet</button>
-            </div>
-            <!-- Bind Form (hidden) -->
-            <div class="wallet-bind-form" id="walletBindForm">
-                <div class="wallet-form-group">
-                    <select class="wallet-select" id="walletNetwork">
-                        <option value="">Select network</option>
-                        <option value="erc20">Ethereum (ERC20)</option>
-                        <option value="bep20">BNB Smart Chain (BEP20)</option>
-                        <option value="arb">Arbitrum One (ARB)</option>
-                        <option value="sol">Solana (SOL)</option>
-                    </select>
-                </div>
-                <div class="wallet-form-group">
-                    <input type="text" class="wallet-input" id="walletAddress" placeholder="Enter your USDT wallet address">
-                </div>
-                <div class="wallet-form-actions">
-                    <button class="wallet-cancel-btn" onclick="cancelBind()">Cancel</button>
-                    <button class="wallet-submit-btn" onclick="submitBind()">Bind Wallet</button>
-                </div>
-            </div>
-            <!-- Bound State (hidden) -->
-            <div class="wallet-bound" id="walletBound">
-                <div class="wallet-bound-info">
-                    <div class="wallet-bound-left">
-                        <div class="wallet-bound-dot"></div>
-                        <div>
-                            <div class="wallet-bound-address">FzN4v1a2HoAg1x69JrVWwgePuu5EnQo3J9KczzStf9b9</div>
-                            <div class="wallet-bound-network">SOL Network</div>
-                        </div>
-                    </div>
-                    <div class="wallet-bound-actions">
-                        <button class="wallet-action-btn" onclick="copyWallet()">📋 Copy</button>
-                        <button class="wallet-action-btn" onclick="changeWallet()">Change</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- ===== TABS ===== -->
         <div class="rewards-tabs">
             <button class="rewards-tab active" onclick="switchTab('rewards')">Rewards</button>
-            <button class="rewards-tab" onclick="switchTab('prize')">Prize Account</button>
+            <button class="rewards-tab" onclick="switchTab('prize')">Withdraw Rewards</button>
         </div>
 
         <!-- ===== TAB 1: REWARDS ===== -->
@@ -938,49 +936,118 @@
             </div>
         </div>
 
-        <!-- ===== TAB 2: PRIZE ACCOUNT ===== -->
+        <!-- ===== TAB 2: WITHDRAW REWARDS ===== -->
         <div class="tab-panel" id="prizePanel">
-            <!-- Prize Overview -->
-            <div class="prize-overview">
-                <div class="prize-card">
-                    <div class="prize-card-label">Locked</div>
-                    <div class="prize-card-value gold">$2.00</div>
+            <!-- Step 1: Bind Wallet -->
+            <div class="withdraw-step">
+                <div class="withdraw-step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Bind Wallet</div>
+                    <div class="step-status" id="step1Status">Required</div>
                 </div>
-                <div class="prize-card">
-                    <div class="prize-card-label">Processing</div>
-                    <div class="prize-card-value">$0.00</div>
-                </div>
-                <div class="prize-card">
-                    <div class="prize-card-label">Withdrawn</div>
-                    <div class="prize-card-value green">$0.00</div>
+                <div class="withdraw-step-body" id="walletStepBody">
+                    <!-- Unbound State (default) -->
+                    <div id="walletUnbound">
+                        <div class="wallet-unbound-alert">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            No wallet bound — Bind your USDT wallet address to enable withdrawals
+                        </div>
+                        <button class="wallet-bind-btn" onclick="showBindForm()">Bind Wallet</button>
+                    </div>
+                    <!-- Bind Form (hidden) -->
+                    <div class="wallet-bind-form" id="walletBindForm">
+                        <div class="wallet-form-group">
+                            <select class="wallet-select" id="walletNetwork">
+                                <option value="">Select network</option>
+                                <option value="erc20">Ethereum (ERC20)</option>
+                                <option value="bep20">BNB Smart Chain (BEP20)</option>
+                                <option value="arb">Arbitrum One (ARB)</option>
+                                <option value="sol">Solana (SOL)</option>
+                            </select>
+                        </div>
+                        <div class="wallet-form-group">
+                            <input type="text" class="wallet-input" id="walletAddress" placeholder="Enter your USDT wallet address">
+                        </div>
+                        <div class="wallet-form-actions">
+                            <button class="wallet-cancel-btn" onclick="cancelBind()">Cancel</button>
+                            <button class="wallet-submit-btn" onclick="submitBind()">Bind Wallet</button>
+                        </div>
+                    </div>
+                    <!-- Bound State (hidden) -->
+                    <div class="wallet-bound" id="walletBound">
+                        <div class="wallet-bound-info">
+                            <div class="wallet-bound-left">
+                                <div class="wallet-bound-dot"></div>
+                                <div>
+                                    <div class="wallet-bound-address">FzN4v1a2HoAg1x69JrVWwgePuu5EnQo3J9KczzStf9b9</div>
+                                    <div class="wallet-bound-network">SOL Network</div>
+                                </div>
+                            </div>
+                            <div class="wallet-bound-actions">
+                                <button class="wallet-action-btn" onclick="copyWallet()">📋 Copy</button>
+                                <button class="wallet-action-btn" onclick="changeWallet()">Change</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Withdrawal Progress -->
-            <div class="withdrawal-progress">
-                <div class="withdrawal-progress-text">
-                    ⚠️ Complete 2 more prize-winning match(es) to unlock withdrawal (1/3)
+            <!-- Step 2: Withdraw -->
+            <div class="withdraw-step">
+                <div class="withdraw-step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Withdraw Prizes</div>
+                    <div class="step-status pending" id="step2Status">1/3 wins required</div>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-bar-fill" style="width: 33%"></div>
+                <div class="withdraw-step-body">
+                    <!-- Prize Overview -->
+                    <div class="prize-overview">
+                        <div class="prize-card">
+                            <div class="prize-card-label">Locked</div>
+                            <div class="prize-card-value gold">$2.00</div>
+                        </div>
+                        <div class="prize-card">
+                            <div class="prize-card-label">Processing</div>
+                            <div class="prize-card-value">$0.00</div>
+                        </div>
+                        <div class="prize-card">
+                            <div class="prize-card-label">Withdrawn</div>
+                            <div class="prize-card-value green">$0.00</div>
+                        </div>
+                    </div>
+
+                    <!-- Withdrawal Rules -->
+                    <div class="withdrawal-progress">
+                        <div class="withdrawal-progress-text">
+                            ⚠️ Complete 2 more prize-winning match(es) to unlock withdrawal (1/3)
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 33%"></div>
+                        </div>
+                    </div>
+
+                    <div class="withdrawal-rules">
+                        <div class="rule-item">Minimum 3 prize-winning matches to unlock withdrawal</div>
+                        <div class="rule-item">At least 5 trades per match, no rule violations</div>
+                        <div class="rule-item">Double-check your wallet network and address before submitting</div>
+                    </div>
+
+                    <!-- Withdraw Button -->
+                    <button class="withdraw-btn">Withdraw</button>
                 </div>
             </div>
 
-            <!-- Note -->
-            <div class="withdrawal-note" style="margin-bottom:16px;">
-                <span>ℹ️</span>
-                <span>Please have your USDT wallet address ready before applying. Double-check the network and address to avoid asset loss.</span>
-            </div>
-
-            <!-- Withdraw Button -->
-            <button class="withdraw-btn">Withdraw</button>
-
-            <!-- Withdrawal History -->
-            <div class="withdrawal-history">
-                <div class="withdrawal-history-title">Withdrawal History</div>
-                <div class="withdrawal-empty">
-                    📄 No withdrawal records yet<br>
-                    <span style="font-size:10px;color:rgba(255,255,255,0.2);">Complete competitions and claim prizes to see records here</span>
+            <!-- Step 3: History -->
+            <div class="withdraw-step">
+                <div class="withdraw-step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Withdrawal History</div>
+                </div>
+                <div class="withdraw-step-body">
+                    <div class="withdrawal-empty">
+                        📄 No withdrawal records yet<br>
+                        <span style="font-size:10px;color:rgba(255,255,255,0.2);">Complete competitions and claim prizes to see records here</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1038,6 +1105,10 @@
             document.getElementById('walletBindForm').classList.remove('show');
             document.getElementById('walletUnbound').style.display = 'none';
             document.getElementById('walletBound').classList.add('show');
+            // Update step 1 status
+            const status = document.getElementById('step1Status');
+            status.textContent = 'Connected';
+            status.className = 'step-status done';
         }
         function changeWallet() {
             document.getElementById('walletBound').classList.remove('show');
