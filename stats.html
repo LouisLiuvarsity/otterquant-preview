@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: #0B0B0B;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            height: 56px;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-logo { width: 32px; height: 32px; border-radius: 50%; }
+        .header-brand { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: #F5B70A; letter-spacing: 0.05em; }
+        .header-nav { display: flex; align-items: center; gap: 20px; }
+        .nav-link { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; text-decoration: none; transition: all 0.2s; border-bottom: 2px solid transparent; }
+        .nav-link:hover { color: #F5B70A; }
+        .nav-link.active { color: #F5B70A; border-bottom-color: #F5B70A; }
+        .header-right { display: flex; align-items: center; gap: 14px; }
+        .user-email { font-size: 12px; color: rgba(255,255,255,0.7); }
+        .logout-btn { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.1); background: transparent; cursor: pointer; transition: all 0.2s; }
+        .logout-btn:hover { border-color: #F5B70A; background: rgba(245,183,10,0.1); }
+        .logout-btn svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.7); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 24px;
+            background: #0B0B0B;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 1000;
+            height: 40px;
+        }
+        .footer-left { display: flex; align-items: center; gap: 24px; }
+        .crypto-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+        .crypto-pair { color: rgba(255,255,255,0.6); }
+        .crypto-change.negative { color: #ef4444; }
+        .crypto-change.positive { color: #22c55e; }
+        .crypto-price { color: #fff; font-weight: 500; }
+        .footer-right { display: flex; align-items: center; gap: 12px; }
+        .footer-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.5); transition: color 0.2s; font-size: 14px; }
+        .footer-btn:hover { color: #F5B70A; }
+        .footer-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.15); }
+        .social-link { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+        .social-link:hover { color: #F5B70A; }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-top: 56px;
+            margin-bottom: 40px;
+            overflow-y: auto;
+            padding: 24px 32px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        /* ===== PLATFORM STATS SECTION ===== */
+        .platform-stats {
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 28px 28px 24px;
+            margin-bottom: 24px;
+            background: rgba(255,255,255,0.01);
+        }
+        .platform-stats-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #F5B70A;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .platform-stats-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .stat-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(255,255,255,0.02);
+            transition: border-color 0.2s;
+        }
+        .stat-card:hover {
+            border-color: rgba(245,183,10,0.3);
+        }
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stat-card-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.5);
+            font-weight: 600;
+        }
+        .stat-card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stat-card-icon.players { background: rgba(245,183,10,0.12); color: #F5B70A; }
+        .stat-card-icon.matches { background: rgba(245,183,10,0.12); color: #F5B70A; }
+        .stat-card-icon.volume { background: rgba(59,130,246,0.12); color: #3b82f6; }
+        .stat-card-icon.prize { background: rgba(34,197,94,0.12); color: #22c55e; }
+        .stat-card-value {
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .stat-card-value.green { color: #22c55e; }
+
+        /* ===== LEADERBOARD SECTION ===== */
+        .leaderboard-section {
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 28px 28px 20px;
+            background: rgba(255,255,255,0.01);
+        }
+        .leaderboard-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #F5B70A;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .leaderboard-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .leaderboard-table th {
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .leaderboard-table th:last-child,
+        .leaderboard-table td:last-child {
+            text-align: right;
+        }
+        .leaderboard-table th:nth-child(3),
+        .leaderboard-table td:nth-child(3) {
+            text-align: center;
+        }
+        .leaderboard-table td {
+            padding: 14px 14px;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.8);
+        }
+        .leaderboard-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        .rank-num {
+            color: rgba(255,255,255,0.4);
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .rank-medal {
+            font-size: 14px;
+        }
+        .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .player-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(245,183,10,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: #F5B70A;
+        }
+        .player-name {
+            font-weight: 500;
+            color: #fff;
+        }
+        .tier-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .tier-badge.gold { color: #F5B70A; }
+        .tier-badge.silver { color: #94a3b8; }
+        .tier-badge.bronze { color: #cd7f32; }
+        .tier-badge-icon {
+            font-size: 13px;
+        }
+        .points-value {
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .prize-value {
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .page-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .page-btn:hover {
+            border-color: rgba(245,183,10,0.4);
+            color: #F5B70A;
+        }
+        .page-btn.active {
+            background: #F5B70A;
+            border-color: #F5B70A;
+            color: #0B0B0B;
+            font-weight: 700;
+        }
+        .page-btn.nav-arrow {
+            font-size: 13px;
+        }
+        .page-ellipsis {
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Otter Trade" class="header-logo">
+            <span class="header-brand">OTTER TRADE</span>
+        </div>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">ARENA</a>
+            <a href="competitions.html" class="nav-link">COMPETITIONS</a>
+            <a href="watch-live.html" class="nav-link">WATCH LIVE</a>
+            <a href="dashboard-new.html" class="nav-link">DASHBOARD</a>
+            <a href="rewards.html" class="nav-link">REWARDS</a>
+            <a href="stats.html" class="nav-link active">STATS</a>
+        </nav>
+        <div class="header-right">
+            <span class="user-email">trader@otterquant.com</span>
+            <button class="logout-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Platform Stats -->
+        <div class="platform-stats">
+            <div class="platform-stats-label">Global Competition Data Overview</div>
+            <div class="platform-stats-title">Platform Stats</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-label">Total Players</div>
+                        <div class="stat-card-icon players">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">6,445</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-label">Total Matches</div>
+                        <div class="stat-card-icon matches">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">24</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-label">Total Volume</div>
+                        <div class="stat-card-icon volume">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">$202.73M</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-label">Total Prize Distributed</div>
+                        <div class="stat-card-icon prize">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-card-value green">4,486</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-section">
+            <div class="leaderboard-label">Leaderboard</div>
+            <div class="leaderboard-title">Season Total</div>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">#</th>
+                        <th>Player</th>
+                        <th>Tier</th>
+                        <th>Points</th>
+                        <th>Prize</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="rank-medal">🥇</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">A</div><span class="player-name">Ahmed</span></div></td>
+                        <td><span class="tier-badge gold"><span class="tier-badge-icon">👑</span> Gold</span></td>
+                        <td><span class="points-value">660</span></td>
+                        <td><span class="prize-value">89.5U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-medal">🥈</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">M</div><span class="player-name">Manjevhure</span></div></td>
+                        <td><span class="tier-badge gold"><span class="tier-badge-icon">👑</span> Gold</span></td>
+                        <td><span class="points-value">605</span></td>
+                        <td><span class="prize-value">56.25U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-medal">🥉</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">新</div><span class="player-name">新加坡CBD做做的仔</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">575</span></td>
+                        <td><span class="prize-value">10.5U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">4</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">M</div><span class="player-name">Mnzrkhml</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">565</span></td>
+                        <td><span class="prize-value">31U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">5</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">H</div><span class="player-name">Heritier</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">555</span></td>
+                        <td><span class="prize-value">42.5U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">6</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">B</div><span class="player-name">BBMAmalagasy</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">550</span></td>
+                        <td><span class="prize-value">38.75U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">7</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">A</div><span class="player-name">AST</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">500</span></td>
+                        <td><span class="prize-value">20.75U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">8</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">N</div><span class="player-name">Neerajmeena</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">415</span></td>
+                        <td><span class="prize-value">15.5U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">9</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">E</div><span class="player-name">Earnzimflash</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">415</span></td>
+                        <td><span class="prize-value">19.5U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">10</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">H</div><span class="player-name">Hakim</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">400</span></td>
+                        <td><span class="prize-value">6.25U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">11</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">X</div><span class="player-name">xpinox</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">340</span></td>
+                        <td><span class="prize-value">3U</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-num">12</span></td>
+                        <td><div class="player-cell"><div class="player-avatar">S</div><span class="player-name">Soso</span></div></td>
+                        <td><span class="tier-badge silver"><span class="tier-badge-icon">⚔️</span> Silver</span></td>
+                        <td><span class="points-value">325</span></td>
+                        <td><span class="prize-value">24.75U</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn nav-arrow" disabled>‹</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <span class="page-ellipsis">…</span>
+                <button class="page-btn">76</button>
+                <button class="page-btn nav-arrow">›</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="crypto-item">
+                <span class="crypto-pair">BTCUSDT</span>
+                <span class="crypto-change negative">-8.83%</span>
+                <span class="crypto-price">62,640.0</span>
+            </div>
+            <div class="crypto-item">
+                <span class="crypto-pair">ETHUSDT</span>
+                <span class="crypto-change negative">-5.21%</span>
+                <span class="crypto-price">2,418.5</span>
+            </div>
+            <div class="crypto-item">
+                <span class="crypto-pair">SOLUSDT</span>
+                <span class="crypto-change positive">+2.14%</span>
+                <span class="crypto-price">66.58</span>
+            </div>
+        </div>
+        <div class="footer-right">
+            <button class="footer-btn" id="langBtn">EN</button>
+            <button class="footer-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </button>
+            <span class="footer-divider"></span>
+            <a href="#" class="social-link" title="Discord"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg></a>
+            <a href="#" class="social-link" title="X"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#" class="social-link" title="Gitbook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10.802 17.77a.703.703 0 11-.002 1.406.703.703 0 01.002-1.406m11.024-4.347a.703.703 0 11.001-1.406.703.703 0 01-.001 1.406m0-2.876a2.176 2.176 0 00-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 00-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 002.15 1.862 2.177 2.177 0 002.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0024 12.72a2.176 2.176 0 00-2.174-2.174"/></svg></a>
+        </div>
+    </footer>
+</body>
+</html>
