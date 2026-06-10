@@ -346,10 +346,10 @@
         }
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255,255,255,0.5); }
         .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
-        .legend-dot.beginner { background: #22c55e; }
-        .legend-dot.advanced { background: #a855f7; }
-        .legend-dot.live { background: #F5B70A; }
-        .legend-dot.registering { background: #22c55e; opacity: 0.7; }
+        .legend-dot.live { background: #22c55e; }
+        .legend-dot.registering { background: #F5B70A; }
+        .legend-dot.upcoming { background: #60a5fa; }
+        .legend-icon { font-size: 10px; margin-right: 2px; }
 
         .calendar-nav {
             display: flex;
@@ -419,11 +419,10 @@
             text-overflow: ellipsis;
             font-weight: 500;
         }
-        .cal-event-pill.beginner { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
-        .cal-event-pill.advanced { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.25); }
-        .cal-event-pill.live { background: rgba(245,183,10,0.15); color: #F5B70A; border: 1px solid rgba(245,183,10,0.25); }
-        .cal-event-pill.registering { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-        .cal-event-pill.not-started { background: rgba(107,114,128,0.1); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
+        .cal-event-pill.live { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+        .cal-event-pill.registering { background: rgba(245,183,10,0.12); color: #F5B70A; border: 1px solid rgba(245,183,10,0.3); }
+        .cal-event-pill.upcoming { background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+        .cal-event-pill .arena-icon { font-size: 8px; margin-right: 2px; }
         .cal-more { font-size: 8px; color: rgba(255,255,255,0.35); margin-top: 2px; }
 
         /* ===== CENTERED MODAL (for calendar day details) ===== */
@@ -869,10 +868,11 @@
         <!-- ===== PANEL 2: UNIFIED CALENDAR ===== -->
         <div class="view-panel" id="panel-calendar">
             <div class="calendar-legend">
-                <div class="legend-item"><div class="legend-dot beginner"></div> Beginner Arena</div>
-                <div class="legend-item"><div class="legend-dot advanced"></div> Advanced Arena</div>
-                <div class="legend-item"><div class="legend-dot live"></div> In Progress</div>
+                <div class="legend-item"><div class="legend-dot live"></div> Live</div>
                 <div class="legend-item"><div class="legend-dot registering"></div> Registering</div>
+                <div class="legend-item"><div class="legend-dot upcoming"></div> Upcoming</div>
+                <div class="legend-item"><span class="legend-icon">○</span> Beginner</div>
+                <div class="legend-item"><span class="legend-icon">◆</span> Advanced</div>
             </div>
             <div class="calendar-nav">
                 <div class="calendar-month" id="calMonth">June 2026</div>
@@ -1076,9 +1076,10 @@
                     html += '<div class="cal-events">';
                     filtered.slice(0, 2).forEach(comp => {
                         const status = comp.derivedStatus;
-                        let pillClass = status === 'live' ? 'live' : (status === 'registering' ? 'registering' : comp.arena);
-                        let label = status === 'live' ? 'LIVE' : (status === 'registering' ? 'REG' : comp.pair);
-                        html += `<div class="cal-event-pill ${pillClass}">${label} ${comp.pair}</div>`;
+                        let pillClass = status === 'live' ? 'live' : (status === 'registering' ? 'registering' : 'upcoming');
+                        let statusLabel = status === 'live' ? 'LIVE' : (status === 'registering' ? 'REG' : 'SOON');
+                        let arenaIcon = comp.arena === 'advanced' ? '◆' : '○';
+                        html += `<div class="cal-event-pill ${pillClass}"><span class="arena-icon">${arenaIcon}</span>${statusLabel} ${comp.pair}</div>`;
                     });
                     if (filtered.length > 2) html += `<div class="cal-more">+${filtered.length - 2} more</div>`;
                     html += '</div>';
