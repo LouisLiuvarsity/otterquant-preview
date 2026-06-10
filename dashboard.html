@@ -1532,5 +1532,262 @@
             }
         }
     </script>
+
+    <!-- ===== ONBOARDING GUIDE MODAL ===== -->
+    <style>
+        .onboarding-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .onboarding-overlay.hidden { display: none; }
+        .onboarding-modal {
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            width: 520px;
+            max-width: 90vw;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+        }
+        .onboarding-header {
+            padding: 20px 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .onboarding-step-indicator {
+            display: flex;
+            gap: 6px;
+        }
+        .onboarding-step-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s;
+        }
+        .onboarding-step-dot.active {
+            background: #22c55e;
+            width: 20px;
+            border-radius: 4px;
+        }
+        .onboarding-step-dot.completed {
+            background: #22c55e;
+        }
+        .onboarding-skip {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s;
+        }
+        .onboarding-skip:hover { color: rgba(255,255,255,0.7); }
+        .onboarding-body {
+            padding: 24px;
+        }
+        .onboarding-illustration {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(245,183,10,0.08));
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .onboarding-step-label {
+            font-size: 11px;
+            color: #22c55e;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .onboarding-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .onboarding-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+        }
+        .onboarding-desc strong {
+            color: #F5B70A;
+        }
+        .onboarding-footer {
+            padding: 16px 24px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .onboarding-btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .onboarding-btn.back {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .onboarding-btn.back:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .onboarding-btn.next {
+            background: #22c55e;
+            color: #000;
+        }
+        .onboarding-btn.next:hover { background: #16a34a; }
+        .onboarding-btn.finish {
+            background: #F5B70A;
+            color: #000;
+        }
+        .onboarding-btn.finish:hover { background: #d4a00a; }
+        .onboarding-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.05);
+        }
+        .onboarding-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #F5B70A);
+            transition: width 0.4s ease;
+        }
+    </style>
+
+    <div class="onboarding-overlay" id="onboardingOverlay">
+        <div class="onboarding-modal">
+            <div class="onboarding-progress">
+                <div class="onboarding-progress-bar" id="onboardingProgressBar" style="width: 20%"></div>
+            </div>
+            <div class="onboarding-header">
+                <div class="onboarding-step-indicator" id="onboardingDots"></div>
+                <button class="onboarding-skip" onclick="closeOnboarding()">Skip guide</button>
+            </div>
+            <div class="onboarding-body" id="onboardingBody"></div>
+            <div class="onboarding-footer">
+                <button class="onboarding-btn back" id="onboardingBack" onclick="prevStep()">Back</button>
+                <button class="onboarding-btn next" id="onboardingNext" onclick="nextStep()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const onboardingSteps = [
+            {
+                icon: '\u2694\uFE0F',
+                label: 'Step 1 of 5',
+                title: 'Register for a Competition',
+                desc: 'Browse available competitions and register to join. We have two arena types:<br><br><strong>\uD83C\uDF31 Beginner Arena</strong> \u2014 Lower entry barrier, 5x leverage, perfect for getting started.<br><strong>\u26A1 Advanced Arena</strong> \u2014 Higher stakes, up to 50x leverage, for experienced traders.<br><br>Head to <strong>Schedule</strong> or <strong>Competitions</strong> to find open registrations and sign up before the deadline.'
+            },
+            {
+                icon: '\uD83D\uDE80',
+                label: 'Step 2 of 5',
+                title: 'Enter the Arena',
+                desc: 'Once registered and the competition starts, click <strong>Enter Arena</strong> to begin trading.<br><br>You\u2019ll enter a live trading environment with real-time charts, order placement, and a chatroom with other players. Trade within the time window to maximize your PnL and climb the leaderboard.'
+            },
+            {
+                icon: '\uD83D\uDCC5',
+                label: 'Step 3 of 5',
+                title: 'Check the Schedule',
+                desc: 'Navigate to the <strong>Schedule</strong> page to view all upcoming competitions in a calendar or list format.<br><br>You can see registration windows, match times, prize pools, and filter by Beginner or Advanced arenas. Plan ahead and never miss a match!'
+            },
+            {
+                icon: '\uD83D\uDCCA',
+                label: 'Step 4 of 5',
+                title: 'Your Dashboard',
+                desc: 'Visit <strong>Dashboard</strong> to see your personal stats, trading analytics, match history, and current tier progress.<br><br>Track your win rate, PnL performance, and complete daily tasks to earn bonus points. Everything about your trading journey in one place.'
+            },
+            {
+                icon: '\uD83C\uDFC6',
+                label: 'Step 5 of 5',
+                title: 'Rewards & Withdrawals',
+                desc: 'Go to <strong>Rewards</strong> to check your tier progress, referral earnings, and prize balance.<br><br>Invite friends with your referral link to earn <strong>35% commission</strong> on their winnings. When you\u2019re ready to cash out, switch to the <strong>Withdraw Rewards</strong> tab to bind your wallet and withdraw prizes.'
+            }
+        ];
+
+        let currentOnboardingStep = 0;
+
+        function renderOnboardingStep() {
+            const step = onboardingSteps[currentOnboardingStep];
+            const total = onboardingSteps.length;
+
+            // Progress bar
+            document.getElementById('onboardingProgressBar').style.width = ((currentOnboardingStep + 1) / total * 100) + '%';
+
+            // Dots
+            let dotsHtml = '';
+            for (let i = 0; i < total; i++) {
+                let cls = '';
+                if (i < currentOnboardingStep) cls = 'completed';
+                else if (i === currentOnboardingStep) cls = 'active';
+                dotsHtml += `<div class="onboarding-step-dot ${cls}"></div>`;
+            }
+            document.getElementById('onboardingDots').innerHTML = dotsHtml;
+
+            // Body
+            document.getElementById('onboardingBody').innerHTML = `
+                <div class="onboarding-illustration">${step.icon}</div>
+                <div class="onboarding-step-label">${step.label}</div>
+                <div class="onboarding-title">${step.title}</div>
+                <div class="onboarding-desc">${step.desc}</div>
+            `;
+
+            // Buttons
+            const backBtn = document.getElementById('onboardingBack');
+            const nextBtn = document.getElementById('onboardingNext');
+
+            backBtn.style.visibility = currentOnboardingStep === 0 ? 'hidden' : 'visible';
+
+            if (currentOnboardingStep === total - 1) {
+                nextBtn.textContent = 'Get Started!';
+                nextBtn.className = 'onboarding-btn finish';
+            } else {
+                nextBtn.textContent = 'Next';
+                nextBtn.className = 'onboarding-btn next';
+            }
+        }
+
+        function nextStep() {
+            if (currentOnboardingStep < onboardingSteps.length - 1) {
+                currentOnboardingStep++;
+                renderOnboardingStep();
+            } else {
+                closeOnboarding();
+            }
+        }
+
+        function prevStep() {
+            if (currentOnboardingStep > 0) {
+                currentOnboardingStep--;
+                renderOnboardingStep();
+            }
+        }
+
+        function closeOnboarding() {
+            document.getElementById('onboardingOverlay').classList.add('hidden');
+            localStorage.setItem('otterOnboardingDone', 'true');
+        }
+
+        // Show onboarding only for first-time users
+        if (!localStorage.getItem('otterOnboardingDone')) {
+            renderOnboardingStep();
+        } else {
+            document.getElementById('onboardingOverlay').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
