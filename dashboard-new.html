@@ -675,6 +675,199 @@
             font-size: 10px;
             color: rgba(255,255,255,0.3);
         }
+        .match-share-btn {
+            font-size: 10px;
+            padding: 3px 8px;
+            border: 1px solid rgba(34,197,94,0.3);
+            background: rgba(34,197,94,0.08);
+            color: #22c55e;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .match-share-btn:hover { background: rgba(34,197,94,0.2); border-color: #22c55e; }
+        .match-share-btn svg { width: 10px; height: 10px; }
+
+        /* ===== SHARE MODAL ===== */
+        .share-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .share-overlay.show { display: flex; }
+        .share-modal {
+            width: 440px;
+            max-width: 90vw;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .share-poster {
+            background: linear-gradient(145deg, #0d1117, #1a1f2e);
+            padding: 28px 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .share-poster::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 70%);
+        }
+        .share-poster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .share-poster-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .share-poster-logo img {
+            width: 24px; height: 24px; border-radius: 50%;
+        }
+        .share-poster-logo span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #F5B70A;
+        }
+        .share-poster-user {
+            text-align: right;
+        }
+        .share-poster-username {
+            font-size: 12px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .share-poster-ref {
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2px;
+        }
+        .share-poster-pnl {
+            text-align: center;
+            margin: 20px 0 24px;
+            position: relative;
+        }
+        .share-poster-pnl-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .share-poster-pnl-value {
+            font-size: 42px;
+            font-weight: 800;
+            color: #22c55e;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .share-poster-pnl-value.negative { color: #ef4444; }
+        .share-poster-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 14px;
+            position: relative;
+        }
+        .share-poster-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .share-poster-detail-label {
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .share-poster-detail-value {
+            font-size: 13px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .share-poster-detail-value.gold { color: #F5B70A; }
+        .share-poster-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 9px;
+            color: rgba(255,255,255,0.25);
+            position: relative;
+        }
+        .share-actions {
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .share-actions-title {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .share-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .share-platform-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .share-platform-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+        .share-platform-btn.twitter { border-color: rgba(29,155,240,0.3); }
+        .share-platform-btn.twitter:hover { background: rgba(29,155,240,0.1); border-color: #1d9bf0; }
+        .share-platform-btn.telegram { border-color: rgba(38,165,220,0.3); }
+        .share-platform-btn.telegram:hover { background: rgba(38,165,220,0.1); border-color: #26a5dc; }
+        .share-platform-btn.discord { border-color: rgba(88,101,242,0.3); }
+        .share-platform-btn.discord:hover { background: rgba(88,101,242,0.1); border-color: #5865F2; }
+        .share-platform-btn svg { width: 16px; height: 16px; }
+        .share-close {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 28px; height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .share-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
         /* ===== TASK SYSTEM (Right Sidebar) ===== */
         .task-system {
@@ -1298,6 +1491,7 @@
                             <div class="match-item-right">
                                 <span class="match-pnl positive">+5.18%</span>
                                 <span class="match-date">Jun 2, 2026</span>
+                                <button class="match-share-btn" onclick="openShareModal({round:'K20', rank:'#21', pnl:'+5.18%', prize:'2 USDT', pool:'25 USDT', date:'Jun 2, 2026'})"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8'/><polyline points='16 6 12 2 8 6'/><line x1='12' y1='2' x2='12' y2='15'/></svg>Share</button>
                             </div>
                         </div>
                         <div class="match-item">
@@ -1566,6 +1760,110 @@
                 item.querySelector('.task-check').classList.add('done');
                 btn.remove();
             }, 2000);
+        }
+    </script>
+
+    <!-- ===== SHARE RESULT MODAL ===== -->
+    <div class="share-overlay" id="shareOverlay" onclick="if(event.target===this)closeShareModal()">
+        <div class="share-modal">
+            <div class="share-poster" id="sharePoster">
+                <div class="share-close" onclick="closeShareModal()">&times;</div>
+                <div class="share-poster-header">
+                    <div class="share-poster-logo">
+                        <img src="logo.png" alt="Otter Trade">
+                        <span>OTTER TRADE</span>
+                    </div>
+                    <div class="share-poster-user">
+                        <div class="share-poster-username">OtterTrader_01</div>
+                        <div class="share-poster-ref">ottertrade.com/ref/OT01X7</div>
+                    </div>
+                </div>
+                <div class="share-poster-pnl">
+                    <div class="share-poster-pnl-label">Profit Earned</div>
+                    <div class="share-poster-pnl-value" id="sharePnlValue">+5.18%</div>
+                </div>
+                <div class="share-poster-details">
+                    <div class="share-poster-detail">
+                        <span class="share-poster-detail-label">Competition</span>
+                        <span class="share-poster-detail-value" id="shareCompName">Qualification Challenge K20</span>
+                    </div>
+                    <div class="share-poster-detail">
+                        <span class="share-poster-detail-label">Prize Pool</span>
+                        <span class="share-poster-detail-value gold" id="sharePool">25 USDT</span>
+                    </div>
+                    <div class="share-poster-detail">
+                        <span class="share-poster-detail-label">My Rank</span>
+                        <span class="share-poster-detail-value" id="shareRank">#21</span>
+                    </div>
+                    <div class="share-poster-detail">
+                        <span class="share-poster-detail-label">Prize Won</span>
+                        <span class="share-poster-detail-value gold" id="sharePrize">2 USDT</span>
+                    </div>
+                </div>
+                <div class="share-poster-footer">Compete. Trade. Win. &mdash; ottertrade.com</div>
+            </div>
+            <div class="share-actions">
+                <div class="share-actions-title">Share your result</div>
+                <div class="share-btns">
+                    <button class="share-platform-btn twitter" onclick="shareToTwitter()">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        Twitter
+                    </button>
+                    <button class="share-platform-btn telegram" onclick="shareToTelegram()">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        Telegram
+                    </button>
+                    <button class="share-platform-btn discord" onclick="shareToDiscord()">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Discord
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Share Modal Logic
+        function openShareModal(data) {
+            document.getElementById('sharePnlValue').textContent = data.pnl;
+            document.getElementById('sharePnlValue').className = 'share-poster-pnl-value' + (data.pnl.startsWith('+') ? '' : ' negative');
+            document.getElementById('shareCompName').textContent = 'Qualification Challenge ' + data.round;
+            document.getElementById('sharePool').textContent = data.pool;
+            document.getElementById('shareRank').textContent = data.rank;
+            document.getElementById('sharePrize').textContent = data.prize;
+            document.getElementById('shareOverlay').classList.add('show');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareOverlay').classList.remove('show');
+        }
+
+        function getShareText(data) {
+            const pnl = document.getElementById('sharePnlValue').textContent;
+            const comp = document.getElementById('shareCompName').textContent;
+            const rank = document.getElementById('shareRank').textContent;
+            return `\u{1F3C6} Just earned ${pnl} PnL in ${comp} on @OtterTrade_X!\n\nRanked ${rank} \u{1F525}\n\nJoin the arena and compete: ottertrade.com/ref/OT01X7`;
+        }
+
+        function shareToTwitter() {
+            const text = getShareText();
+            const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+
+        function shareToTelegram() {
+            const text = getShareText();
+            const url = 'https://t.me/share/url?url=ottertrade.com&text=' + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+
+        function shareToDiscord() {
+            // Copy text to clipboard and open Discord
+            const text = getShareText();
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Share text copied to clipboard! Paste it in your Discord channel.');
+                window.open('https://discord.com/channels/@me', '_blank');
+            });
         }
     </script>
 </body>
