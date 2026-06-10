@@ -871,8 +871,8 @@
                 <div class="legend-item"><div class="legend-dot live"></div> Live</div>
                 <div class="legend-item"><div class="legend-dot registering"></div> Registering</div>
                 <div class="legend-item"><div class="legend-dot upcoming"></div> Upcoming</div>
-                <div class="legend-item"><span class="legend-icon">○</span> Beginner</div>
-                <div class="legend-item"><span class="legend-icon">◆</span> Advanced</div>
+                <div class="legend-item"><span class="legend-icon">🌱</span> Beginner</div>
+                <div class="legend-item"><span class="legend-icon">⚡</span> Advanced</div>
             </div>
             <div class="calendar-nav">
                 <div class="calendar-month" id="calMonth">June 2026</div>
@@ -1078,7 +1078,7 @@
                         const status = comp.derivedStatus;
                         let pillClass = status === 'live' ? 'live' : (status === 'registering' ? 'registering' : 'upcoming');
                         let statusLabel = status === 'live' ? 'LIVE' : (status === 'registering' ? 'REG' : 'SOON');
-                        let arenaIcon = comp.arena === 'advanced' ? '◆' : '○';
+                        let arenaIcon = comp.arena === 'advanced' ? '⚡' : '🌱';
                         html += `<div class="cal-event-pill ${pillClass}"><span class="arena-icon">${arenaIcon}</span>${statusLabel} ${comp.pair}</div>`;
                     });
                     if (filtered.length > 2) html += `<div class="cal-more">+${filtered.length - 2} more</div>`;
