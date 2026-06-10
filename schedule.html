@@ -349,6 +349,7 @@
         .legend-dot.beginner { background: #22c55e; }
         .legend-dot.advanced { background: #a855f7; }
         .legend-dot.live { background: #F5B70A; }
+        .legend-dot.registering { background: #22c55e; opacity: 0.7; }
 
         .calendar-nav {
             display: flex;
@@ -421,6 +422,8 @@
         .cal-event-pill.beginner { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
         .cal-event-pill.advanced { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.25); }
         .cal-event-pill.live { background: rgba(245,183,10,0.15); color: #F5B70A; border: 1px solid rgba(245,183,10,0.25); }
+        .cal-event-pill.registering { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+        .cal-event-pill.not-started { background: rgba(107,114,128,0.1); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
         .cal-more { font-size: 8px; color: rgba(255,255,255,0.35); margin-top: 2px; }
 
         /* ===== CENTERED MODAL (for calendar day details) ===== */
@@ -501,11 +504,12 @@
         .detail-tag.live { background: rgba(245,183,10,0.15); color: #F5B70A; }
         .detail-tag.registering { background: rgba(34,197,94,0.15); color: #22c55e; }
         .detail-tag.upcoming { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .detail-tag.not-started { background: rgba(107,114,128,0.15); color: #9ca3af; }
         .detail-tag.pair { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
         .detail-card-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
         .detail-card-meta {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
             margin-bottom: 12px;
         }
@@ -537,6 +541,8 @@
         .detail-btn.enter:hover { background: #d4a00a; }
         .detail-btn.view { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.12); }
         .detail-btn.view:hover { border-color: #F5B70A; color: #F5B70A; }
+        .detail-btn.notify { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+        .detail-btn.notify:hover { background: rgba(59,130,246,0.25); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
@@ -578,16 +584,13 @@
             <div class="page-subtitle">View live, upcoming, and past competitions — or explore the calendar for future events</div>
         </div>
 
-        <!-- 3 View Tabs -->
+        <!-- 2 View Tabs -->
         <div class="view-tabs">
             <button class="view-tab active" onclick="switchView('overview', this)">
                 <span class="tab-icon">📋</span> Overview
             </button>
-            <button class="view-tab" onclick="switchView('reg-calendar', this)">
-                <span class="tab-icon">📝</span> Registration Calendar
-            </button>
-            <button class="view-tab" onclick="switchView('comp-calendar', this)">
-                <span class="tab-icon">⚔️</span> Competition Calendar
+            <button class="view-tab" onclick="switchView('calendar', this)">
+                <span class="tab-icon">📅</span> Calendar
             </button>
         </div>
 
@@ -863,43 +866,25 @@
             </div>
         </div>
 
-        <!-- ===== PANEL 2: REGISTRATION CALENDAR ===== -->
-        <div class="view-panel" id="panel-reg-calendar">
+        <!-- ===== PANEL 2: UNIFIED CALENDAR ===== -->
+        <div class="view-panel" id="panel-calendar">
             <div class="calendar-legend">
                 <div class="legend-item"><div class="legend-dot beginner"></div> Beginner Arena</div>
                 <div class="legend-item"><div class="legend-dot advanced"></div> Advanced Arena</div>
+                <div class="legend-item"><div class="legend-dot live"></div> In Progress</div>
+                <div class="legend-item"><div class="legend-dot registering"></div> Registering</div>
             </div>
             <div class="calendar-nav">
-                <div class="calendar-month" id="regCalMonth">June 2026</div>
+                <div class="calendar-month" id="calMonth">June 2026</div>
                 <div class="calendar-nav-btns">
-                    <button class="cal-nav-btn" onclick="prevMonth('reg')">‹</button>
-                    <button class="cal-nav-btn" onclick="nextMonth('reg')">›</button>
+                    <button class="cal-nav-btn" onclick="prevMonth()">‹</button>
+                    <button class="cal-nav-btn" onclick="nextMonth()">›</button>
                 </div>
             </div>
             <div class="calendar-weekdays">
                 <div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div><div class="weekday">Sun</div>
             </div>
-            <div class="calendar-grid" id="regCalGrid"></div>
-        </div>
-
-        <!-- ===== PANEL 3: COMPETITION CALENDAR ===== -->
-        <div class="view-panel" id="panel-comp-calendar">
-            <div class="calendar-legend">
-                <div class="legend-item"><div class="legend-dot beginner"></div> Beginner Arena</div>
-                <div class="legend-item"><div class="legend-dot advanced"></div> Advanced Arena</div>
-                <div class="legend-item"><div class="legend-dot live"></div> Live / In Progress</div>
-            </div>
-            <div class="calendar-nav">
-                <div class="calendar-month" id="compCalMonth">June 2026</div>
-                <div class="calendar-nav-btns">
-                    <button class="cal-nav-btn" onclick="prevMonth('comp')">‹</button>
-                    <button class="cal-nav-btn" onclick="nextMonth('comp')">›</button>
-                </div>
-            </div>
-            <div class="calendar-weekdays">
-                <div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div><div class="weekday">Sun</div>
-            </div>
-            <div class="calendar-grid" id="compCalGrid"></div>
+            <div class="calendar-grid" id="calGrid"></div>
         </div>
     </main>
 
@@ -946,83 +931,77 @@
     </footer>
 
     <script>
-        // ===== DATA =====
-        const registrationEvents = {
-            '2026-06-09': [
-                { arena: 'beginner', title: 'Qualification Challenge R25', pair: 'ETH/USDT', status: 'open', regClose: 'Jun 9, 18:00 UTC', matchStart: 'Jun 10, 00:00 UTC', players: 412, prize: '25 USDT', leverage: '5x' },
-                { arena: 'beginner', title: 'Qualification Challenge R26', pair: 'SOL/USDT', status: 'open', regClose: 'Jun 9, 23:00 UTC', matchStart: 'Jun 10, 12:00 UTC', players: 289, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R5', pair: 'BTC/USDT', status: 'open', regClose: 'Jun 10, 00:00 UTC', matchStart: 'Jun 11, 00:00 UTC', players: 56, prize: '100 USDT', leverage: '20x' }
-            ],
-            '2026-06-10': [{ arena: 'beginner', title: 'Qualification Challenge R27', pair: 'BTC/USDT', status: 'open', regClose: 'Jun 10, 18:00 UTC', matchStart: 'Jun 11, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-11': [
-                { arena: 'beginner', title: 'Qualification Challenge R28', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 11, 18:00 UTC', matchStart: 'Jun 12, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R6', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 12, 00:00 UTC', matchStart: 'Jun 13, 00:00 UTC', players: 0, prize: '100 USDT', leverage: '20x' }
-            ],
-            '2026-06-12': [{ arena: 'beginner', title: 'Qualification Challenge R29', pair: 'SOL/USDT', status: 'upcoming', regClose: 'Jun 12, 18:00 UTC', matchStart: 'Jun 13, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-13': [{ arena: 'beginner', title: 'Qualification Challenge R30', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 13, 18:00 UTC', matchStart: 'Jun 14, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-14': [
-                { arena: 'beginner', title: 'Qualification Challenge R31', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 14, 18:00 UTC', matchStart: 'Jun 15, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R7', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 15, 00:00 UTC', matchStart: 'Jun 16, 00:00 UTC', players: 0, prize: '150 USDT', leverage: '20x' }
-            ],
-            '2026-06-16': [{ arena: 'beginner', title: 'Qualification Challenge R32', pair: 'SOL/USDT', status: 'upcoming', regClose: 'Jun 16, 18:00 UTC', matchStart: 'Jun 17, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-17': [
-                { arena: 'beginner', title: 'Qualification Challenge R33', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 17, 18:00 UTC', matchStart: 'Jun 18, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R8', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 18, 00:00 UTC', matchStart: 'Jun 19, 00:00 UTC', players: 0, prize: '100 USDT', leverage: '20x' }
-            ],
-            '2026-06-19': [{ arena: 'beginner', title: 'Qualification Challenge R34', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 19, 18:00 UTC', matchStart: 'Jun 20, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-20': [
-                { arena: 'beginner', title: 'Qualification Challenge R35', pair: 'SOL/USDT', status: 'upcoming', regClose: 'Jun 20, 18:00 UTC', matchStart: 'Jun 21, 00:00 UTC', players: 0, prize: '30 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R9', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 21, 00:00 UTC', matchStart: 'Jun 22, 00:00 UTC', players: 0, prize: '150 USDT', leverage: '20x' }
-            ],
-            '2026-06-22': [{ arena: 'beginner', title: 'Qualification Challenge R36', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 22, 18:00 UTC', matchStart: 'Jun 23, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-24': [
-                { arena: 'beginner', title: 'Qualification Challenge R37', pair: 'ETH/USDT', status: 'upcoming', regClose: 'Jun 24, 18:00 UTC', matchStart: 'Jun 25, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R10', pair: 'SOL/USDT', status: 'upcoming', regClose: 'Jun 25, 00:00 UTC', matchStart: 'Jun 26, 00:00 UTC', players: 0, prize: '200 USDT', leverage: '20x' }
-            ],
-            '2026-06-26': [{ arena: 'beginner', title: 'Qualification Challenge R38', pair: 'SOL/USDT', status: 'upcoming', regClose: 'Jun 26, 18:00 UTC', matchStart: 'Jun 27, 00:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-28': [
-                { arena: 'beginner', title: 'Qualification Challenge R39', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 28, 18:00 UTC', matchStart: 'Jun 29, 00:00 UTC', players: 0, prize: '30 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Season Finale Championship', pair: 'BTC/USDT', status: 'upcoming', regClose: 'Jun 29, 00:00 UTC', matchStart: 'Jun 30, 00:00 UTC', players: 0, prize: '500 USDT', leverage: '25x' }
-            ]
-        };
+        // ===== UNIFIED COMPETITION DATA =====
+        // Each competition has: arena, title, pair, matchStart, matchEnd, regStart, regEnd, maxPlayers, players, prize, userRegistered
+        // Status is derived: if now < regStart → 'not-started'; if regStart <= now < matchStart → 'registering'; if matchStart <= now < matchEnd → 'live'; if now >= matchEnd → 'ended'
+        const competitions = [
+            { arena: 'beginner', title: 'Qualification Challenge R24', pair: 'BTC/USDT', regStart: '2026-06-08T12:00:00Z', regEnd: '2026-06-09T00:00:00Z', matchStart: '2026-06-09T00:00:00Z', matchEnd: '2026-06-09T12:00:00Z', maxPlayers: 1000, players: 687, prize: '25 USDT', userRegistered: true },
+            { arena: 'beginner', title: 'Qualification Challenge R25', pair: 'ETH/USDT', regStart: '2026-06-09T06:00:00Z', regEnd: '2026-06-09T18:00:00Z', matchStart: '2026-06-10T00:00:00Z', matchEnd: '2026-06-10T12:00:00Z', maxPlayers: 1000, players: 412, prize: '25 USDT', userRegistered: true },
+            { arena: 'beginner', title: 'Qualification Challenge R26', pair: 'SOL/USDT', regStart: '2026-06-09T12:00:00Z', regEnd: '2026-06-09T23:00:00Z', matchStart: '2026-06-10T12:00:00Z', matchEnd: '2026-06-11T00:00:00Z', maxPlayers: 1000, players: 289, prize: '25 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R5', pair: 'BTC/USDT', regStart: '2026-06-09T00:00:00Z', regEnd: '2026-06-10T00:00:00Z', matchStart: '2026-06-11T00:00:00Z', matchEnd: '2026-06-12T00:00:00Z', maxPlayers: 200, players: 56, prize: '100 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R27', pair: 'BTC/USDT', regStart: '2026-06-10T06:00:00Z', regEnd: '2026-06-10T18:00:00Z', matchStart: '2026-06-11T00:00:00Z', matchEnd: '2026-06-11T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R28', pair: 'ETH/USDT', regStart: '2026-06-11T06:00:00Z', regEnd: '2026-06-11T18:00:00Z', matchStart: '2026-06-12T00:00:00Z', matchEnd: '2026-06-12T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R6', pair: 'ETH/USDT', regStart: '2026-06-11T00:00:00Z', regEnd: '2026-06-12T00:00:00Z', matchStart: '2026-06-13T00:00:00Z', matchEnd: '2026-06-14T00:00:00Z', maxPlayers: 200, players: 0, prize: '100 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R29', pair: 'SOL/USDT', regStart: '2026-06-12T06:00:00Z', regEnd: '2026-06-12T18:00:00Z', matchStart: '2026-06-13T00:00:00Z', matchEnd: '2026-06-13T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R30', pair: 'BTC/USDT', regStart: '2026-06-13T06:00:00Z', regEnd: '2026-06-13T18:00:00Z', matchStart: '2026-06-14T00:00:00Z', matchEnd: '2026-06-14T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R31', pair: 'ETH/USDT', regStart: '2026-06-14T06:00:00Z', regEnd: '2026-06-14T18:00:00Z', matchStart: '2026-06-15T00:00:00Z', matchEnd: '2026-06-15T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R7', pair: 'BTC/USDT', regStart: '2026-06-14T00:00:00Z', regEnd: '2026-06-15T00:00:00Z', matchStart: '2026-06-16T00:00:00Z', matchEnd: '2026-06-17T00:00:00Z', maxPlayers: 200, players: 0, prize: '150 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R32', pair: 'SOL/USDT', regStart: '2026-06-15T06:00:00Z', regEnd: '2026-06-16T18:00:00Z', matchStart: '2026-06-17T00:00:00Z', matchEnd: '2026-06-17T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R33', pair: 'BTC/USDT', regStart: '2026-06-17T06:00:00Z', regEnd: '2026-06-17T18:00:00Z', matchStart: '2026-06-18T00:00:00Z', matchEnd: '2026-06-18T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R8', pair: 'ETH/USDT', regStart: '2026-06-17T00:00:00Z', regEnd: '2026-06-18T00:00:00Z', matchStart: '2026-06-19T00:00:00Z', matchEnd: '2026-06-20T00:00:00Z', maxPlayers: 200, players: 0, prize: '100 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R34', pair: 'ETH/USDT', regStart: '2026-06-19T06:00:00Z', regEnd: '2026-06-19T18:00:00Z', matchStart: '2026-06-20T00:00:00Z', matchEnd: '2026-06-20T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R35', pair: 'SOL/USDT', regStart: '2026-06-20T06:00:00Z', regEnd: '2026-06-20T18:00:00Z', matchStart: '2026-06-21T00:00:00Z', matchEnd: '2026-06-21T12:00:00Z', maxPlayers: 1000, players: 0, prize: '30 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R9', pair: 'BTC/USDT', regStart: '2026-06-20T00:00:00Z', regEnd: '2026-06-21T00:00:00Z', matchStart: '2026-06-22T00:00:00Z', matchEnd: '2026-06-23T00:00:00Z', maxPlayers: 200, players: 0, prize: '150 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R36', pair: 'BTC/USDT', regStart: '2026-06-22T06:00:00Z', regEnd: '2026-06-22T18:00:00Z', matchStart: '2026-06-23T00:00:00Z', matchEnd: '2026-06-23T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R37', pair: 'ETH/USDT', regStart: '2026-06-24T06:00:00Z', regEnd: '2026-06-24T18:00:00Z', matchStart: '2026-06-25T00:00:00Z', matchEnd: '2026-06-25T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Advanced Championship R10', pair: 'SOL/USDT', regStart: '2026-06-24T00:00:00Z', regEnd: '2026-06-25T00:00:00Z', matchStart: '2026-06-26T00:00:00Z', matchEnd: '2026-06-27T00:00:00Z', maxPlayers: 200, players: 0, prize: '200 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R38', pair: 'SOL/USDT', regStart: '2026-06-26T06:00:00Z', regEnd: '2026-06-26T18:00:00Z', matchStart: '2026-06-27T00:00:00Z', matchEnd: '2026-06-27T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
+            { arena: 'beginner', title: 'Qualification Challenge R39', pair: 'BTC/USDT', regStart: '2026-06-28T06:00:00Z', regEnd: '2026-06-28T18:00:00Z', matchStart: '2026-06-29T00:00:00Z', matchEnd: '2026-06-29T12:00:00Z', maxPlayers: 1000, players: 0, prize: '30 USDT', userRegistered: false },
+            { arena: 'advanced', title: 'Season Finale Championship', pair: 'BTC/USDT', regStart: '2026-06-28T00:00:00Z', regEnd: '2026-06-29T00:00:00Z', matchStart: '2026-06-30T00:00:00Z', matchEnd: '2026-07-01T00:00:00Z', maxPlayers: 200, players: 0, prize: '500 USDT', userRegistered: false }
+        ];
 
-        const competitionEvents = {
-            '2026-06-09': [{ arena: 'beginner', title: 'Qualification Challenge R24', pair: 'BTC/USDT', status: 'live', timeLeft: '4h 26m left', players: 687, prize: '25 USDT', leverage: '5x', rank: '#18 / 687' }],
-            '2026-06-10': [
-                { arena: 'beginner', title: 'Qualification Challenge R25', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 10, 00:00 UTC', endTime: 'Jun 10, 12:00 UTC', players: 412, prize: '25 USDT', leverage: '5x' },
-                { arena: 'beginner', title: 'Qualification Challenge R26', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 10, 12:00 UTC', endTime: 'Jun 10, 23:59 UTC', players: 289, prize: '25 USDT', leverage: '5x' }
-            ],
-            '2026-06-11': [
-                { arena: 'beginner', title: 'Qualification Challenge R27', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 11, 00:00 UTC', endTime: 'Jun 11, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R5', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 11, 00:00 UTC', endTime: 'Jun 12, 00:00 UTC', players: 56, prize: '100 USDT', leverage: '20x' }
-            ],
-            '2026-06-12': [{ arena: 'beginner', title: 'Qualification Challenge R28', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 12, 00:00 UTC', endTime: 'Jun 12, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-13': [
-                { arena: 'beginner', title: 'Qualification Challenge R29', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 13, 00:00 UTC', endTime: 'Jun 13, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' },
-                { arena: 'advanced', title: 'Advanced Championship R6', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 13, 00:00 UTC', endTime: 'Jun 14, 00:00 UTC', players: 0, prize: '100 USDT', leverage: '20x' }
-            ],
-            '2026-06-14': [{ arena: 'beginner', title: 'Qualification Challenge R30', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 14, 00:00 UTC', endTime: 'Jun 14, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-15': [{ arena: 'beginner', title: 'Qualification Challenge R31', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 15, 00:00 UTC', endTime: 'Jun 15, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-16': [{ arena: 'advanced', title: 'Advanced Championship R7', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 16, 00:00 UTC', endTime: 'Jun 17, 00:00 UTC', players: 0, prize: '150 USDT', leverage: '20x' }],
-            '2026-06-17': [{ arena: 'beginner', title: 'Qualification Challenge R32', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 17, 00:00 UTC', endTime: 'Jun 17, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-18': [{ arena: 'beginner', title: 'Qualification Challenge R33', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 18, 00:00 UTC', endTime: 'Jun 18, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-19': [{ arena: 'advanced', title: 'Advanced Championship R8', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 19, 00:00 UTC', endTime: 'Jun 20, 00:00 UTC', players: 0, prize: '100 USDT', leverage: '20x' }],
-            '2026-06-20': [{ arena: 'beginner', title: 'Qualification Challenge R34', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 20, 00:00 UTC', endTime: 'Jun 20, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-21': [{ arena: 'beginner', title: 'Qualification Challenge R35', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 21, 00:00 UTC', endTime: 'Jun 21, 12:00 UTC', players: 0, prize: '30 USDT', leverage: '5x' }],
-            '2026-06-22': [{ arena: 'advanced', title: 'Advanced Championship R9', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 22, 00:00 UTC', endTime: 'Jun 23, 00:00 UTC', players: 0, prize: '150 USDT', leverage: '20x' }],
-            '2026-06-23': [{ arena: 'beginner', title: 'Qualification Challenge R36', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 23, 00:00 UTC', endTime: 'Jun 23, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-25': [{ arena: 'beginner', title: 'Qualification Challenge R37', pair: 'ETH/USDT', status: 'upcoming', startTime: 'Jun 25, 00:00 UTC', endTime: 'Jun 25, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-26': [{ arena: 'advanced', title: 'Advanced Championship R10', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 26, 00:00 UTC', endTime: 'Jun 27, 00:00 UTC', players: 0, prize: '200 USDT', leverage: '20x' }],
-            '2026-06-27': [{ arena: 'beginner', title: 'Qualification Challenge R38', pair: 'SOL/USDT', status: 'upcoming', startTime: 'Jun 27, 00:00 UTC', endTime: 'Jun 27, 12:00 UTC', players: 0, prize: '25 USDT', leverage: '5x' }],
-            '2026-06-29': [{ arena: 'beginner', title: 'Qualification Challenge R39', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 29, 00:00 UTC', endTime: 'Jun 29, 12:00 UTC', players: 0, prize: '30 USDT', leverage: '5x' }],
-            '2026-06-30': [{ arena: 'advanced', title: 'Season Finale Championship', pair: 'BTC/USDT', status: 'upcoming', startTime: 'Jun 30, 00:00 UTC', endTime: 'Jul 1, 00:00 UTC', players: 0, prize: '500 USDT', leverage: '25x' }]
-        };
+        // Derive status for a competition based on current time
+        // For prototype, we simulate 'now' as Jun 9, 2026 08:00 UTC
+        const NOW = new Date('2026-06-09T08:00:00Z');
+
+        function getStatus(comp) {
+            const regStart = new Date(comp.regStart);
+            const regEnd = new Date(comp.regEnd);
+            const matchStart = new Date(comp.matchStart);
+            const matchEnd = new Date(comp.matchEnd);
+            if (NOW >= matchStart && NOW < matchEnd) return 'live';
+            if (NOW >= regStart && NOW < matchStart) return 'registering';
+            if (NOW < regStart) return 'not-started';
+            return 'ended';
+        }
+
+        function formatUTC(isoStr) {
+            const d = new Date(isoStr);
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + String(d.getUTCHours()).padStart(2,'0') + ':' + String(d.getUTCMinutes()).padStart(2,'0') + ' UTC';
+        }
+
+        // Group competitions by the date their match starts (for calendar placement)
+        function getCompsByDate(year, month) {
+            const result = {};
+            competitions.forEach(comp => {
+                const status = getStatus(comp);
+                if (status === 'ended') return; // Don't show ended in calendar
+                const ms = new Date(comp.matchStart);
+                const dateStr = ms.getFullYear() + '-' + String(ms.getUTCMonth()+1).padStart(2,'0') + '-' + String(ms.getUTCDate()).padStart(2,'0');
+                // Check if this date falls in the requested month
+                if (ms.getUTCFullYear() === year && ms.getUTCMonth() === month) {
+                    if (!result[dateStr]) result[dateStr] = [];
+                    result[dateStr].push({...comp, derivedStatus: status});
+                }
+            });
+            return result;
+        }
 
         // ===== STATE =====
         let currentView = 'overview';
         let currentArena = 'all';
-        let regYear = 2026, regMonth = 5;
-        let compYear = 2026, compMonth = 5;
+        let calYear = 2026, calMonth = 5; // June 2026 (0-indexed)
 
         // ===== VIEW SWITCHING =====
         function switchView(view, btn) {
@@ -1031,8 +1010,7 @@
             btn.classList.add('active');
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
             document.getElementById('panel-' + view).classList.add('active');
-            if (view === 'reg-calendar') renderCalendar('reg');
-            if (view === 'comp-calendar') renderCalendar('comp');
+            if (view === 'calendar') renderCalendar();
         }
 
         // ===== ARENA FILTER =====
@@ -1044,50 +1022,46 @@
             document.querySelectorAll('.comp-card').forEach(card => {
                 card.style.display = (type === 'all' || card.dataset.arena === type) ? 'block' : 'none';
             });
-            // Re-render calendars if visible
-            if (currentView === 'reg-calendar') renderCalendar('reg');
-            if (currentView === 'comp-calendar') renderCalendar('comp');
+            // Re-render calendar if visible
+            if (currentView === 'calendar') renderCalendar();
         }
 
         // ===== MONTH NAVIGATION =====
-        function prevMonth(cal) {
-            if (cal === 'reg') { regMonth--; if (regMonth < 0) { regMonth = 11; regYear--; } }
-            else { compMonth--; if (compMonth < 0) { compMonth = 11; compYear--; } }
-            renderCalendar(cal);
+        function prevMonth() {
+            calMonth--;
+            if (calMonth < 0) { calMonth = 11; calYear--; }
+            renderCalendar();
         }
-        function nextMonth(cal) {
-            if (cal === 'reg') { regMonth++; if (regMonth > 11) { regMonth = 0; regYear++; } }
-            else { compMonth++; if (compMonth > 11) { compMonth = 0; compYear++; } }
-            renderCalendar(cal);
+        function nextMonth() {
+            calMonth++;
+            if (calMonth > 11) { calMonth = 0; calYear++; }
+            renderCalendar();
         }
 
-        // ===== RENDER CALENDAR =====
-        function renderCalendar(cal) {
+        // ===== RENDER UNIFIED CALENDAR =====
+        function renderCalendar() {
             const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            const year = cal === 'reg' ? regYear : compYear;
-            const month = cal === 'reg' ? regMonth : compMonth;
-            const events = cal === 'reg' ? registrationEvents : competitionEvents;
-            const gridId = cal === 'reg' ? 'regCalGrid' : 'compCalGrid';
-            const monthId = cal === 'reg' ? 'regCalMonth' : 'compCalMonth';
+            document.getElementById('calMonth').textContent = months[calMonth] + ' ' + calYear;
 
-            document.getElementById(monthId).textContent = months[month] + ' ' + year;
+            const compsByDate = getCompsByDate(calYear, calMonth);
 
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDow = (firstDay.getDay() + 6) % 7;
-            const daysInMonth = lastDay.getDate();
-            const today = new Date();
-            const todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+            const firstDay = new Date(Date.UTC(calYear, calMonth, 1));
+            const lastDay = new Date(Date.UTC(calYear, calMonth + 1, 0));
+            const startDow = (firstDay.getUTCDay() + 6) % 7;
+            const daysInMonth = lastDay.getUTCDate();
+
+            // Use simulated NOW for 'today' highlight
+            const todayStr = NOW.getUTCFullYear() + '-' + String(NOW.getUTCMonth()+1).padStart(2,'0') + '-' + String(NOW.getUTCDate()).padStart(2,'0');
 
             let html = '';
             for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
 
             for (let d = 1; d <= daysInMonth; d++) {
-                const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-                const dayEvents = events[dateStr] || [];
-                const filtered = currentArena === 'all' ? dayEvents : dayEvents.filter(e => e.arena === currentArena);
+                const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                const dayComps = compsByDate[dateStr] || [];
+                const filtered = currentArena === 'all' ? dayComps : dayComps.filter(c => c.arena === currentArena);
                 const isToday = dateStr === todayStr;
-                const isPast = new Date(dateStr) < new Date(todayStr);
+                const isPast = new Date(dateStr + 'T23:59:59Z') < NOW;
                 const hasEvents = filtered.length > 0;
 
                 let classes = 'cal-day';
@@ -1095,85 +1069,80 @@
                 if (isPast && !isToday) classes += ' past';
                 if (hasEvents) classes += ' has-events';
 
-                html += `<div class="${classes}" ${hasEvents ? `onclick="showDayModal('${dateStr}','${cal}')"` : ''}>`;
+                html += `<div class="${classes}" ${hasEvents ? `onclick="showDayModal('${dateStr}')"` : ''}>`;
                 html += `<div class="cal-day-num">${d}</div>`;
 
                 if (hasEvents) {
                     html += '<div class="cal-events">';
-                    filtered.slice(0, 2).forEach(ev => {
-                        let pillClass = ev.arena;
-                        if (ev.status === 'live') pillClass = 'live';
-                        const label = cal === 'reg'
-                            ? (ev.status === 'open' ? 'Open' : 'Soon')
-                            : (ev.status === 'live' ? 'LIVE' : ev.pair);
-                        html += `<div class="cal-event-pill ${pillClass}">${label} ${ev.pair}</div>`;
+                    filtered.slice(0, 2).forEach(comp => {
+                        const status = comp.derivedStatus;
+                        let pillClass = status === 'live' ? 'live' : (status === 'registering' ? 'registering' : comp.arena);
+                        let label = status === 'live' ? 'LIVE' : (status === 'registering' ? 'REG' : comp.pair);
+                        html += `<div class="cal-event-pill ${pillClass}">${label} ${comp.pair}</div>`;
                     });
                     if (filtered.length > 2) html += `<div class="cal-more">+${filtered.length - 2} more</div>`;
                     html += '</div>';
                 }
                 html += '</div>';
             }
-            document.getElementById(gridId).innerHTML = html;
+            document.getElementById('calGrid').innerHTML = html;
         }
 
         // ===== MODAL =====
-        function showDayModal(dateStr, cal) {
-            const events = cal === 'reg' ? registrationEvents : competitionEvents;
-            const dayEvents = events[dateStr] || [];
-            const filtered = currentArena === 'all' ? dayEvents : dayEvents.filter(e => e.arena === currentArena);
+        function showDayModal(dateStr) {
+            const compsByDate = getCompsByDate(calYear, calMonth);
+            const dayComps = compsByDate[dateStr] || [];
+            const filtered = currentArena === 'all' ? dayComps : dayComps.filter(c => c.arena === currentArena);
 
-            const date = new Date(dateStr + 'T00:00:00');
+            const date = new Date(dateStr + 'T00:00:00Z');
             const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            document.getElementById('modalDate').textContent = months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+            document.getElementById('modalDate').textContent = months[date.getUTCMonth()] + ' ' + date.getUTCDate() + ', ' + date.getUTCFullYear();
 
             let html = '';
-            filtered.forEach(ev => {
-                const arenaTag = `<span class="detail-tag ${ev.arena}">${ev.arena === 'beginner' ? 'Beginner' : 'Advanced'}</span>`;
-                const pairTag = `<span class="detail-tag pair">${ev.pair}</span>`;
-                let statusTag = '';
-                if (ev.status === 'live') statusTag = '<span class="detail-tag live">LIVE</span>';
-                else if (ev.status === 'open') statusTag = '<span class="detail-tag registering">Open</span>';
-                else statusTag = '<span class="detail-tag upcoming">Upcoming</span>';
+            filtered.forEach(comp => {
+                const status = comp.derivedStatus;
+                const arenaLabel = comp.arena === 'beginner' ? 'Beginner' : 'Advanced';
+                const arenaTag = `<span class="detail-tag ${comp.arena}">${arenaLabel}</span>`;
+                const pairTag = `<span class="detail-tag pair">${comp.pair}</span>`;
+
+                let statusLabel, statusClass;
+                if (status === 'live') { statusLabel = 'In Progress'; statusClass = 'live'; }
+                else if (status === 'registering') { statusLabel = 'Registering'; statusClass = 'registering'; }
+                else { statusLabel = 'Not Started'; statusClass = 'not-started'; }
+                const statusTag = `<span class="detail-tag ${statusClass}">${statusLabel}</span>`;
 
                 html += `<div class="detail-card">`;
                 html += `<div class="detail-card-header">${arenaTag}${pairTag}${statusTag}</div>`;
-                html += `<div class="detail-card-title">${ev.title}</div>`;
+                html += `<div class="detail-card-title">${comp.title}</div>`;
                 html += `<div class="detail-card-meta">`;
-
-                if (cal === 'reg') {
-                    html += `<div class="detail-meta-item"><div class="detail-meta-label">Reg. Closes</div><div class="detail-meta-value">${ev.regClose}</div></div>`;
-                    html += `<div class="detail-meta-item"><div class="detail-meta-label">Match Starts</div><div class="detail-meta-value">${ev.matchStart}</div></div>`;
-                } else {
-                    if (ev.status === 'live') {
-                        html += `<div class="detail-meta-item"><div class="detail-meta-label">Time Left</div><div class="detail-meta-value gold">${ev.timeLeft}</div></div>`;
-                        html += `<div class="detail-meta-item"><div class="detail-meta-label">Your Rank</div><div class="detail-meta-value">${ev.rank}</div></div>`;
-                    } else {
-                        html += `<div class="detail-meta-item"><div class="detail-meta-label">Start</div><div class="detail-meta-value">${ev.startTime}</div></div>`;
-                        html += `<div class="detail-meta-item"><div class="detail-meta-label">End</div><div class="detail-meta-value">${ev.endTime}</div></div>`;
-                    }
-                }
-                html += `<div class="detail-meta-item"><div class="detail-meta-label">Players</div><div class="detail-meta-value">${ev.players || '—'}</div></div>`;
-                html += `<div class="detail-meta-item"><div class="detail-meta-label">Prize Pool</div><div class="detail-meta-value gold">${ev.prize}</div></div>`;
-                html += `<div class="detail-meta-item"><div class="detail-meta-label">Leverage</div><div class="detail-meta-value">${ev.leverage}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Match Start</div><div class="detail-meta-value">${formatUTC(comp.matchStart)}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Match End</div><div class="detail-meta-value">${formatUTC(comp.matchEnd)}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Reg. Start</div><div class="detail-meta-value">${formatUTC(comp.regStart)}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Reg. End</div><div class="detail-meta-value">${formatUTC(comp.regEnd)}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Players</div><div class="detail-meta-value">${comp.players}/${comp.maxPlayers}</div></div>`;
+                html += `<div class="detail-meta-item"><div class="detail-meta-label">Prize Pool</div><div class="detail-meta-value gold">${comp.prize}</div></div>`;
                 html += `</div>`;
 
+                // Footer: left = status, right = action button
                 html += `<div class="detail-card-footer">`;
-                if (cal === 'reg') {
-                    if (ev.status === 'open') {
-                        html += `<span class="detail-status">Registration open</span>`;
-                        html += `<button class="detail-btn register">Register</button>`;
-                    } else {
-                        html += `<span class="detail-status">Opens soon</span>`;
-                        html += `<button class="detail-btn view">Notify Me</button>`;
-                    }
-                } else {
-                    if (ev.status === 'live') {
-                        html += `<span class="detail-status">In progress</span>`;
+                if (status === 'live') {
+                    html += `<span class="detail-status" style="color:#F5B70A;">In Progress</span>`;
+                    if (comp.userRegistered) {
                         html += `<a href="trading.html" class="detail-btn enter">Enter Arena</a>`;
                     } else {
-                        html += `<span class="detail-status">Not started</span>`;
-                        html += `<button class="detail-btn view">View Details</button>`;
+                        html += `<span class="detail-status" style="font-style:italic;">Not registered</span>`;
                     }
+                } else if (status === 'registering') {
+                    html += `<span class="detail-status" style="color:#22c55e;">Registering</span>`;
+                    if (comp.userRegistered) {
+                        html += `<button class="detail-btn" style="background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3);cursor:default;">\u2713 Registered</button>`;
+                    } else {
+                        html += `<button class="detail-btn register" onclick="this.outerHTML='<button class=detail-btn style=background:rgba(34,197,94,0.15);color:#22c55e;border:1px+solid+rgba(34,197,94,0.3);cursor:default;>\u2713 Registered</button>'">Register</button>`;
+                    }
+                } else {
+                    // not-started
+                    html += `<span class="detail-status" style="color:#9ca3af;">Not Started</span>`;
+                    html += `<button class="detail-btn notify">Notify Me</button>`;
                 }
                 html += `</div></div>`;
             });
@@ -1195,8 +1164,7 @@
         }
 
         // Initial render
-        renderCalendar('reg');
-        renderCalendar('comp');
+        renderCalendar();
     </script>
 </body>
 </html>
