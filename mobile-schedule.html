@@ -20,20 +20,11 @@ body {
 
 /* ===== TOP BAR ===== */
 .top-bar {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    height: 56px;
-    background: #0B0B0B;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    z-index: 100;
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; z-index: 100;
 }
 .top-bar-left { display: flex; align-items: center; gap: 8px; }
 .top-bar-logo {
@@ -41,7 +32,6 @@ body {
     background: linear-gradient(135deg, #f5a623, #e8912d);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
 }
 .top-bar-logo svg { width: 18px; height: 18px; }
 .top-bar-brand { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
@@ -64,271 +54,174 @@ body {
 .top-bar-avatar:hover { border-color: #f5a623; }
 
 /* ===== MAIN CONTENT ===== */
-.main-content {
-    padding-top: 56px;
-    padding-bottom: 80px;
-    min-height: 100vh;
-}
-.page-section {
-    padding: 16px;
-}
+.main-content { padding-top: 56px; padding-bottom: 80px; min-height: 100vh; }
 
 /* ===== PAGE HEADER ===== */
-.page-header {
-    padding: 16px 16px 0;
-}
-.page-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-}
-.page-subtitle {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-}
+.page-header { padding: 16px 16px 0; }
+.page-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.page-subtitle { font-size: 11px; color: rgba(255,255,255,0.4); }
 
-/* ===== VIEW TABS ===== */
-.view-tabs {
+/* ===== TOP TABS (Overview / Calendar) ===== */
+.top-tabs {
+    margin: 14px 16px 0;
     display: flex;
-    gap: 0;
-    margin: 12px 16px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.view-tab {
-    flex: 1;
-    padding: 10px 0;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    background: none;
-    border: none;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.view-tab:hover { color: rgba(255,255,255,0.8); }
-.view-tab.active { color: #F5B70A; border-bottom-color: #F5B70A; }
-
-/* ===== ARENA FILTER ===== */
-.arena-filter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-}
-.arena-filter-btn {
-    font-size: 10px;
-    padding: 5px 12px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: transparent;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 500;
-}
-.arena-filter-btn:hover { border-color: rgba(245,183,10,0.4); color: #F5B70A; }
-.arena-filter-btn.active {
-    background: rgba(245,183,10,0.12);
-    border-color: #F5B70A;
-    color: #F5B70A;
-    font-weight: 600;
-}
-
-/* ===== VIEW PANELS ===== */
-.view-panel { display: none; }
-.view-panel.active { display: block; }
-
-/* ===== LIST VIEW ===== */
-.list-section {
-    padding: 0 16px 12px;
-}
-.list-section-title {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    padding-top: 8px;
-}
-.list-section-title .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-}
-.list-section-title .dot.live { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.5); animation: pulse 2s infinite; }
-.list-section-title .dot.registering { background: #F5B70A; }
-.list-section-title .dot.upcoming { background: #60a5fa; }
-@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-.list-section-title .live-text { color: #4ade80; }
-.list-section-title .reg-text { color: #F5B70A; }
-.list-section-title .upcoming-text { color: #60a5fa; }
-
-.sched-card {
     background: #141414;
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 4px;
 }
-.sched-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+.top-tab {
+    flex: 1; text-align: center; padding: 10px 8px;
+    font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.4);
+    border-radius: 8px; cursor: pointer; transition: all 0.25s;
+    border: 1px solid transparent;
 }
-.sched-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.sched-tag {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 3px 7px;
-    border-radius: 4px;
-    text-transform: uppercase;
+.top-tab.active {
+    background: rgba(245, 183, 10, 0.12); color: #F5B70A;
+    border-color: rgba(245, 183, 10, 0.25);
 }
-.sched-tag.beginner { background: rgba(74,222,128,0.12); color: #4ade80; }
-.sched-tag.advanced { background: rgba(168,85,247,0.12); color: #a855f7; }
-.sched-tag.pair { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
-.sched-tag.live { background: rgba(74,222,128,0.12); color: #4ade80; }
-.sched-tag.registering { background: rgba(245,183,10,0.12); color: #F5B70A; }
-.sched-tag.not-started { background: rgba(96,165,250,0.12); color: #60a5fa; }
+.top-tab:not(.active):hover { color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.03); }
 
-.sched-card-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
+/* ===== ARENA TYPE FILTER ===== */
+.arena-filter {
+    margin: 12px 16px 0;
+    display: flex; gap: 8px;
 }
-.sched-card-time {
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 10px;
+.filter-chip {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; cursor: pointer;
+    background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s;
 }
-.sched-card-meta {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+.filter-chip.active {
+    background: rgba(245, 183, 10, 0.1); color: #F5B70A;
+    border-color: rgba(245, 183, 10, 0.3);
 }
-.sched-meta-item {
-    font-size: 10px;
-    color: rgba(255,255,255,0.5);
-}
-.sched-meta-item.prize { color: #F5B70A; font-weight: 600; }
-.sched-card-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.sched-card-players {
-    font-size: 10px;
-    color: rgba(255,255,255,0.35);
-}
-.sched-btn {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 7px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-.sched-btn.enter { background: #F5B70A; color: #0B0B0B; }
-.sched-btn.register { background: #4ade80; color: #0B0B0B; }
-.sched-btn.registered {
-    background: rgba(74,222,128,0.1);
-    color: #4ade80;
-    border: 1px solid rgba(74,222,128,0.3);
-    cursor: default;
-}
-.sched-btn.notify {
-    background: rgba(96,165,250,0.1);
-    color: #60a5fa;
-    border: 1px solid rgba(96,165,250,0.3);
-}
+.filter-chip:not(.active):hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
 
-/* ===== CALENDAR VIEW ===== */
-.calendar-section {
-    padding: 0 16px;
-}
-.calendar-legend {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    padding: 8px 12px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 6px;
-    flex-wrap: wrap;
-}
-.legend-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: rgba(255,255,255,0.5); }
-.legend-dot { width: 7px; height: 7px; border-radius: 2px; }
-.legend-dot.live { background: #22c55e; }
-.legend-dot.registering { background: #F5B70A; }
-.legend-dot.upcoming { background: #60a5fa; }
+/* ===== PANELS ===== */
+.panel { display: none; }
+.panel.active { display: block; }
 
-.calendar-nav {
+/* ===== KEY STATS ===== */
+.key-stats {
+    margin: 14px 16px 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.key-stats-row2 {
+    margin: 8px 16px 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.key-stat {
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px 8px; text-align: center;
+}
+.key-stat-value { font-size: 18px; font-weight: 800; }
+.key-stat-value.green { color: #4ade80; }
+.key-stat-value.gold { color: #F5B70A; }
+.key-stat-value.white { color: #fff; }
+.key-stat-value.blue { color: #60a5fa; }
+.key-stat-value.muted { color: rgba(255,255,255,0.5); }
+.key-stat-label { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+/* ===== SUB TABS (Live / Upcoming / Completed) ===== */
+.sub-tabs {
+    margin: 14px 16px 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.calendar-month {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
+.sub-tab {
+    flex: 1; text-align: center; padding: 10px 4px;
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4);
+    cursor: pointer; position: relative; transition: color 0.2s;
 }
-.calendar-nav-btns { display: flex; gap: 8px; }
+.sub-tab.active { color: #F5B70A; }
+.sub-tab.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 20%; right: 20%;
+    height: 2px; background: #F5B70A; border-radius: 1px;
+}
+.sub-tab-count {
+    display: inline-block; margin-left: 3px;
+    font-size: 9px; font-weight: 700; padding: 1px 5px;
+    border-radius: 8px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+}
+.sub-tab.active .sub-tab-count { background: rgba(245, 183, 10, 0.15); color: #F5B70A; }
+
+/* ===== SUB PANELS ===== */
+.sub-panel { display: none; padding: 12px 16px; }
+.sub-panel.active { display: block; }
+
+/* ===== COMPETITION CARDS ===== */
+.comp-card {
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 14px; margin-bottom: 10px;
+}
+.comp-card.live-border { border-left-color: #4ade80; }
+.comp-card.upcoming-border { border-left-color: #F5B70A; }
+.comp-card.completed-border { border-left-color: rgba(255,255,255,0.2); }
+.comp-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+.comp-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.comp-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 3px 7px; border-radius: 4px; text-transform: uppercase;
+}
+.comp-tag.live { background: rgba(74, 222, 128, 0.12); color: #4ade80; }
+.comp-tag.registering { background: rgba(245, 182, 10, 0.12); color: #F5B70A; }
+.comp-tag.completed { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
+.comp-tag.pair { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+.comp-tag.beginner { background: rgba(245, 183, 10, 0.08); color: #F5B70A; font-size: 8px; }
+.comp-tag.advanced { background: rgba(168, 85, 247, 0.08); color: #a855f7; font-size: 8px; }
+.comp-time { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.6); }
+.comp-time strong { color: #fff; }
+.comp-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.comp-meta { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 10px; display: flex; gap: 12px; flex-wrap: wrap; }
+.comp-meta-item { display: flex; align-items: center; gap: 3px; }
+.comp-meta-item svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; }
+.comp-bottom { display: flex; align-items: center; justify-content: space-between; }
+.comp-info { font-size: 10px; color: rgba(255,255,255,0.35); }
+.comp-info .prize { color: #F5B70A; font-weight: 600; }
+.comp-actions { display: flex; gap: 6px; }
+.comp-btn {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 6px 12px; border-radius: 6px; border: none;
+    cursor: pointer; text-transform: uppercase;
+}
+.comp-btn.details { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.1); }
+.comp-btn.enter { background: #F5B70A; color: #0B0B0B; }
+.comp-btn.register { background: #4ade80; color: #0B0B0B; }
+.comp-btn.registered { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); cursor: default; }
+.comp-btn.results { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.08); }
+
+/* Completed result row */
+.comp-result { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+.comp-result-item { font-size: 11px; color: rgba(255,255,255,0.5); }
+.comp-result-item.rank { color: #F5B70A; font-weight: 700; }
+.comp-result-item.pnl-pos { color: #4ade80; font-weight: 600; }
+.comp-result-item.pnl-neg { color: #ef4444; font-weight: 600; }
+
+/* ===== CALENDAR PANEL ===== */
+.calendar-container {
+    margin: 14px 16px 0;
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 14px;
+}
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.cal-month { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; }
+.cal-nav { display: flex; gap: 8px; }
 .cal-nav-btn {
-    width: 30px; height: 30px;
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: transparent;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    transition: all 0.2s;
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    color: rgba(255,255,255,0.6); font-size: 14px; transition: all 0.2s;
 }
 .cal-nav-btn:hover { border-color: #F5B70A; color: #F5B70A; }
-
-.calendar-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    margin-bottom: 2px;
-}
-.weekday {
-    text-align: center;
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.35);
-    padding: 6px 0;
-    font-weight: 600;
-}
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-}
+.cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 4px; }
+.cal-weekday { text-align: center; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.3); text-transform: uppercase; padding: 4px 0; }
+.cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .cal-day {
-    min-height: 52px;
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 4px;
-    padding: 4px;
-    cursor: default;
-    transition: all 0.2s;
-    position: relative;
+    min-height: 44px; border: 1px solid rgba(255,255,255,0.04); border-radius: 4px;
+    padding: 4px; cursor: default; transition: all 0.2s; position: relative;
 }
 .cal-day.empty { background: transparent; border-color: transparent; }
 .cal-day.has-events { cursor: pointer; background: rgba(255,255,255,0.02); }
@@ -338,162 +231,81 @@ body {
 .cal-day.today .cal-day-num { color: #F5B70A; }
 .cal-day.past .cal-day-num { color: rgba(255,255,255,0.2); }
 .cal-day.past { opacity: 0.5; }
-.cal-events { display: flex; flex-direction: column; gap: 2px; }
-.cal-event-dot {
-    width: 100%;
-    height: 4px;
-    border-radius: 2px;
-}
+.cal-event-dots { display: flex; flex-direction: column; gap: 2px; }
+.cal-event-dot { width: 100%; height: 3px; border-radius: 2px; }
 .cal-event-dot.live { background: #22c55e; }
 .cal-event-dot.registering { background: #F5B70A; }
 .cal-event-dot.upcoming { background: #60a5fa; }
-.cal-more { font-size: 7px; color: rgba(255,255,255,0.3); text-align: center; }
+
+.cal-legend {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    padding: 8px 12px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;
+}
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: rgba(255,255,255,0.5); }
+.legend-dot { width: 7px; height: 7px; border-radius: 2px; }
+.legend-dot.live { background: #22c55e; }
+.legend-dot.registering { background: #F5B70A; }
+.legend-dot.upcoming { background: #60a5fa; }
+
+/* Calendar events list below calendar */
+.cal-events-section { margin: 14px 16px 0; }
+.cal-events-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
 
 /* ===== MODAL ===== */
 .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.75);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75); z-index: 500;
+    align-items: center; justify-content: center; padding: 16px;
 }
 .modal-overlay.show { display: flex; }
 .modal-content {
-    width: 100%;
-    max-width: 400px;
-    max-height: 75vh;
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    overflow-y: auto;
-    padding: 20px;
+    width: 100%; max-width: 400px; max-height: 75vh;
+    background: #141414; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; overflow-y: auto; padding: 20px;
     animation: modalIn 0.2s ease;
 }
-@keyframes modalIn {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-}
-.modal-date {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #F5B70A;
-}
+@keyframes modalIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.modal-date { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; color: #F5B70A; }
 .modal-close {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1); background: transparent;
+    color: rgba(255,255,255,0.5); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
 }
-.modal-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 10px;
-}
-.modal-card-tags { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-.modal-card-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.modal-card-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-.modal-meta-item { }
-.modal-meta-label { font-size: 9px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.05em; }
-.modal-meta-value { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 500; }
-.modal-meta-value.gold { color: #F5B70A; }
-.modal-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.modal-status { font-size: 10px; }
-.modal-btn {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-.modal-btn.enter { background: #F5B70A; color: #0B0B0B; }
-.modal-btn.register { background: #4ade80; color: #0B0B0B; }
-.modal-btn.registered { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); cursor: default; }
-.modal-btn.notify { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
 
 /* ===== BOTTOM NAV ===== */
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    height: 72px;
-    background: #111111;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 8px;
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    z-index: 100;
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 72px;
+    background: #111111; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100;
 }
-.nav-item {
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    cursor: pointer; padding: 8px 12px; border-radius: 12px;
-    transition: all 0.2s; position: relative; text-decoration: none;
-}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 8px 12px; border-radius: 12px; position: relative; text-decoration: none; }
 .nav-item svg { width: 22px; height: 22px; fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 1.8; transition: stroke 0.2s; }
-.nav-item span { font-size: 10px; letter-spacing: 0.02em; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+.nav-item span { font-size: 10px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
 .nav-item.active svg { stroke: #f5a623; }
 .nav-item.active span { color: #f5a623; font-weight: 600; }
 .nav-item.center-item .nav-icon-wrap {
     width: 48px; height: 48px; border-radius: 50%;
     background: linear-gradient(135deg, #f5a623, #e8912d);
     display: flex; align-items: center; justify-content: center;
-    margin-top: -20px;
-    box-shadow: 0 4px 16px rgba(245,166,35,0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: -20px; box-shadow: 0 4px 16px rgba(245,166,35,0.3);
 }
 .nav-item.center-item .nav-icon-wrap svg { stroke: #0B0B0B; width: 24px; height: 24px; stroke-width: 2.2; }
-.nav-item.center-item:hover .nav-icon-wrap { transform: scale(1.05); box-shadow: 0 6px 20px rgba(245,166,35,0.4); }
 .nav-item.center-item span { margin-top: 2px; }
 
 /* ===== DRAWER ===== */
-.drawer-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-    z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-}
+.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
 .drawer-overlay.open { opacity: 1; pointer-events: all; }
-.drawer {
-    position: fixed; top: 0; right: -300px; width: 280px; height: 100%;
-    background: #141414; border-left: 1px solid rgba(255,255,255,0.08);
-    z-index: 300; transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
-    display: flex; flex-direction: column; overflow-y: auto;
-}
+.drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #141414; border-left: 1px solid rgba(255,255,255,0.08); z-index: 300; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; overflow-y: auto; }
 .drawer.open { right: 0; }
 .drawer-header { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
 .drawer-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; }
 .drawer-user-info { flex: 1; }
-.drawer-username { font-size: 14px; font-weight: 600; color: #fff; }
+.drawer-username { font-size: 14px; font-weight: 600; }
 .drawer-email { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
 .drawer-close { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .drawer-close svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 2; }
@@ -502,9 +314,6 @@ body {
 .drawer-item-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; }
 .drawer-item-icon svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 1.8; }
 .drawer-item-label { font-size: 13px; color: rgba(255,255,255,0.8); }
-.drawer-social { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.drawer-social-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.drawer-social-icon svg { width: 16px; height: 16px; fill: rgba(255,255,255,0.5); }
 .drawer-logout { margin-top: auto; padding: 20px; }
 .drawer-logout-btn { width: 100%; padding: 12px; border: 1px solid rgba(231,76,60,0.3); border-radius: 8px; background: rgba(231,76,60,0.08); color: #e74c3c; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; }
 
@@ -520,6 +329,9 @@ body {
 .lang-option { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.7); transition: background 0.15s; }
 .lang-option:hover { background: rgba(255,255,255,0.06); }
 .lang-option.active { color: #f5a623; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.3); font-size: 12px; }
 </style>
 </head>
 <body>
@@ -552,71 +364,368 @@ body {
     <div class="lang-option" onclick="selectLang(this)">Portugues</div>
     <div class="lang-option" onclick="selectLang(this)">日本語</div>
     <div class="lang-option" onclick="selectLang(this)">한국어</div>
-    <div class="lang-option" onclick="selectLang(this)">Русский</div>
-    <div class="lang-option" onclick="selectLang(this)">Tieng Viet</div>
-    <div class="lang-option" onclick="selectLang(this)">Bahasa Indonesia</div>
-    <div class="lang-option" onclick="selectLang(this)">Bahasa Melayu</div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
     <div class="page-header">
         <div class="page-title">SCHEDULE</div>
-        <div class="page-subtitle">Upcoming competitions and calendar</div>
+        <div class="page-subtitle">View all competitions and plan your trades</div>
     </div>
 
-    <!-- View Tabs -->
-    <div class="view-tabs">
-        <button class="view-tab active" onclick="switchView('list', this)">List</button>
-        <button class="view-tab" onclick="switchView('calendar', this)">Calendar</button>
+    <!-- Top Tabs: Overview / Calendar -->
+    <div class="top-tabs">
+        <div class="top-tab active" onclick="switchTopTab('overview', this)">Overview</div>
+        <div class="top-tab" onclick="switchTopTab('calendar', this)">Calendar</div>
     </div>
 
-    <!-- Arena Filter -->
+    <!-- Arena Type Filter -->
     <div class="arena-filter">
-        <button class="arena-filter-btn active" onclick="filterArena('all', this)">All</button>
-        <button class="arena-filter-btn" onclick="filterArena('beginner', this)">Beginner</button>
-        <button class="arena-filter-btn" onclick="filterArena('advanced', this)">Advanced</button>
+        <div class="filter-chip active" onclick="switchFilter(this, 'all')">All</div>
+        <div class="filter-chip" onclick="switchFilter(this, 'beginner')">Beginner</div>
+        <div class="filter-chip" onclick="switchFilter(this, 'advanced')">Advanced</div>
     </div>
 
-    <!-- LIST VIEW -->
-    <div class="view-panel active" id="panel-list">
-        <div id="listContent"></div>
+    <!-- ===== OVERVIEW PANEL ===== -->
+    <div class="panel active" id="panel-overview">
+
+        <!-- Key Stats Row 1 -->
+        <div class="key-stats">
+            <div class="key-stat">
+                <div class="key-stat-value green">3</div>
+                <div class="key-stat-label">Live</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value gold">8</div>
+                <div class="key-stat-label">Upcoming</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value white">$4,750</div>
+                <div class="key-stat-label">Total Prize</div>
+            </div>
+        </div>
+        <!-- Key Stats Row 2 -->
+        <div class="key-stats-row2">
+            <div class="key-stat">
+                <div class="key-stat-value blue">5</div>
+                <div class="key-stat-label">Joined</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value muted">12</div>
+                <div class="key-stat-label">Completed</div>
+            </div>
+        </div>
+
+        <!-- Sub Tabs: Live / Upcoming / Completed -->
+        <div class="sub-tabs">
+            <div class="sub-tab active" onclick="switchSubTab('live', this)">Live <span class="sub-tab-count">3</span></div>
+            <div class="sub-tab" onclick="switchSubTab('upcoming', this)">Upcoming <span class="sub-tab-count">8</span></div>
+            <div class="sub-tab" onclick="switchSubTab('completed', this)">Completed <span class="sub-tab-count">12</span></div>
+        </div>
+
+        <!-- Sub Panel: Live -->
+        <div class="sub-panel active" id="subpanel-live">
+            <div class="comp-card live-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag live">LIVE</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time"><strong>4h 26m</strong> left</div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 23</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 48 traders</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Started Jun 07, 17:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn enter">ENTER</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card live-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag live">LIVE</span>
+                        <span class="comp-tag pair">ETH/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time"><strong>12h 05m</strong> left</div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 22</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 65 traders</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Started Jun 07, 05:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn enter">ENTER</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card live-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag live">LIVE</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag advanced">ADVANCED</span>
+                    </div>
+                    <div class="comp-time"><strong>36h 12m</strong> left</div>
+                </div>
+                <div class="comp-title">Advanced Championship Round 8</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 32 traders</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Started Jun 06, 12:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">2,500 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub Panel: Upcoming -->
+        <div class="sub-panel" id="subpanel-upcoming">
+            <div class="comp-card upcoming-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag registering">REGISTERING</span>
+                        <span class="comp-tag pair">ETH/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time">Closes in <strong>6h</strong></div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 24</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 12 / 100</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn register" onclick="regBtn(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card upcoming-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag registering">REGISTERING</span>
+                        <span class="comp-tag pair">SOL/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time">Closes in <strong>18h</strong></div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 25</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 5 / 100</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn register" onclick="regBtn(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card upcoming-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag registering">REGISTERING</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag advanced">ADVANCED</span>
+                    </div>
+                    <div class="comp-time">Closes in <strong>2d</strong></div>
+                </div>
+                <div class="comp-title">Advanced Championship Round 9</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 8 / 50</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 10, 00:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">2,500 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn register" onclick="regBtn(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card upcoming-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag registering">REGISTERING</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time">Closes in <strong>3d</strong></div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 26</div>
+                <div class="comp-meta">
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 0 / 100</div>
+                    <div class="comp-meta-item"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 11, 00:00</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn details">DETAILS</button>
+                        <button class="comp-btn register" onclick="regBtn(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub Panel: Completed -->
+        <div class="sub-panel" id="subpanel-completed">
+            <div class="comp-card completed-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag completed">COMPLETED</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time" style="color: rgba(255,255,255,0.3);">Jun 06</div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 21</div>
+                <div class="comp-result">
+                    <div class="comp-result-item rank">#5 / 72</div>
+                    <div class="comp-result-item pnl-pos">+3.42%</div>
+                    <div class="comp-result-item">Won: 45 USDT</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize Pool: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn results">RESULTS</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card completed-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag completed">COMPLETED</span>
+                        <span class="comp-tag pair">ETH/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time" style="color: rgba(255,255,255,0.3);">Jun 05</div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 20</div>
+                <div class="comp-result">
+                    <div class="comp-result-item rank">#12 / 85</div>
+                    <div class="comp-result-item pnl-pos">+1.87%</div>
+                    <div class="comp-result-item">Won: 20 USDT</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize Pool: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn results">RESULTS</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card completed-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag completed">COMPLETED</span>
+                        <span class="comp-tag pair">SOL/USDT</span>
+                        <span class="comp-tag beginner">BEGINNER</span>
+                    </div>
+                    <div class="comp-time" style="color: rgba(255,255,255,0.3);">Jun 04</div>
+                </div>
+                <div class="comp-title">Qualification Challenge Round 19</div>
+                <div class="comp-result">
+                    <div class="comp-result-item rank">#38 / 90</div>
+                    <div class="comp-result-item pnl-neg">-0.54%</div>
+                    <div class="comp-result-item">No prize</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize Pool: <span class="prize">250 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn results">RESULTS</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comp-card completed-border">
+                <div class="comp-card-top">
+                    <div class="comp-tags">
+                        <span class="comp-tag completed">COMPLETED</span>
+                        <span class="comp-tag pair">BTC/USDT</span>
+                        <span class="comp-tag advanced">ADVANCED</span>
+                    </div>
+                    <div class="comp-time" style="color: rgba(255,255,255,0.3);">Jun 03</div>
+                </div>
+                <div class="comp-title">Advanced Championship Round 7</div>
+                <div class="comp-result">
+                    <div class="comp-result-item rank">#2 / 45</div>
+                    <div class="comp-result-item pnl-pos">+8.21%</div>
+                    <div class="comp-result-item">Won: 500 USDT</div>
+                </div>
+                <div class="comp-bottom">
+                    <div class="comp-info">Prize Pool: <span class="prize">2,500 USDT</span></div>
+                    <div class="comp-actions">
+                        <button class="comp-btn results">RESULTS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- CALENDAR VIEW -->
-    <div class="view-panel" id="panel-calendar">
-        <div class="calendar-section">
-            <div class="calendar-legend">
+    <!-- ===== CALENDAR PANEL ===== -->
+    <div class="panel" id="panel-calendar">
+        <div class="calendar-container">
+            <div class="cal-legend">
                 <div class="legend-item"><div class="legend-dot live"></div>Live</div>
                 <div class="legend-item"><div class="legend-dot registering"></div>Registering</div>
                 <div class="legend-item"><div class="legend-dot upcoming"></div>Upcoming</div>
             </div>
-            <div class="calendar-nav">
-                <div class="calendar-month" id="calMonth">June 2026</div>
-                <div class="calendar-nav-btns">
-                    <button class="cal-nav-btn" onclick="prevMonth()">&lsaquo;</button>
-                    <button class="cal-nav-btn" onclick="nextMonth()">&rsaquo;</button>
+            <div class="cal-header">
+                <div class="cal-month">June 2026</div>
+                <div class="cal-nav">
+                    <div class="cal-nav-btn" onclick="prevMonth()">&lsaquo;</div>
+                    <div class="cal-nav-btn" onclick="nextMonth()">&rsaquo;</div>
                 </div>
             </div>
-            <div class="calendar-weekdays">
-                <div class="weekday">Mon</div>
-                <div class="weekday">Tue</div>
-                <div class="weekday">Wed</div>
-                <div class="weekday">Thu</div>
-                <div class="weekday">Fri</div>
-                <div class="weekday">Sat</div>
-                <div class="weekday">Sun</div>
+            <div class="cal-weekdays">
+                <div class="cal-weekday">Mon</div>
+                <div class="cal-weekday">Tue</div>
+                <div class="cal-weekday">Wed</div>
+                <div class="cal-weekday">Thu</div>
+                <div class="cal-weekday">Fri</div>
+                <div class="cal-weekday">Sat</div>
+                <div class="cal-weekday">Sun</div>
             </div>
-            <div class="calendar-grid" id="calGrid"></div>
+            <div class="cal-days" id="calGrid"></div>
+        </div>
+
+        <!-- Events for selected day -->
+        <div class="cal-events-section" id="calEventsSection" style="display:none;">
+            <div class="cal-events-title" id="calEventsTitle">Events on Jun 8</div>
+            <div id="calEventsContent"></div>
         </div>
     </div>
+
 </div>
 
-<!-- MODAL -->
+<!-- MODAL (for calendar day click) -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <div class="modal-header">
-            <div class="modal-date" id="modalDate">June 9, 2026</div>
+            <div class="modal-date" id="modalDate">June 8, 2026</div>
             <button class="modal-close" onclick="closeModalPanel()">&#10005;</button>
         </div>
         <div id="modalContent"></div>
@@ -670,274 +779,136 @@ body {
             <span class="drawer-item-label">Stats</span>
         </div>
     </div>
-    <div class="drawer-social">
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174"/></svg></div>
-    </div>
     <div class="drawer-logout">
         <div class="drawer-logout-btn">Log Out</div>
     </div>
 </div>
 
 <script>
-// ===== COMPETITION DATA =====
-const competitions = [
-    { arena: 'beginner', title: 'Qualification Challenge R24', pair: 'BTC/USDT', regStart: '2026-06-08T12:00:00Z', regEnd: '2026-06-09T00:00:00Z', matchStart: '2026-06-09T00:00:00Z', matchEnd: '2026-06-09T12:00:00Z', maxPlayers: 1000, players: 687, prize: '25 USDT', userRegistered: true },
-    { arena: 'beginner', title: 'Qualification Challenge R25', pair: 'ETH/USDT', regStart: '2026-06-09T06:00:00Z', regEnd: '2026-06-09T18:00:00Z', matchStart: '2026-06-10T00:00:00Z', matchEnd: '2026-06-10T12:00:00Z', maxPlayers: 1000, players: 412, prize: '25 USDT', userRegistered: true },
-    { arena: 'beginner', title: 'Qualification Challenge R26', pair: 'SOL/USDT', regStart: '2026-06-09T12:00:00Z', regEnd: '2026-06-09T23:00:00Z', matchStart: '2026-06-10T12:00:00Z', matchEnd: '2026-06-11T00:00:00Z', maxPlayers: 1000, players: 289, prize: '25 USDT', userRegistered: false },
-    { arena: 'advanced', title: 'Advanced Championship R5', pair: 'BTC/USDT', regStart: '2026-06-09T00:00:00Z', regEnd: '2026-06-10T00:00:00Z', matchStart: '2026-06-11T00:00:00Z', matchEnd: '2026-06-12T00:00:00Z', maxPlayers: 200, players: 56, prize: '100 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R27', pair: 'BTC/USDT', regStart: '2026-06-10T06:00:00Z', regEnd: '2026-06-10T18:00:00Z', matchStart: '2026-06-11T00:00:00Z', matchEnd: '2026-06-11T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R28', pair: 'ETH/USDT', regStart: '2026-06-11T06:00:00Z', regEnd: '2026-06-11T18:00:00Z', matchStart: '2026-06-12T00:00:00Z', matchEnd: '2026-06-12T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'advanced', title: 'Advanced Championship R6', pair: 'ETH/USDT', regStart: '2026-06-11T00:00:00Z', regEnd: '2026-06-12T00:00:00Z', matchStart: '2026-06-13T00:00:00Z', matchEnd: '2026-06-14T00:00:00Z', maxPlayers: 200, players: 0, prize: '100 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R29', pair: 'SOL/USDT', regStart: '2026-06-12T06:00:00Z', regEnd: '2026-06-12T18:00:00Z', matchStart: '2026-06-13T00:00:00Z', matchEnd: '2026-06-13T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R30', pair: 'BTC/USDT', regStart: '2026-06-13T06:00:00Z', regEnd: '2026-06-13T18:00:00Z', matchStart: '2026-06-14T00:00:00Z', matchEnd: '2026-06-14T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'advanced', title: 'Advanced Championship R7', pair: 'BTC/USDT', regStart: '2026-06-14T00:00:00Z', regEnd: '2026-06-15T00:00:00Z', matchStart: '2026-06-16T00:00:00Z', matchEnd: '2026-06-17T00:00:00Z', maxPlayers: 200, players: 0, prize: '150 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R31', pair: 'ETH/USDT', regStart: '2026-06-14T06:00:00Z', regEnd: '2026-06-14T18:00:00Z', matchStart: '2026-06-15T00:00:00Z', matchEnd: '2026-06-15T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'beginner', title: 'Qualification Challenge R32', pair: 'SOL/USDT', regStart: '2026-06-15T06:00:00Z', regEnd: '2026-06-16T18:00:00Z', matchStart: '2026-06-17T00:00:00Z', matchEnd: '2026-06-17T12:00:00Z', maxPlayers: 1000, players: 0, prize: '25 USDT', userRegistered: false },
-    { arena: 'advanced', title: 'Season Finale Championship', pair: 'BTC/USDT', regStart: '2026-06-28T00:00:00Z', regEnd: '2026-06-29T00:00:00Z', matchStart: '2026-06-30T00:00:00Z', matchEnd: '2026-07-01T00:00:00Z', maxPlayers: 200, players: 0, prize: '500 USDT', userRegistered: false }
-];
-
-const NOW = new Date('2026-06-09T08:00:00Z');
-let currentView = 'list';
-let currentArena = 'all';
-let calYear = 2026, calMonth = 5;
-
-function getStatus(comp) {
-    const regStart = new Date(comp.regStart);
-    const matchStart = new Date(comp.matchStart);
-    const matchEnd = new Date(comp.matchEnd);
-    if (NOW >= matchStart && NOW < matchEnd) return 'live';
-    if (NOW >= regStart && NOW < matchStart) return 'registering';
-    if (NOW < regStart) return 'not-started';
-    return 'ended';
+// ===== TOP TAB: Overview / Calendar =====
+function switchTopTab(tab, el) {
+    document.querySelectorAll('.top-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    if (tab === 'calendar') renderCalendar();
 }
 
-function formatUTC(isoStr) {
-    const d = new Date(isoStr);
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + String(d.getUTCHours()).padStart(2,'0') + ':' + String(d.getUTCMinutes()).padStart(2,'0') + ' UTC';
+// ===== ARENA FILTER =====
+function switchFilter(el, type) {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    // In production this would filter cards; for prototype it's visual only
 }
 
-// ===== LIST VIEW =====
-function renderList() {
-    const filtered = competitions
-        .map(c => ({...c, status: getStatus(c)}))
-        .filter(c => c.status !== 'ended')
-        .filter(c => currentArena === 'all' || c.arena === currentArena);
-
-    const live = filtered.filter(c => c.status === 'live');
-    const registering = filtered.filter(c => c.status === 'registering');
-    const upcoming = filtered.filter(c => c.status === 'not-started');
-
-    let html = '';
-
-    if (live.length > 0) {
-        html += '<div class="list-section"><div class="list-section-title"><span class="dot live"></span><span class="live-text">LIVE NOW</span></div>';
-        live.forEach(c => { html += renderListCard(c); });
-        html += '</div>';
-    }
-
-    if (registering.length > 0) {
-        html += '<div class="list-section"><div class="list-section-title"><span class="dot registering"></span><span class="reg-text">REGISTERING</span></div>';
-        registering.forEach(c => { html += renderListCard(c); });
-        html += '</div>';
-    }
-
-    if (upcoming.length > 0) {
-        html += '<div class="list-section"><div class="list-section-title"><span class="dot upcoming"></span><span class="upcoming-text">UPCOMING</span></div>';
-        upcoming.forEach(c => { html += renderListCard(c); });
-        html += '</div>';
-    }
-
-    if (html === '') html = '<div style="text-align:center;padding:40px 16px;color:rgba(255,255,255,0.3);font-size:12px;">No competitions found</div>';
-    document.getElementById('listContent').innerHTML = html;
+// ===== SUB TAB: Live / Upcoming / Completed =====
+function switchSubTab(tab, el) {
+    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('subpanel-' + tab).classList.add('active');
 }
 
-function renderListCard(c) {
-    const arenaTag = `<span class="sched-tag ${c.arena}">${c.arena === 'beginner' ? 'Beginner' : 'Advanced'}</span>`;
-    const pairTag = `<span class="sched-tag pair">${c.pair}</span>`;
-    const statusTag = `<span class="sched-tag ${c.status}">${c.status === 'live' ? 'Live' : (c.status === 'registering' ? 'Registering' : 'Upcoming')}</span>`;
-
-    let timeInfo = '';
-    if (c.status === 'live') {
-        timeInfo = 'Started: ' + formatUTC(c.matchStart);
-    } else if (c.status === 'registering') {
-        timeInfo = 'Reg ends: ' + formatUTC(c.regEnd) + ' | Starts: ' + formatUTC(c.matchStart);
-    } else {
-        timeInfo = 'Starts: ' + formatUTC(c.matchStart);
-    }
-
-    let actionBtn = '';
-    if (c.status === 'live') {
-        actionBtn = c.userRegistered ? '<button class="sched-btn enter">Enter</button>' : '';
-    } else if (c.status === 'registering') {
-        actionBtn = c.userRegistered
-            ? '<button class="sched-btn registered">Registered</button>'
-            : `<button class="sched-btn register" onclick="registerBtn(this)">Register</button>`;
-    } else {
-        actionBtn = '<button class="sched-btn notify">Notify</button>';
-    }
-
-    return `<div class="sched-card" data-arena="${c.arena}">
-        <div class="sched-card-top"><div class="sched-tags">${arenaTag}${pairTag}${statusTag}</div></div>
-        <div class="sched-card-title">${c.title}</div>
-        <div class="sched-card-time">${timeInfo}</div>
-        <div class="sched-card-meta">
-            <div class="sched-meta-item">${c.players}/${c.maxPlayers} players</div>
-            <div class="sched-meta-item prize">${c.prize}</div>
-        </div>
-        <div class="sched-card-bottom">
-            <div class="sched-card-players">${c.arena === 'beginner' ? 'Beginner Arena' : 'Advanced Arena'}</div>
-            ${actionBtn}
-        </div>
-    </div>`;
-}
-
-function registerBtn(btn) {
-    btn.textContent = 'Registered';
+// ===== REGISTER BUTTON =====
+function regBtn(btn) {
+    btn.textContent = 'REGISTERED';
     btn.classList.remove('register');
     btn.classList.add('registered');
     btn.onclick = null;
 }
 
 // ===== CALENDAR =====
-function getCompsByDate(year, month) {
-    const result = {};
-    competitions.forEach(comp => {
-        const status = getStatus(comp);
-        if (status === 'ended') return;
-        if (currentArena !== 'all' && comp.arena !== currentArena) return;
-        const ms = new Date(comp.matchStart);
-        const dateStr = ms.getFullYear() + '-' + String(ms.getUTCMonth()+1).padStart(2,'0') + '-' + String(ms.getUTCDate()).padStart(2,'0');
-        if (ms.getUTCFullYear() === year && ms.getUTCMonth() === month) {
-            if (!result[dateStr]) result[dateStr] = [];
-            result[dateStr].push({...comp, derivedStatus: status});
-        }
-    });
-    return result;
-}
+const calData = {
+    7: [{type:'live', title:'Qualification R23', pair:'BTC/USDT', arena:'beginner'}],
+    8: [{type:'live', title:'Qualification R22', pair:'ETH/USDT', arena:'beginner'}, {type:'registering', title:'Qualification R24', pair:'ETH/USDT', arena:'beginner'}],
+    9: [{type:'registering', title:'Qualification R25', pair:'SOL/USDT', arena:'beginner'}],
+    10: [{type:'registering', title:'Advanced Championship R9', pair:'BTC/USDT', arena:'advanced'}],
+    11: [{type:'upcoming', title:'Qualification R26', pair:'BTC/USDT', arena:'beginner'}],
+    12: [{type:'upcoming', title:'Qualification R27', pair:'ETH/USDT', arena:'beginner'}],
+    14: [{type:'upcoming', title:'Qualification R28', pair:'SOL/USDT', arena:'beginner'}],
+    16: [{type:'upcoming', title:'Advanced Championship R10', pair:'BTC/USDT', arena:'advanced'}],
+    18: [{type:'upcoming', title:'Qualification R29', pair:'BTC/USDT', arena:'beginner'}],
+    20: [{type:'upcoming', title:'Qualification R30', pair:'ETH/USDT', arena:'beginner'}]
+};
 
 function renderCalendar() {
-    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    document.getElementById('calMonth').textContent = months[calMonth] + ' ' + calYear;
-
-    const compsByDate = getCompsByDate(calYear, calMonth);
-    const firstDay = new Date(Date.UTC(calYear, calMonth, 1));
-    const lastDay = new Date(Date.UTC(calYear, calMonth + 1, 0));
-    const startDow = (firstDay.getUTCDay() + 6) % 7;
-    const daysInMonth = lastDay.getUTCDate();
-    const todayStr = NOW.getUTCFullYear() + '-' + String(NOW.getUTCMonth()+1).padStart(2,'0') + '-' + String(NOW.getUTCDate()).padStart(2,'0');
+    const grid = document.getElementById('calGrid');
+    // June 2026 starts on Monday (day 1)
+    const daysInMonth = 30;
+    const startDow = 0; // Monday = 0 offset (June 1, 2026 is Monday)
+    const today = 11; // Jun 11
 
     let html = '';
-    for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
-
+    for (let i = 0; i < startDow; i++) {
+        html += '<div class="cal-day empty"></div>';
+    }
     for (let d = 1; d <= daysInMonth; d++) {
-        const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-        const dayComps = compsByDate[dateStr] || [];
-        const isToday = dateStr === todayStr;
-        const isPast = new Date(dateStr + 'T23:59:59Z') < NOW;
-        const hasEvents = dayComps.length > 0;
+        const events = calData[d] || [];
+        const isToday = d === today;
+        const isPast = d < today;
+        const hasEvents = events.length > 0;
 
-        let classes = 'cal-day';
-        if (isToday) classes += ' today';
-        if (isPast && !isToday) classes += ' past';
-        if (hasEvents) classes += ' has-events';
+        let cls = 'cal-day';
+        if (isToday) cls += ' today';
+        if (isPast && !isToday) cls += ' past';
+        if (hasEvents) cls += ' has-events';
 
-        html += `<div class="${classes}" ${hasEvents ? `onclick="showDayModal('${dateStr}')"` : ''}>`;
+        html += `<div class="${cls}" ${hasEvents ? `onclick="showDayEvents(${d})"` : ''}>`;
         html += `<div class="cal-day-num">${d}</div>`;
-
         if (hasEvents) {
-            html += '<div class="cal-events">';
-            dayComps.slice(0, 3).forEach(comp => {
-                const status = comp.derivedStatus;
-                let dotClass = status === 'live' ? 'live' : (status === 'registering' ? 'registering' : 'upcoming');
-                html += `<div class="cal-event-dot ${dotClass}"></div>`;
+            html += '<div class="cal-event-dots">';
+            events.slice(0, 3).forEach(e => {
+                html += `<div class="cal-event-dot ${e.type}"></div>`;
             });
-            if (dayComps.length > 3) html += `<div class="cal-more">+${dayComps.length - 3}</div>`;
             html += '</div>';
         }
         html += '</div>';
     }
-    document.getElementById('calGrid').innerHTML = html;
+    grid.innerHTML = html;
 }
 
-function prevMonth() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
-function nextMonth() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
+function showDayEvents(day) {
+    const events = calData[day] || [];
+    if (events.length === 0) return;
 
-// ===== MODAL =====
-function showDayModal(dateStr) {
-    const compsByDate = getCompsByDate(calYear, calMonth);
-    const dayComps = compsByDate[dateStr] || [];
-
-    const date = new Date(dateStr + 'T00:00:00Z');
-    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    document.getElementById('modalDate').textContent = months[date.getUTCMonth()] + ' ' + date.getUTCDate() + ', ' + date.getUTCFullYear();
+    document.getElementById('calEventsSection').style.display = 'block';
+    document.getElementById('calEventsTitle').textContent = `Events on Jun ${day}`;
 
     let html = '';
-    dayComps.forEach(comp => {
-        const status = comp.derivedStatus;
-        const arenaLabel = comp.arena === 'beginner' ? 'Beginner' : 'Advanced';
-        const arenaTag = `<span class="sched-tag ${comp.arena}">${arenaLabel}</span>`;
-        const pairTag = `<span class="sched-tag pair">${comp.pair}</span>`;
+    events.forEach(e => {
+        const borderClass = e.type === 'live' ? 'live-border' : (e.type === 'registering' ? 'upcoming-border' : 'upcoming-border');
+        const tagClass = e.type === 'live' ? 'live' : 'registering';
+        const tagText = e.type === 'live' ? 'LIVE' : (e.type === 'registering' ? 'REGISTERING' : 'UPCOMING');
+        const arenaTag = e.arena === 'beginner' ? '<span class="comp-tag beginner">BEGINNER</span>' : '<span class="comp-tag advanced">ADVANCED</span>';
+        const btnHtml = e.type === 'live' ? '<button class="comp-btn enter">ENTER</button>' : '<button class="comp-btn register" onclick="regBtn(this)">REGISTER</button>';
 
-        let statusLabel, statusClass;
-        if (status === 'live') { statusLabel = 'Live'; statusClass = 'live'; }
-        else if (status === 'registering') { statusLabel = 'Registering'; statusClass = 'registering'; }
-        else { statusLabel = 'Upcoming'; statusClass = 'not-started'; }
-        const statusTag = `<span class="sched-tag ${statusClass}">${statusLabel}</span>`;
-
-        html += `<div class="modal-card">`;
-        html += `<div class="modal-card-tags">${arenaTag}${pairTag}${statusTag}</div>`;
-        html += `<div class="modal-card-title">${comp.title}</div>`;
-        html += `<div class="modal-card-meta">`;
-        html += `<div class="modal-meta-item"><div class="modal-meta-label">Match Start</div><div class="modal-meta-value">${formatUTC(comp.matchStart)}</div></div>`;
-        html += `<div class="modal-meta-item"><div class="modal-meta-label">Match End</div><div class="modal-meta-value">${formatUTC(comp.matchEnd)}</div></div>`;
-        html += `<div class="modal-meta-item"><div class="modal-meta-label">Players</div><div class="modal-meta-value">${comp.players}/${comp.maxPlayers}</div></div>`;
-        html += `<div class="modal-meta-item"><div class="modal-meta-label">Prize Pool</div><div class="modal-meta-value gold">${comp.prize}</div></div>`;
-        html += `</div>`;
-
-        html += `<div class="modal-card-footer">`;
-        if (status === 'live') {
-            html += `<span class="modal-status" style="color:#4ade80;">In Progress</span>`;
-            html += comp.userRegistered ? `<button class="modal-btn enter">Enter</button>` : `<span class="modal-status" style="color:rgba(255,255,255,0.4);font-style:italic;">Not registered</span>`;
-        } else if (status === 'registering') {
-            html += `<span class="modal-status" style="color:#F5B70A;">Registering</span>`;
-            html += comp.userRegistered
-                ? `<button class="modal-btn registered">Registered</button>`
-                : `<button class="modal-btn register" onclick="this.textContent='Registered';this.classList.remove('register');this.classList.add('registered');this.onclick=null;">Register</button>`;
-        } else {
-            html += `<span class="modal-status" style="color:#60a5fa;">Upcoming</span>`;
-            html += `<button class="modal-btn notify">Notify</button>`;
-        }
-        html += `</div></div>`;
+        html += `<div class="comp-card ${borderClass}">
+            <div class="comp-card-top">
+                <div class="comp-tags">
+                    <span class="comp-tag ${tagClass}">${tagText}</span>
+                    <span class="comp-tag pair">${e.pair}</span>
+                    ${arenaTag}
+                </div>
+            </div>
+            <div class="comp-title">${e.title}</div>
+            <div class="comp-bottom">
+                <div class="comp-info">Prize: <span class="prize">250 USDT</span></div>
+                <div class="comp-actions">
+                    <button class="comp-btn details">DETAILS</button>
+                    ${btnHtml}
+                </div>
+            </div>
+        </div>`;
     });
-
-    document.getElementById('modalContent').innerHTML = html;
-    document.getElementById('modalOverlay').classList.add('show');
+    document.getElementById('calEventsContent').innerHTML = html;
 }
 
+function prevMonth() { /* prototype - no action */ }
+function nextMonth() { /* prototype - no action */ }
+
+// ===== MODAL =====
 function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalPanel(); }
 function closeModalPanel() { document.getElementById('modalOverlay').classList.remove('show'); }
-
-// ===== VIEW SWITCHING =====
-function switchView(view, btn) {
-    currentView = view;
-    document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-' + view).classList.add('active');
-    if (view === 'calendar') renderCalendar();
-}
-
-function filterArena(type, btn) {
-    currentArena = type;
-    document.querySelectorAll('.arena-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderList();
-    if (currentView === 'calendar') renderCalendar();
-}
 
 // ===== DRAWER / LANG =====
 function toggleLang() { document.getElementById('langDropdown').classList.toggle('open'); }
@@ -962,8 +933,8 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Init
-renderList();
+// Init calendar on first load if calendar tab is active
+renderCalendar();
 </script>
 </body>
 </html>
