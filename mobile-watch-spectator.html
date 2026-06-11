@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Watch Live Spectator</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 48px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; z-index: 100;
+}
+.header-logo { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #F5B70A; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; cursor: pointer;
+}
+.header-user { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.nav-item .nav-icon { font-size: 16px; }
+.nav-item .nav-label { font-size: 8px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.nav-item.active .nav-label { color: #F5B70A; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    padding: 56px 0 56px;
+}
+
+/* ===== MATCH INFO BAR ===== */
+.match-bar {
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.match-bar-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.back-btn {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #4CAF50;
+}
+.live-indicator::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4CAF50;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.match-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match-arena-tag {
+    font-size: 8px;
+    padding: 2px 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 3px;
+    color: rgba(255,255,255,0.5);
+}
+.match-bar-bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    flex-wrap: wrap;
+}
+.match-bar-bottom .pair { color: rgba(255,255,255,0.7); font-weight: 600; }
+.match-bar-bottom .prize { color: #F5B70A; font-weight: 700; }
+.match-bar-bottom .time { color: #4CAF50; }
+.match-bar-bottom .watching { color: rgba(255,255,255,0.4); }
+.match-bar-bottom .players { color: rgba(255,255,255,0.4); }
+
+/* ===== CONTENT TABS ===== */
+.content-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+}
+.content-tab {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+.content-tab.active {
+    color: #F5B70A;
+    border-bottom-color: #F5B70A;
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel {
+    display: none;
+}
+.tab-panel.active {
+    display: block;
+}
+
+/* ===== RANK PANEL ===== */
+.rank-panel {
+    padding: 8px 0;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+}
+.rank-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.rank-header-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.rank-header-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.7);
+}
+.rank-header-live {
+    font-size: 8px;
+    font-weight: 700;
+    color: #4CAF50;
+    background: rgba(76,175,80,0.1);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+.rank-header-count {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+}
+.rank-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background 0.15s;
+}
+.rank-row:hover { background: rgba(255,255,255,0.02); }
+.rank-num {
+    width: 24px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+}
+.rank-num.gold { color: #F5B70A; }
+.rank-num.silver { color: #c0c0c0; }
+.rank-num.bronze { color: #cd7f32; }
+.rank-name {
+    flex: 1;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rank-pnl {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4ade80;
+    margin-right: 8px;
+}
+.rank-trend {
+    width: 40px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+}
+.rank-trend svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== PERFORMANCE PANEL ===== */
+.perf-panel {
+    padding: 12px;
+}
+.perf-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.6);
+}
+.legend-dot {
+    width: 8px; height: 3px;
+    border-radius: 2px;
+}
+.perf-chart {
+    width: 100%;
+    height: 240px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+.perf-chart canvas {
+    width: 100%;
+    height: 100%;
+}
+.chart-y-axis {
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 0;
+    pointer-events: none;
+}
+.chart-y-label {
+    font-size: 8px;
+    color: rgba(255,255,255,0.3);
+}
+.chart-x-axis {
+    position: absolute;
+    bottom: 8px;
+    left: 40px;
+    right: 8px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+.chart-x-label {
+    font-size: 8px;
+    color: rgba(255,255,255,0.3);
+}
+.perf-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 8px;
+}
+.perf-stat-item {
+    text-align: center;
+    padding: 10px 4px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.perf-stat-label {
+    font-size: 8px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
+}
+.perf-stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+.perf-stat-value.green { color: #4ade80; }
+
+/* ===== CHAT PANEL ===== */
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 220px);
+}
+.chat-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.chat-room-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+}
+.chat-online {
+    font-size: 9px;
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.chat-online::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #4ade80;
+}
+.chat-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.chat-tab {
+    padding: 8px 16px;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+.chat-tab.active {
+    color: #F5B70A;
+    border-bottom-color: #F5B70A;
+}
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 12px;
+}
+.chat-messages::-webkit-scrollbar { width: 3px; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.chat-msg {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+.chat-msg-tag {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 2px 4px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.chat-msg-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
+.chat-msg-tag.audience { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+.chat-msg-content {
+    flex: 1;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+}
+.chat-msg-content .name {
+    font-weight: 700;
+    color: #F5B70A;
+}
+.chat-msg-content .name.audience-name {
+    color: #60a5fa;
+}
+.chat-input-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+}
+.chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+    color: #fff;
+    outline: none;
+}
+.chat-input::placeholder { color: rgba(255,255,255,0.25); }
+.chat-input:focus { border-color: rgba(245,183,10,0.4); }
+.chat-send-btn {
+    padding: 8px 14px;
+    background: #F5B70A;
+    border: none;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #0B0B0B;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-logo">OTTER TRADE</div>
+    <div class="header-right">
+        <div class="header-icon">🌐</div>
+        <div class="header-icon">🔔</div>
+        <div class="header-user">trader@</div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- Match Info Bar -->
+    <div class="match-bar">
+        <div class="match-bar-top">
+            <span class="back-btn" onclick="history.back()">‹ Back</span>
+            <span class="live-indicator">LIVE</span>
+            <span class="match-title">Qualification Challenge Round 24</span>
+            <span class="match-arena-tag">BEGINNER</span>
+        </div>
+        <div class="match-bar-bottom">
+            <span class="pair">SOLUSDT</span>
+            <span class="prize">250U</span>
+            <span class="time">21m left</span>
+            <span class="watching">4 watching</span>
+            <span class="players">628 players</span>
+        </div>
+    </div>
+
+    <!-- Content Tabs -->
+    <div class="content-tabs">
+        <div class="content-tab" onclick="switchTab('rank', this)">Rank</div>
+        <div class="content-tab active" onclick="switchTab('performance', this)">Performance</div>
+        <div class="content-tab" onclick="switchTab('chat', this)">Chat</div>
+    </div>
+
+    <!-- RANK PANEL -->
+    <div class="tab-panel" id="panel-rank">
+        <div class="rank-panel">
+            <div class="rank-header">
+                <div class="rank-header-left">
+                    <span class="rank-header-title">Live Rankings</span>
+                    <span class="rank-header-live">LIVE</span>
+                </div>
+                <span class="rank-header-count">628</span>
+            </div>
+            <div class="rank-row"><span class="rank-num gold">#1</span><span class="rank-name">Trap</span><span class="rank-pnl">9.08%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,12 16,10 24,8 32,5 40,2" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num silver">#2</span><span class="rank-name">Chipato</span><span class="rank-pnl">8.55%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,11 16,9 24,7 32,4 40,3" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num bronze">#3</span><span class="rank-name">Inno</span><span class="rank-pnl">6.86%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,11 16,10 24,8 32,6 40,4" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#4</span><span class="rank-name">Indicaearn_</span><span class="rank-pnl">6.45%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,12 8,11 16,10 24,9 32,7 40,5" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#5</span><span class="rank-name">Ded</span><span class="rank-pnl">6.43%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,12 8,11 16,9 24,8 32,6 40,5" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#6</span><span class="rank-name">Ned</span><span class="rank-pnl">5.57%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,12 16,10 24,9 32,7 40,6" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#7</span><span class="rank-name">Lev</span><span class="rank-pnl">5.50%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,12 16,11 24,9 32,7 40,6" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#8</span><span class="rank-name">americ</span><span class="rank-pnl">5.42%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,12 16,11 24,10 32,8 40,6" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#9</span><span class="rank-name">Nakean</span><span class="rank-pnl">5.24%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,11 24,10 32,8 40,7" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#10</span><span class="rank-name">avvarusamba...</span><span class="rank-pnl">5.04%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,12 16,11 24,10 32,9 40,7" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#11</span><span class="rank-name">Majuta</span><span class="rank-pnl">4.96%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,12 24,10 32,9 40,7" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#12</span><span class="rank-name">AST</span><span class="rank-pnl">4.87%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,12 16,11 24,10 32,9 40,8" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#13</span><span class="rank-name">rizu</span><span class="rank-pnl">4.76%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,12 24,11 32,9 40,8" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#14</span><span class="rank-name">Shampii</span><span class="rank-pnl">4.73%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,12 16,12 24,11 32,10 40,8" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#15</span><span class="rank-name">Sofan</span><span class="rank-pnl">4.50%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,12 24,11 32,10 40,9" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#16</span><span class="rank-name">DejavuFX</span><span class="rank-pnl">4.46%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,13 16,12 24,11 32,10 40,9" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#17</span><span class="rank-name">bienk</span><span class="rank-pnl">4.38%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,12 24,11 32,10 40,9" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#18</span><span class="rank-name">3mperorxau</span><span class="rank-pnl">4.36%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,13 16,12 24,12 32,11 40,9" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#19</span><span class="rank-name">Yobi</span><span class="rank-pnl">4.35%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,13 24,12 32,11 40,10" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#20</span><span class="rank-name">Longwei</span><span class="rank-pnl">4.31%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,12 24,12 32,11 40,10" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#21</span><span class="rank-name">Ryiz</span><span class="rank-pnl">4.20%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,13 16,12 24,12 32,11 40,10" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#22</span><span class="rank-name">necheweb</span><span class="rank-pnl">4.13%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,13 24,12 32,11 40,10" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#23</span><span class="rank-name">Ced</span><span class="rank-pnl">4.12%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,13 16,12 24,12 32,11 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#24</span><span class="rank-name">Achlando</span><span class="rank-pnl">4.06%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,13 24,12 32,12 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#25</span><span class="rank-name">MRodney</span><span class="rank-pnl">4.04%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,13 8,13 16,13 24,12 32,12 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#26</span><span class="rank-name">Manjetale</span><span class="rank-pnl">4.03%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,14 16,13 24,12 32,12 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#27</span><span class="rank-name">Yaqub</span><span class="rank-pnl">4.01%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,13 16,13 24,13 32,12 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+            <div class="rank-row"><span class="rank-num">#28</span><span class="rank-name">Elfapan1</span><span class="rank-pnl">3.98%</span><span class="rank-trend"><svg viewBox="0 0 40 16"><polyline points="0,14 8,14 16,13 24,13 32,12 40,11" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg></span></div>
+        </div>
+    </div>
+
+    <!-- PERFORMANCE PANEL (default active) -->
+    <div class="tab-panel active" id="panel-performance">
+        <div class="perf-panel">
+            <!-- Legend -->
+            <div class="perf-legend">
+                <div class="legend-item"><span class="legend-dot" style="background:#4ade80;"></span>#1 Trap</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#F5B70A;"></span>#2 Chipato</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>#3 Inno</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#60a5fa;"></span>#4 Indicaearn_</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#ef4444;"></span>#5 Ded</div>
+                <div class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.3);"></span>Avg All</div>
+            </div>
+
+            <!-- Chart -->
+            <div class="perf-chart">
+                <canvas id="perfCanvas"></canvas>
+                <div class="chart-y-axis">
+                    <span class="chart-y-label">+10%</span>
+                    <span class="chart-y-label">+5%</span>
+                    <span class="chart-y-label">0%</span>
+                    <span class="chart-y-label">-5%</span>
+                </div>
+                <div class="chart-x-axis">
+                    <span class="chart-x-label">25%</span>
+                    <span class="chart-x-label">50%</span>
+                    <span class="chart-x-label">75%</span>
+                    <span class="chart-x-label">100%</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="perf-stats">
+                <div class="perf-stat-item">
+                    <div class="perf-stat-label">Players</div>
+                    <div class="perf-stat-value">627</div>
+                </div>
+                <div class="perf-stat-item">
+                    <div class="perf-stat-label">Total Trades</div>
+                    <div class="perf-stat-value">1987</div>
+                </div>
+                <div class="perf-stat-item">
+                    <div class="perf-stat-label">Win Rate</div>
+                    <div class="perf-stat-value">52%</div>
+                </div>
+                <div class="perf-stat-item">
+                    <div class="perf-stat-label">Avg PnL</div>
+                    <div class="perf-stat-value green">+3.25</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="tab-panel" id="panel-chat">
+        <div class="chat-panel">
+            <div class="chat-header-bar">
+                <span class="chat-room-title">Chat Room</span>
+                <span class="chat-online">5 online</span>
+            </div>
+            <div class="chat-tabs">
+                <div class="chat-tab active">Chat</div>
+                <div class="chat-tab">Events</div>
+            </div>
+            <div class="chat-messages">
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">PCT:</span> When will the competition end?</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> Ends the following day</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> cant see you mmbaya</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag audience">AUDIENCE</span><div class="chat-msg-content"><span class="name audience-name">SpectatorX:</span> who's gonna win this?</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> Im hydrating</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> ...</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Nikkem:</span> long all the way</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag audience">AUDIENCE</span><div class="chat-msg-content"><span class="name audience-name">CryptoFan99:</span> Trap is on fire today 🔥</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> It's overbought</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> back on track</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> Sell</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag audience">AUDIENCE</span><div class="chat-msg-content"><span class="name audience-name">viewer_joe:</span> don't sell bro hold it</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">rabu:</span> did anyone got withdrawal</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> here we go again xd</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> rabu no you can leave dont waste time</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">rabu:</span> short it will go down to 64$ in an hour</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> Faaack</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag audience">AUDIENCE</span><div class="chat-msg-content"><span class="name audience-name">WatcherAce:</span> lol Mmbaya getting rekt</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> Hope it goes back to 62</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">tradinghubz:</span> you said hope bro and you know when one hopes market breaks their hopes</div></div>
+                <div class="chat-msg"><span class="chat-msg-tag player">PLAYER</span><div class="chat-msg-content"><span class="name">Mmbaya:</span> I pressed short and that thing spiked up 41u from position 7 to 350</div></div>
+            </div>
+            <div class="chat-input-area">
+                <input class="chat-input" type="text" placeholder="Send message...">
+                <button class="chat-send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div class="nav-item"><span class="nav-icon">⚔️</span><span class="nav-label">Arena</span></div>
+    <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></div>
+    <div class="nav-item active"><span class="nav-icon">👁</span><span class="nav-label">Watch</span></div>
+    <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tab, el) {
+    document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// Draw performance chart
+function drawPerfChart() {
+    const canvas = document.getElementById('perfCanvas');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.scale(dpr, dpr);
+
+    const w = rect.width;
+    const h = rect.height;
+    const padL = 35, padR = 10, padT = 20, padB = 25;
+    const chartW = w - padL - padR;
+    const chartH = h - padT - padB;
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 4; i++) {
+        const y = padT + (chartH / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(w - padR, y);
+        ctx.stroke();
+    }
+
+    // Zero line (dashed)
+    const zeroY = padT + chartH * 0.667; // 0% at 2/3 down (range -5 to +10)
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(padL, zeroY);
+    ctx.lineTo(w - padR, zeroY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Performance lines data (simulated)
+    const lines = [
+        { color: '#4ade80', points: [0, 0.5, 1.2, 2.0, 2.8, 3.5, 4.2, 5.0, 5.8, 6.5, 7.2, 7.8, 8.3, 8.7, 9.08] }, // Trap
+        { color: '#F5B70A', points: [0, 0.3, 0.8, 1.5, 2.2, 2.8, 3.4, 4.0, 4.8, 5.5, 6.2, 6.8, 7.3, 7.9, 8.55] }, // Chipato
+        { color: '#a78bfa', points: [0, 0.2, 0.6, 1.0, 1.5, 2.0, 2.5, 3.2, 3.8, 4.5, 5.0, 5.5, 6.0, 6.4, 6.86] }, // Inno
+        { color: '#60a5fa', points: [0, 0.1, 0.4, 0.8, 1.2, 1.8, 2.3, 2.8, 3.3, 3.8, 4.3, 4.8, 5.3, 5.8, 6.45] }, // Indicaearn
+        { color: '#ef4444', points: [0, 0.2, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.43] }, // Ded
+        { color: 'rgba(255,255,255,0.3)', points: [0, -0.2, 0.1, 0.5, 0.8, 1.2, 1.5, 1.8, 2.2, 2.5, 2.8, 3.0, 3.1, 3.2, 3.25], dash: true } // Avg All
+    ];
+
+    const maxVal = 10;
+    const minVal = -5;
+    const range = maxVal - minVal;
+
+    lines.forEach(line => {
+        ctx.strokeStyle = line.color;
+        ctx.lineWidth = line.dash ? 1 : 1.5;
+        if (line.dash) ctx.setLineDash([3, 3]);
+        else ctx.setLineDash([]);
+        
+        ctx.beginPath();
+        line.points.forEach((val, i) => {
+            const x = padL + (chartW / (line.points.length - 1)) * i;
+            const y = padT + chartH * (1 - (val - minVal) / range);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // End label
+        const lastVal = line.points[line.points.length - 1];
+        const lastX = w - padR;
+        const lastY = padT + chartH * (1 - (lastVal - minVal) / range);
+        if (!line.dash) {
+            ctx.fillStyle = line.color;
+            ctx.font = '9px Inter';
+            ctx.fillText(lastVal.toFixed(2) + '%', lastX - 35, lastY - 5);
+        }
+    });
+    ctx.setLineDash([]);
+}
+
+// Init chart on load
+window.addEventListener('load', () => {
+    setTimeout(drawPerfChart, 100);
+});
+window.addEventListener('resize', drawPerfChart);
+</script>
+</body>
+</html>
