@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Arena Trading</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 48px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; z-index: 100;
+}
+.header-logo { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #F5B70A; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; cursor: pointer;
+}
+.header-user { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.nav-item .nav-icon { font-size: 16px; }
+.nav-item .nav-label { font-size: 8px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.nav-item.active .nav-label { color: #F5B70A; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content { padding-top: 48px; padding-bottom: 56px; }
+
+/* ===== TRADE TICKER ===== */
+.trade-ticker {
+    height: 28px; background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    overflow: hidden; position: relative;
+}
+.ticker-track {
+    display: flex; align-items: center; height: 100%;
+    animation: tickerScroll 30s linear infinite; white-space: nowrap;
+}
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; font-size: 9px; }
+.ticker-item .long { color: #4ade80; font-weight: 700; }
+.ticker-item .short { color: #ef4444; font-weight: 700; }
+.ticker-item .name { color: rgba(255,255,255,0.5); }
+.ticker-item .detail { color: rgba(255,255,255,0.35); }
+
+/* ===== PRICE BAR ===== */
+.price-bar { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.price-row { display: flex; align-items: baseline; gap: 8px; }
+.price-symbol { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; color: #fff; }
+.price-value { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #4ade80; }
+.price-change { font-size: 11px; font-weight: 600; color: #4ade80; }
+.price-stats { display: flex; gap: 12px; margin-top: 4px; }
+.price-stat { font-size: 9px; color: rgba(255,255,255,0.4); }
+.price-stat span { color: rgba(255,255,255,0.7); font-weight: 600; }
+
+/* ===== MATCH STATUS BAR ===== */
+.match-bar {
+    padding: 6px 12px; background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.match-chip {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    font-size: 9px; color: rgba(255,255,255,0.6);
+}
+.match-chip .val { font-weight: 700; color: #fff; }
+.match-chip .val.green { color: #4ade80; }
+.match-chip .val.gold { color: #F5B70A; }
+.match-chip .val.red { color: #ef4444; }
+.match-timer {
+    margin-left: auto; font-family: 'Orbitron', sans-serif;
+    font-size: 12px; font-weight: 700; color: #F5B70A;
+}
+.trades-progress {
+    width: 100%; display: flex; align-items: center; gap: 6px; margin-top: 4px;
+}
+.trades-label { font-size: 9px; color: rgba(255,255,255,0.5); }
+.trades-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.trades-fill { height: 100%; background: #ef4444; border-radius: 2px; }
+.trades-warn { font-size: 9px; color: #F5B70A; font-weight: 600; }
+.trades-count { font-size: 9px; color: rgba(255,255,255,0.5); }
+
+/* ===== CHART SECTION ===== */
+.chart-section { position: relative; }
+.chart-timeframes {
+    display: flex; gap: 2px; padding: 6px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.tf-btn {
+    padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: 600;
+    color: rgba(255,255,255,0.4); background: transparent; border: none; cursor: pointer;
+}
+.tf-btn.active { background: rgba(245,183,10,0.15); color: #F5B70A; }
+.chart-area {
+    height: 200px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+}
+.chart-canvas { width: 100%; height: 100%; }
+/* Simulated candlestick chart */
+.candles { display: flex; align-items: flex-end; height: 100%; padding: 10px 4px; gap: 1px; }
+.candle { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.candle-body { width: 60%; min-height: 4px; border-radius: 1px; }
+.candle-wick { width: 1px; }
+.candle.green .candle-body { background: #4ade80; }
+.candle.green .candle-wick { background: #4ade80; }
+.candle.red .candle-body { background: #ef4444; }
+.candle.red .candle-wick { background: #ef4444; }
+
+/* ===== CONTENT TABS ===== */
+.content-tabs {
+    display: flex; border-bottom: 1px solid rgba(255,255,255,0.06);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.content-tabs::-webkit-scrollbar { display: none; }
+.content-tab {
+    flex-shrink: 0; padding: 8px 14px; font-size: 10px; font-weight: 600;
+    color: rgba(255,255,255,0.4); cursor: pointer; position: relative;
+    white-space: nowrap; transition: color 0.2s;
+}
+.content-tab.active { color: #F5B70A; }
+.content-tab.active::after {
+    content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
+    height: 2px; background: #F5B70A; border-radius: 1px;
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ===== CHAT PANEL ===== */
+.chat-panel { height: 220px; display: flex; flex-direction: column; }
+.chat-header {
+    padding: 6px 12px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.chat-title { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.6); }
+.chat-online { font-size: 9px; color: #4ade80; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 8px 12px; }
+.chat-msg { margin-bottom: 6px; font-size: 11px; line-height: 1.4; }
+.chat-msg .author { font-weight: 700; }
+.chat-msg .author.you { background: #F5B70A; color: #0B0B0B; padding: 0 4px; border-radius: 2px; font-size: 9px; }
+.chat-msg .author.orange { color: #f97316; }
+.chat-msg .author.blue { color: #60a5fa; }
+.chat-msg .author.green { color: #4ade80; }
+.chat-msg .author.purple { color: #a78bfa; }
+.chat-msg .author.pink { color: #f472b6; }
+.chat-msg .text { color: rgba(255,255,255,0.7); }
+.chat-msg .reply-ref { font-size: 9px; color: rgba(255,255,255,0.3); border-left: 2px solid rgba(255,255,255,0.1); padding-left: 6px; margin-bottom: 2px; }
+.chat-input-row {
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.chat-input {
+    flex: 1; height: 30px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04); padding: 0 10px;
+    font-size: 11px; color: #fff; outline: none;
+}
+.chat-input::placeholder { color: rgba(255,255,255,0.3); }
+.chat-send {
+    padding: 6px 12px; border-radius: 6px; border: none;
+    background: #F5B70A; color: #0B0B0B; font-size: 10px; font-weight: 700; cursor: pointer;
+}
+
+/* ===== VOTE SECTION ===== */
+.vote-section { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.vote-title { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.vote-bar { display: flex; height: 20px; border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.vote-long { background: #4ade80; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #0B0B0B; }
+.vote-short { background: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; }
+.vote-btns { display: flex; gap: 8px; }
+.vote-btn {
+    flex: 1; padding: 6px; border-radius: 4px; border: 1px solid;
+    font-size: 10px; font-weight: 700; text-align: center; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.vote-btn.long { border-color: rgba(74,222,128,0.3); color: #4ade80; background: rgba(74,222,128,0.05); }
+.vote-btn.short { border-color: rgba(239,68,68,0.3); color: #ef4444; background: rgba(239,68,68,0.05); }
+
+/* ===== RANK PANEL ===== */
+.rank-panel { max-height: 220px; overflow-y: auto; }
+.rank-table { width: 100%; border-collapse: collapse; }
+.rank-table th {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.35); text-align: left; padding: 6px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; background: #0B0B0B;
+}
+.rank-table td { font-size: 10px; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); }
+.rank-table tr.you td { background: rgba(245,183,10,0.04); }
+.rank-table .r-rank { font-weight: 700; color: rgba(255,255,255,0.5); }
+.rank-table .r-name { font-weight: 600; color: rgba(255,255,255,0.85); }
+.rank-table .r-pnl { font-weight: 600; }
+.rank-table .r-pnl.pos { color: #4ade80; }
+.rank-table .r-pnl.neg { color: #ef4444; }
+
+/* ===== TRADES PANEL ===== */
+.trades-panel { max-height: 220px; overflow-y: auto; }
+.trades-table { width: 100%; border-collapse: collapse; }
+.trades-table th {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.35); text-align: left; padding: 6px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; background: #0B0B0B;
+}
+.trades-table td { font-size: 10px; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); }
+.trades-table .t-side { font-weight: 700; }
+.trades-table .t-side.long { color: #4ade80; }
+.trades-table .t-side.short { color: #ef4444; }
+
+/* ===== STATS PANEL ===== */
+.stats-panel { padding: 12px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat-box { padding: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; }
+.stat-box-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); margin-bottom: 3px; }
+.stat-box-value { font-size: 13px; font-weight: 700; }
+.stat-box-value.green { color: #4ade80; }
+.stat-box-value.red { color: #ef4444; }
+.stat-box-value.white { color: #fff; }
+.stat-box-value.gold { color: #F5B70A; }
+
+/* ===== TRADE ORDER PANEL ===== */
+.order-panel {
+    position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    background: #111; border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 12px; z-index: 99;
+}
+.order-row1 { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.order-size-label { font-size: 9px; color: rgba(255,255,255,0.4); }
+.order-size-input {
+    width: 60px; height: 26px; border-radius: 4px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+    color: #fff; font-size: 11px; font-weight: 600; text-align: center; outline: none;
+}
+.order-asset-btns { display: flex; gap: 2px; }
+.order-asset-btn {
+    padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer;
+}
+.order-asset-btn.active { background: #F5B70A; color: #0B0B0B; border-color: #F5B70A; }
+.order-lev {
+    padding: 3px 6px; border-radius: 4px; font-size: 9px; font-weight: 700;
+    background: rgba(245,183,10,0.15); color: #F5B70A; border: 1px solid rgba(245,183,10,0.3);
+}
+.order-pct-btns { display: flex; gap: 3px; margin-left: auto; }
+.order-pct-btn {
+    padding: 2px 6px; border-radius: 3px; font-size: 8px; font-weight: 600;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5); cursor: pointer;
+}
+.order-pct-btn:hover { border-color: rgba(255,255,255,0.2); }
+.order-row2 { display: flex; align-items: center; gap: 6px; }
+.order-tpsl { display: flex; align-items: center; gap: 4px; font-size: 9px; color: rgba(255,255,255,0.4); }
+.order-tpsl input[type="checkbox"] { width: 12px; height: 12px; accent-color: #F5B70A; }
+.order-actions { display: flex; gap: 6px; margin-left: auto; }
+.order-btn {
+    padding: 8px 16px; border-radius: 5px; border: none;
+    font-size: 10px; font-weight: 700; cursor: pointer; letter-spacing: 0.03em;
+}
+.order-btn.buy { background: #4ade80; color: #0B0B0B; }
+.order-btn.sell { background: #ef4444; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-logo">OTTER TRADE</div>
+    <div class="header-right">
+        <div class="header-icon">🌐</div>
+        <div class="header-icon">🔔</div>
+        <div class="header-user">trader@</div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- Trade Ticker -->
+    <div class="trade-ticker">
+        <div class="ticker-track">
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">Suresh</span><span class="detail">opened 3,000 USDT</span></div>
+            <div class="ticker-item"><span class="long">▲ LONG</span><span class="name">tradinghub</span><span class="detail">opened 1,800 USDT</span></div>
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">AlphaTrader</span><span class="detail">opened 4,200 USDT</span></div>
+            <div class="ticker-item"><span class="long">▲ LONG</span><span class="name">MoonShot</span><span class="detail">opened 2,000 USDT</span></div>
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">Nix</span><span class="detail">closed +3.2% PnL</span></div>
+            <div class="ticker-item"><span class="long">▲ LONG</span><span class="name">DeFiWhale</span><span class="detail">opened 5,000 USDT</span></div>
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">sage</span><span class="detail">opened 3,500 USDT</span></div>
+            <!-- Duplicate for seamless scroll -->
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">Suresh</span><span class="detail">opened 3,000 USDT</span></div>
+            <div class="ticker-item"><span class="long">▲ LONG</span><span class="name">tradinghub</span><span class="detail">opened 1,800 USDT</span></div>
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">AlphaTrader</span><span class="detail">opened 4,200 USDT</span></div>
+            <div class="ticker-item"><span class="long">▲ LONG</span><span class="name">MoonShot</span><span class="detail">opened 2,000 USDT</span></div>
+            <div class="ticker-item"><span class="short">▼ SHORT</span><span class="name">Nix</span><span class="detail">closed +3.2% PnL</span></div>
+        </div>
+    </div>
+
+    <!-- Price Bar -->
+    <div class="price-bar">
+        <div class="price-row">
+            <span class="price-symbol">SOLUSDT</span>
+            <span class="price-value">67.06</span>
+            <span class="price-change">+2.23%</span>
+        </div>
+        <div class="price-stats">
+            <div class="price-stat">24H High <span>68.16</span></div>
+            <div class="price-stat">24H Low <span>65.23</span></div>
+            <div class="price-stat">24H Vol <span>24.8M</span></div>
+        </div>
+    </div>
+
+    <!-- Match Status Bar -->
+    <div class="match-bar">
+        <div class="match-chip">Rank <span class="val gold">#18</span> / 687</div>
+        <div class="match-chip">PnL <span class="val green">+1.16%</span></div>
+        <div class="match-chip">Equity <span class="val">4,988.94U</span></div>
+        <div class="match-timer">01:29:57</div>
+        <div class="trades-progress">
+            <span class="trades-label">Trades</span>
+            <div class="trades-bar"><div class="trades-fill" style="width: 40%;"></div></div>
+            <span class="trades-warn">⚠ Need 3 more!</span>
+            <span class="trades-count">2/5</span>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-section">
+        <div class="chart-timeframes">
+            <button class="tf-btn">1m</button>
+            <button class="tf-btn">3m</button>
+            <button class="tf-btn active">5m</button>
+            <button class="tf-btn">15m</button>
+            <button class="tf-btn">30m</button>
+            <button class="tf-btn">1h</button>
+            <button class="tf-btn">2h</button>
+            <button class="tf-btn">4h</button>
+        </div>
+        <div class="chart-area">
+            <div class="candles" id="candleChart"></div>
+        </div>
+    </div>
+
+    <!-- Content Tabs (replaces web sidebar tabs) -->
+    <div class="content-tabs">
+        <div class="content-tab active" onclick="switchTab('chat', this)">CHAT</div>
+        <div class="content-tab" onclick="switchTab('trades', this)">TRADES</div>
+        <div class="content-tab" onclick="switchTab('rank', this)">RANK</div>
+        <div class="content-tab" onclick="switchTab('stats', this)">STATS</div>
+        <div class="content-tab" onclick="switchTab('news', this)">NEWS</div>
+    </div>
+
+    <!-- Chat Panel -->
+    <div class="tab-panel active" id="panel-chat">
+        <div class="chat-panel">
+            <div class="chat-header">
+                <span class="chat-title">CHAT ROOM</span>
+                <span class="chat-online">● 579 online</span>
+            </div>
+            <div class="chat-messages">
+                <div class="chat-msg"><span class="author orange">rabu:</span> <span class="text">short it will go down to 64$ in an hour</span></div>
+                <div class="chat-msg"><span class="author blue">Mmbaya:</span> <span class="text">Faaack 😂😂</span></div>
+                <div class="chat-msg"><span class="author green">tradinghub:</span> <span class="text">you said hope bro and you know when one hopes market breaks their hopes</span></div>
+                <div class="chat-msg"><div class="reply-ref">↳ replying to rabu</div><span class="author purple">Mmbaya:</span> <span class="text">I pressed short and that thing spiked up 41u from position 7 to 350 😡😡</span></div>
+                <div class="chat-msg"><span class="author orange">sunaraj:</span> <span class="text">1.3 u 97 rank</span></div>
+                <div class="chat-msg"><span class="author orange">sunaraj:</span> <span class="text">price will reverse after sweeping 67.07 high</span></div>
+                <div class="chat-msg"><span class="author blue">Alfa:</span> <span class="text">How to join this competition</span></div>
+                <div class="chat-msg"><div class="reply-ref">↳ replying to Alfa</div><span class="author pink">RRZ:</span> <span class="text">you have to wait for next one, always check the site or discord lol</span></div>
+                <div class="chat-msg"><span class="author you">YOU</span> <span class="text">looking good for a long entry here around 67</span></div>
+                <div class="chat-msg"><span class="author green">vasc:</span> <span class="text">next target may 68</span></div>
+                <div class="chat-msg"><span class="author purple">Sannidam:</span> <span class="text">Hellob</span></div>
+                <div class="chat-msg"><span class="author pink">avvarusambasivarao95:</span> <span class="text">1st rank let me see what happened</span></div>
+            </div>
+            <div class="chat-input-row">
+                <input class="chat-input" type="text" placeholder="Send message...">
+                <button class="chat-send">Send</button>
+            </div>
+        </div>
+
+        <!-- Vote Section -->
+        <div class="vote-section">
+            <div class="vote-title">VOTE: WHAT'S YOUR MARKET OUTLOOK?</div>
+            <div class="vote-bar">
+                <div class="vote-long" style="width: 64%;">64%</div>
+                <div class="vote-short" style="width: 36%;">36%</div>
+            </div>
+            <div class="vote-btns">
+                <div class="vote-btn long">▲ LONG</div>
+                <div class="vote-btn short">▼ SHORT</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trades Panel -->
+    <div class="tab-panel" id="panel-trades">
+        <div class="trades-panel">
+            <table class="trades-table">
+                <thead><tr><th>Time</th><th>Side</th><th>Price</th><th>Size</th><th>PnL</th></tr></thead>
+                <tbody>
+                    <tr><td>14:32</td><td class="t-side long">LONG</td><td>66.82</td><td>1,500U</td><td style="color:#4ade80;">+0.84%</td></tr>
+                    <tr><td>13:15</td><td class="t-side short">SHORT</td><td>67.21</td><td>2,000U</td><td style="color:#4ade80;">+0.32%</td></tr>
+                    <tr><td>—</td><td colspan="4" style="color:rgba(255,255,255,0.3); text-align:center;">Only 2 trades so far. Need 3 more to qualify.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Rank Panel -->
+    <div class="tab-panel" id="panel-rank">
+        <div class="rank-panel">
+            <table class="rank-table">
+                <thead><tr><th>#</th><th>Player</th><th>PnL%</th><th>Equity</th></tr></thead>
+                <tbody>
+                    <tr><td class="r-rank">1</td><td class="r-name">sage</td><td class="r-pnl pos">+4.82%</td><td>5,241U</td></tr>
+                    <tr><td class="r-rank">2</td><td class="r-name">tradinghub</td><td class="r-pnl pos">+3.91%</td><td>5,195U</td></tr>
+                    <tr><td class="r-rank">3</td><td class="r-name">Suresh</td><td class="r-pnl pos">+3.44%</td><td>5,172U</td></tr>
+                    <tr><td class="r-rank">4</td><td class="r-name">Nix</td><td class="r-pnl pos">+2.98%</td><td>5,149U</td></tr>
+                    <tr><td class="r-rank">5</td><td class="r-name">AlphaTrader</td><td class="r-pnl pos">+2.65%</td><td>5,132U</td></tr>
+                    <tr><td class="r-rank">6</td><td class="r-name">MoonShot</td><td class="r-pnl pos">+2.31%</td><td>5,115U</td></tr>
+                    <tr><td class="r-rank">7</td><td class="r-name">DeFiWhale</td><td class="r-pnl pos">+1.87%</td><td>5,093U</td></tr>
+                    <tr><td class="r-rank">...</td><td></td><td></td><td></td></tr>
+                    <tr class="you"><td class="r-rank" style="color:#F5B70A;">18</td><td class="r-name" style="color:#F5B70A;">You</td><td class="r-pnl pos">+1.16%</td><td>4,988U</td></tr>
+                    <tr><td class="r-rank">19</td><td class="r-name">CryptoKing</td><td class="r-pnl pos">+1.02%</td><td>4,981U</td></tr>
+                    <tr><td class="r-rank">20</td><td class="r-name">BlockRunner</td><td class="r-pnl pos">+0.88%</td><td>4,974U</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Stats Panel -->
+    <div class="tab-panel" id="panel-stats">
+        <div class="stats-panel">
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-box-label">Your PnL</div><div class="stat-box-value green">+1.16%</div></div>
+                <div class="stat-box"><div class="stat-box-label">Equity</div><div class="stat-box-value white">4,988.94U</div></div>
+                <div class="stat-box"><div class="stat-box-label">Win Rate</div><div class="stat-box-value green">100%</div></div>
+                <div class="stat-box"><div class="stat-box-label">Trades Used</div><div class="stat-box-value gold">2 / 48</div></div>
+                <div class="stat-box"><div class="stat-box-label">Best Trade</div><div class="stat-box-value green">+0.84%</div></div>
+                <div class="stat-box"><div class="stat-box-label">Avg Hold</div><div class="stat-box-value white">23m</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Panel -->
+    <div class="tab-panel" id="panel-news">
+        <div style="padding: 16px 12px;">
+            <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 12px;">Latest market news</div>
+            <div style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <div style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 2px;">SOL breaks above $67 resistance</div>
+                <div style="font-size: 9px; color: rgba(255,255,255,0.35);">2 min ago · CoinDesk</div>
+            </div>
+            <div style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <div style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 2px;">Solana TVL reaches new ATH at $12.4B</div>
+                <div style="font-size: 9px; color: rgba(255,255,255,0.35);">15 min ago · The Block</div>
+            </div>
+            <div style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <div style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 2px;">BTC whale accumulation continues</div>
+                <div style="font-size: 9px; color: rgba(255,255,255,0.35);">28 min ago · CryptoQuant</div>
+            </div>
+            <div style="padding: 10px 0;">
+                <div style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 2px;">Fed minutes show hawkish tone</div>
+                <div style="font-size: 9px; color: rgba(255,255,255,0.35);">45 min ago · Reuters</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ORDER PANEL (fixed above bottom nav) -->
+<div class="order-panel">
+    <div class="order-row1">
+        <span class="order-size-label">SIZE</span>
+        <input class="order-size-input" type="text" value="1000">
+        <div class="order-asset-btns">
+            <button class="order-asset-btn active">USDT</button>
+            <button class="order-asset-btn">SOL</button>
+        </div>
+        <span class="order-lev">5x</span>
+        <div class="order-pct-btns">
+            <button class="order-pct-btn">25%</button>
+            <button class="order-pct-btn">50%</button>
+            <button class="order-pct-btn">75%</button>
+            <button class="order-pct-btn">100%</button>
+        </div>
+    </div>
+    <div class="order-row2">
+        <div class="order-tpsl">
+            <input type="checkbox" id="tpsl"><label for="tpsl" style="font-size:9px; color:rgba(255,255,255,0.5);">TP/SL</label>
+        </div>
+        <div class="order-actions">
+            <button class="order-btn buy">BUY / LONG</button>
+            <button class="order-btn sell">SELL / SHORT</button>
+        </div>
+    </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div class="nav-item active"><span class="nav-icon">⚔️</span><span class="nav-label">Arena</span></div>
+    <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></div>
+    <div class="nav-item"><span class="nav-icon">👁</span><span class="nav-label">Watch</span></div>
+    <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tab, el) {
+    document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// Generate random candles
+function generateCandles() {
+    const chart = document.getElementById('candleChart');
+    const count = 60;
+    let html = '';
+    for (let i = 0; i < count; i++) {
+        const isGreen = Math.random() > 0.45;
+        const bodyH = Math.random() * 40 + 8;
+        const wickH = Math.random() * 20 + 5;
+        const color = isGreen ? 'green' : 'red';
+        html += `<div class="candle ${color}">
+            <div class="candle-wick" style="height:${wickH}px;"></div>
+            <div class="candle-body" style="height:${bodyH}px;"></div>
+            <div class="candle-wick" style="height:${wickH * 0.6}px;"></div>
+        </div>`;
+    }
+    chart.innerHTML = html;
+}
+generateCandles();
+
+// Timeframe buttons
+document.querySelectorAll('.tf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        generateCandles();
+    });
+});
+</script>
+</body>
+</html>
