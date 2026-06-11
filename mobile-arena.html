@@ -456,6 +456,190 @@ body {
     background: linear-gradient(90deg, #a855f7, #f5a623);
 }
 
+/* ===== BEGINNER EXPANDED VIEW ===== */
+.beginner-expanded {
+    display: none;
+    padding: 0;
+}
+.beginner-expanded.active {
+    display: block;
+}
+.beginner-expanded-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.beginner-expanded-title {
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #4ade80;
+}
+.beginner-back-btn {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.comp-category {
+    margin-bottom: 16px;
+}
+.comp-category-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.comp-category-title .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+.comp-category-title .dot.live { background: #4ade80; }
+.comp-category-title .dot.upcoming { background: #F5B70A; }
+.comp-category-title .live-text { color: #4ade80; }
+.comp-category-title .upcoming-text { color: #F5B70A; }
+
+.m-comp-card {
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+.m-comp-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.m-comp-tags {
+    display: flex;
+    gap: 6px;
+}
+.m-comp-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.m-comp-tag.live {
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+}
+.m-comp-tag.registering {
+    background: rgba(245, 182, 10, 0.12);
+    color: #F5B70A;
+}
+.m-comp-tag.pair {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.7);
+}
+.m-comp-countdown {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+.m-comp-countdown span {
+    font-weight: 400;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+}
+.m-comp-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+.m-comp-date {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+}
+.m-comp-stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.m-comp-stat {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.m-comp-stat.pnl-positive { color: #4ade80; font-weight: 600; }
+.m-comp-stat.prize { color: #F5B70A; font-weight: 600; }
+.m-comp-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.m-comp-participants {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+}
+.m-comp-actions {
+    display: flex;
+    gap: 8px;
+}
+.m-comp-btn {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.m-comp-btn.secondary {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.m-comp-btn.enter {
+    background: #F5B70A;
+    color: #0B0B0B;
+}
+.m-comp-btn.register {
+    background: #4ade80;
+    color: #0B0B0B;
+}
+.m-comp-btn.registered {
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    cursor: default;
+}
+.m-comp-time-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+.m-comp-time-item {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+}
+.m-comp-time-item strong {
+    color: #F5B70A;
+}
+
 /* ===== TASK SYSTEM ===== */
 .task-section {
     padding: 20px 16px 0;
@@ -872,8 +1056,8 @@ body {
     <div class="arena-section">
         <div class="section-title">Enter the Arena</div>
 
-        <!-- Beginner Arena -->
-        <div class="arena-card beginner">
+        <!-- Beginner Arena (default card) -->
+        <div class="arena-card beginner" id="beginnerCard" onclick="enterBeginner()">
             <div class="arena-card-tag">Beginner</div>
             <div class="arena-card-title">Beginner Arena</div>
             <ul class="arena-card-features">
@@ -885,6 +1069,101 @@ body {
             </ul>
             <div class="arena-card-prize">Prize Pool: <strong>250 USDT</strong> per round</div>
             <div class="arena-card-btn">ENTER ARENA</div>
+        </div>
+
+        <!-- Beginner Expanded (competitions list) -->
+        <div class="beginner-expanded" id="beginnerExpanded">
+            <div class="beginner-expanded-header">
+                <div class="beginner-expanded-title">Beginner Competitions</div>
+                <div class="beginner-back-btn" onclick="backToArena()">&#8249; Back</div>
+            </div>
+
+            <!-- LIVE NOW -->
+            <div class="comp-category">
+                <div class="comp-category-title">
+                    <span class="dot live"></span>
+                    <span class="live-text">LIVE NOW</span>
+                </div>
+                <div class="m-comp-card">
+                    <div class="m-comp-card-top">
+                        <div class="m-comp-tags">
+                            <span class="m-comp-tag live">Live</span>
+                            <span class="m-comp-tag pair">BTC/USDT</span>
+                        </div>
+                        <div class="m-comp-countdown">4h 26m <span>remaining</span></div>
+                    </div>
+                    <div class="m-comp-title">Qualification Challenge Round 23</div>
+                    <div class="m-comp-date">Started: Jun 07, 2026 17:00 UTC</div>
+                    <div class="m-comp-stats">
+                        <div class="m-comp-stat">#18 / 48</div>
+                        <div class="m-comp-stat pnl-positive">+1.16%</div>
+                        <div class="m-comp-stat prize">250 USDT</div>
+                    </div>
+                    <div class="m-comp-bottom">
+                        <div class="m-comp-participants">48 traders competing</div>
+                        <div class="m-comp-actions">
+                            <button class="m-comp-btn secondary">Details</button>
+                            <button class="m-comp-btn enter">Enter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPCOMING -->
+            <div class="comp-category">
+                <div class="comp-category-title">
+                    <span class="dot upcoming"></span>
+                    <span class="upcoming-text">UPCOMING</span>
+                </div>
+                <div class="m-comp-card">
+                    <div class="m-comp-card-top">
+                        <div class="m-comp-tags">
+                            <span class="m-comp-tag registering">Registering</span>
+                            <span class="m-comp-tag pair">ETH/USDT</span>
+                        </div>
+                        <div class="m-comp-time-info">
+                            <span class="m-comp-time-item">Registration closes in <strong>6h</strong></span>
+                            <span class="m-comp-time-item">Starts Jun 08, 00:00 UTC</span>
+                        </div>
+                    </div>
+                    <div class="m-comp-title">Qualification Challenge Round 24</div>
+                    <div class="m-comp-stats">
+                        <div class="m-comp-stat">12 / 100 registered</div>
+                        <div class="m-comp-stat prize">250 USDT</div>
+                    </div>
+                    <div class="m-comp-bottom">
+                        <div class="m-comp-participants">Registration open</div>
+                        <div class="m-comp-actions">
+                            <button class="m-comp-btn secondary">Details</button>
+                            <button class="m-comp-btn register" onclick="mobileRegister(this)">Register</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-comp-card">
+                    <div class="m-comp-card-top">
+                        <div class="m-comp-tags">
+                            <span class="m-comp-tag registering">Registering</span>
+                            <span class="m-comp-tag pair">SOL/USDT</span>
+                        </div>
+                        <div class="m-comp-time-info">
+                            <span class="m-comp-time-item">Registration closes in <strong>18h</strong></span>
+                            <span class="m-comp-time-item">Starts Jun 08, 12:00 UTC</span>
+                        </div>
+                    </div>
+                    <div class="m-comp-title">Qualification Challenge Round 25</div>
+                    <div class="m-comp-stats">
+                        <div class="m-comp-stat">5 / 100 registered</div>
+                        <div class="m-comp-stat prize">250 USDT</div>
+                    </div>
+                    <div class="m-comp-bottom">
+                        <div class="m-comp-participants">Registration open</div>
+                        <div class="m-comp-actions">
+                            <button class="m-comp-btn secondary">Details</button>
+                            <button class="m-comp-btn register" onclick="mobileRegister(this)">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Advanced Arena -->
@@ -1151,6 +1430,21 @@ document.addEventListener('click', function(e) {
         document.getElementById('langDropdown').classList.remove('open');
     }
 });
+
+function enterBeginner() {
+    document.getElementById('beginnerCard').style.display = 'none';
+    document.getElementById('beginnerExpanded').classList.add('active');
+}
+function backToArena() {
+    document.getElementById('beginnerCard').style.display = '';
+    document.getElementById('beginnerExpanded').classList.remove('active');
+}
+function mobileRegister(btn) {
+    btn.textContent = 'Registered';
+    btn.classList.remove('register');
+    btn.classList.add('registered');
+    btn.onclick = null;
+}
 </script>
 </body>
 </html>
