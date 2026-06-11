@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Competition Results</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; z-index: 100;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.back-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+}
+.back-btn:hover { border-color: #f5a623; background: rgba(245,166,35,0.08); }
+.back-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 2; }
+.top-bar-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.top-bar-right { display: flex; align-items: center; gap: 8px; }
+.share-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.share-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 2; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content { padding-top: 56px; padding-bottom: 20px; }
+
+/* ===== RESULT HERO ===== */
+.result-hero {
+    position: relative; padding: 24px 16px; text-align: center;
+    background: linear-gradient(180deg, rgba(245,183,10,0.06) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.result-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 16px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5);
+    margin-bottom: 10px;
+}
+.result-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+.result-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.result-subtitle { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+
+/* Your Result Card */
+.your-result {
+    background: #141414; border: 1px solid rgba(245,183,10,0.2);
+    border-radius: 12px; padding: 16px; margin: 0 auto; max-width: 340px;
+}
+.your-result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.your-result-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); }
+.your-result-rank {
+    font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #F5B70A;
+}
+.your-result-rank span { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 400; }
+.your-result-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.your-stat { text-align: center; }
+.your-stat-value { font-size: 14px; font-weight: 700; }
+.your-stat-value.green { color: #4ade80; }
+.your-stat-value.gold { color: #F5B70A; }
+.your-stat-value.white { color: #fff; }
+.your-stat-label { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+/* ===== RESULT TABS ===== */
+.result-tabs {
+    margin: 16px 16px 0;
+    display: flex; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.result-tab {
+    flex: 1; text-align: center; padding: 10px 4px;
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4);
+    cursor: pointer; position: relative; transition: color 0.2s;
+}
+.result-tab.active { color: #F5B70A; }
+.result-tab.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 20%; right: 20%;
+    height: 2px; background: #F5B70A; border-radius: 1px;
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel { display: none; padding: 16px; }
+.tab-panel.active { display: block; }
+
+/* ===== LEADERBOARD ===== */
+.podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin-bottom: 20px; padding-top: 20px; }
+.podium-item { text-align: center; position: relative; }
+.podium-avatar {
+    width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+}
+.podium-item.first .podium-avatar { width: 52px; height: 52px; border: 2px solid #F5B70A; background: linear-gradient(135deg, #f5a623, #e8912d); font-size: 16px; }
+.podium-item.second .podium-avatar { border: 2px solid #94a3b8; background: linear-gradient(135deg, #94a3b8, #64748b); }
+.podium-item.third .podium-avatar { border: 2px solid #cd7f32; background: linear-gradient(135deg, #cd7f32, #a0522d); }
+.podium-medal { font-size: 16px; margin-bottom: 4px; }
+.podium-name { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.8); max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.podium-pnl { font-size: 10px; font-weight: 700; color: #4ade80; margin-top: 2px; }
+.podium-bar {
+    width: 80px; border-radius: 6px 6px 0 0; margin-top: 6px;
+}
+.podium-item.first .podium-bar { height: 60px; background: linear-gradient(180deg, rgba(245,183,10,0.3), rgba(245,183,10,0.05)); }
+.podium-item.second .podium-bar { height: 44px; background: linear-gradient(180deg, rgba(148,163,184,0.2), rgba(148,163,184,0.05)); }
+.podium-item.third .podium-bar { height: 32px; background: linear-gradient(180deg, rgba(205,127,50,0.2), rgba(205,127,50,0.05)); }
+
+/* Rank List */
+.rank-list { margin-top: 4px; }
+.rank-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.rank-item.you { background: rgba(245,183,10,0.04); margin: 0 -16px; padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(245,183,10,0.15); }
+.rank-num { width: 24px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.4); text-align: center; }
+.rank-item.you .rank-num { color: #F5B70A; }
+.rank-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600;
+}
+.rank-info { flex: 1; }
+.rank-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.rank-tier { font-size: 9px; color: rgba(255,255,255,0.35); }
+.rank-pnl { font-size: 12px; font-weight: 700; text-align: right; }
+.rank-pnl.positive { color: #4ade80; }
+.rank-pnl.negative { color: #ef4444; }
+.rank-prize { font-size: 9px; color: #F5B70A; text-align: right; margin-top: 1px; }
+
+/* ===== MY PERFORMANCE ===== */
+.perf-section { margin-bottom: 20px; }
+.perf-section-title {
+    font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+    color: #F5B70A; margin-bottom: 12px; letter-spacing: 0.05em;
+}
+.perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.perf-card {
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px;
+}
+.perf-card-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.perf-card-value { font-size: 16px; font-weight: 700; }
+.perf-card-value.green { color: #4ade80; }
+.perf-card-value.red { color: #ef4444; }
+.perf-card-value.gold { color: #F5B70A; }
+.perf-card-value.white { color: #fff; }
+.perf-card-sub { font-size: 9px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+/* Trade History */
+.trade-list { margin-top: 12px; }
+.trade-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.trade-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+}
+.trade-icon.buy { background: rgba(74,222,128,0.1); color: #4ade80; }
+.trade-icon.sell { background: rgba(239,68,68,0.1); color: #ef4444; }
+.trade-info { flex: 1; }
+.trade-action { font-size: 11px; font-weight: 600; }
+.trade-action.buy { color: #4ade80; }
+.trade-action.sell { color: #ef4444; }
+.trade-time { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.trade-details { text-align: right; }
+.trade-amount { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.trade-price { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+
+/* ===== CHARTS TAB ===== */
+.chart-container {
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 16px; margin-bottom: 16px;
+}
+.chart-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.chart-placeholder {
+    height: 180px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(74,222,128,0.05) 0%, rgba(74,222,128,0.02) 100%);
+    border: 1px dashed rgba(255,255,255,0.08);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+}
+/* Simple PnL line chart simulation */
+.chart-line {
+    position: absolute; bottom: 30px; left: 16px; right: 16px; height: 100px;
+}
+.chart-line svg { width: 100%; height: 100%; }
+.chart-labels { display: flex; justify-content: space-between; width: calc(100% - 32px); position: absolute; bottom: 10px; left: 16px; }
+.chart-label { font-size: 8px; color: rgba(255,255,255,0.3); }
+.chart-value-line { position: absolute; top: 20px; right: 16px; font-size: 11px; font-weight: 700; color: #4ade80; }
+
+/* Comparison bars */
+.compare-bars { margin-top: 16px; }
+.compare-item { margin-bottom: 12px; }
+.compare-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.compare-label { font-size: 10px; color: rgba(255,255,255,0.5); }
+.compare-value { font-size: 10px; font-weight: 700; }
+.compare-value.green { color: #4ade80; }
+.compare-value.gold { color: #F5B70A; }
+.compare-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.compare-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.compare-fill.green { background: linear-gradient(90deg, #4ade80, #22c55e); }
+.compare-fill.gold { background: linear-gradient(90deg, #F5B70A, #e8912d); }
+.compare-fill.blue { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="back-btn" onclick="history.back()">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </div>
+        <span class="top-bar-title">Competition Results</span>
+    </div>
+    <div class="top-bar-right">
+        <div class="share-btn">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- Result Hero -->
+    <div class="result-hero">
+        <div class="result-badge"><div class="dot"></div>COMPLETED · Jun 06, 2026</div>
+        <div class="result-title">QUALIFICATION CHALLENGE R21</div>
+        <div class="result-subtitle">Beginner Arena · BTC/USDT · 72 Participants</div>
+
+        <!-- Your Result Card -->
+        <div class="your-result">
+            <div class="your-result-header">
+                <div class="your-result-label">Your Final Rank</div>
+                <div class="your-result-rank">#5 <span>/ 72</span></div>
+            </div>
+            <div class="your-result-stats">
+                <div class="your-stat">
+                    <div class="your-stat-value green">+3.42%</div>
+                    <div class="your-stat-label">PnL</div>
+                </div>
+                <div class="your-stat">
+                    <div class="your-stat-value gold">45 USDT</div>
+                    <div class="your-stat-label">Prize Won</div>
+                </div>
+                <div class="your-stat">
+                    <div class="your-stat-value white">18</div>
+                    <div class="your-stat-label">Trades</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Tabs -->
+    <div class="result-tabs">
+        <div class="result-tab active" onclick="switchResultTab('rankings', this)">Rankings</div>
+        <div class="result-tab" onclick="switchResultTab('performance', this)">My Stats</div>
+        <div class="result-tab" onclick="switchResultTab('charts', this)">Charts</div>
+    </div>
+
+    <!-- Tab Panel: Rankings -->
+    <div class="tab-panel active" id="panel-rankings">
+        <!-- Podium -->
+        <div class="podium">
+            <div class="podium-item second">
+                <div class="podium-medal">🥈</div>
+                <div class="podium-avatar">CK</div>
+                <div class="podium-name">CryptoKing_88</div>
+                <div class="podium-pnl">+6.87%</div>
+                <div class="podium-bar"></div>
+            </div>
+            <div class="podium-item first">
+                <div class="podium-medal">🥇</div>
+                <div class="podium-avatar">AS</div>
+                <div class="podium-name">AlphaSniper</div>
+                <div class="podium-pnl">+8.21%</div>
+                <div class="podium-bar"></div>
+            </div>
+            <div class="podium-item third">
+                <div class="podium-medal">🥉</div>
+                <div class="podium-avatar">SW</div>
+                <div class="podium-name">SwingWhale</div>
+                <div class="podium-pnl">+5.43%</div>
+                <div class="podium-bar"></div>
+            </div>
+        </div>
+
+        <!-- Full Rankings -->
+        <div class="rank-list">
+            <div class="rank-item">
+                <div class="rank-num">4</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #34d399, #059669);">DT</div>
+                <div class="rank-info">
+                    <div class="rank-name">DeFiTiger</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+4.15%</div>
+                    <div class="rank-prize">25 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item you">
+                <div class="rank-num">5</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #f5a623, #e8912d);">OT</div>
+                <div class="rank-info">
+                    <div class="rank-name">OtterTrader_01 (You)</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+3.42%</div>
+                    <div class="rank-prize">45 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">6</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #f472b6, #ec4899);">MN</div>
+                <div class="rank-info">
+                    <div class="rank-name">MoonNinja</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+2.98%</div>
+                    <div class="rank-prize">12.5 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">7</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #60a5fa, #3b82f6);">TX</div>
+                <div class="rank-info">
+                    <div class="rank-name">TradeX_Pro</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+2.34%</div>
+                    <div class="rank-prize">12.5 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">8</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #fbbf24, #d97706);">BH</div>
+                <div class="rank-info">
+                    <div class="rank-name">BullHunter</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+1.87%</div>
+                    <div class="rank-prize">6.25 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">9</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">VK</div>
+                <div class="rank-info">
+                    <div class="rank-name">VortexKid</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+1.52%</div>
+                    <div class="rank-prize">6.25 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">10</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #fb923c, #ea580c);">RC</div>
+                <div class="rank-info">
+                    <div class="rank-name">RocketChad</div>
+                    <div class="rank-tier">Silver Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+1.21%</div>
+                    <div class="rank-prize">6.25 USDT</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">11</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #6ee7b7, #10b981);">GG</div>
+                <div class="rank-info">
+                    <div class="rank-name">GreenGains</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+0.89%</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">12</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #94a3b8, #64748b);">NB</div>
+                <div class="rank-info">
+                    <div class="rank-name">NovaBear</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl positive">+0.54%</div>
+                </div>
+            </div>
+            <div class="rank-item">
+                <div class="rank-num">13</div>
+                <div class="rank-avatar" style="background: linear-gradient(135deg, #e879f9, #c026d3);">PX</div>
+                <div class="rank-info">
+                    <div class="rank-name">PixelTrader</div>
+                    <div class="rank-tier">Bronze Tier</div>
+                </div>
+                <div>
+                    <div class="rank-pnl negative">-0.12%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Panel: My Performance -->
+    <div class="tab-panel" id="panel-performance">
+        <div class="perf-section">
+            <div class="perf-section-title">PERFORMANCE SUMMARY</div>
+            <div class="perf-grid">
+                <div class="perf-card">
+                    <div class="perf-card-label">Final PnL</div>
+                    <div class="perf-card-value green">+3.42%</div>
+                    <div class="perf-card-sub">+342 USDT (virtual)</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Final Rank</div>
+                    <div class="perf-card-value gold">#5 / 72</div>
+                    <div class="perf-card-sub">Top 7%</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Total Trades</div>
+                    <div class="perf-card-value white">18</div>
+                    <div class="perf-card-sub">12 buys · 6 sells</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Win Rate</div>
+                    <div class="perf-card-value green">72.2%</div>
+                    <div class="perf-card-sub">13 wins · 5 losses</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Best Trade</div>
+                    <div class="perf-card-value green">+1.24%</div>
+                    <div class="perf-card-sub">BTC Long @ $67,420</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Worst Trade</div>
+                    <div class="perf-card-value red">-0.38%</div>
+                    <div class="perf-card-sub">BTC Short @ $67,890</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Avg Hold Time</div>
+                    <div class="perf-card-value white">47m</div>
+                    <div class="perf-card-sub">Min: 8m · Max: 2h 15m</div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-card-label">Prize Won</div>
+                    <div class="perf-card-value gold">45 USDT</div>
+                    <div class="perf-card-sub">5th place reward</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="perf-section">
+            <div class="perf-section-title">TRADE HISTORY</div>
+            <div class="trade-list">
+                <div class="trade-item">
+                    <div class="trade-icon buy">B</div>
+                    <div class="trade-info">
+                        <div class="trade-action buy">BUY BTC</div>
+                        <div class="trade-time">Jun 06, 00:12 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.15 BTC</div>
+                        <div class="trade-price">@ $67,420</div>
+                    </div>
+                </div>
+                <div class="trade-item">
+                    <div class="trade-icon sell">S</div>
+                    <div class="trade-info">
+                        <div class="trade-action sell">SELL BTC</div>
+                        <div class="trade-time">Jun 06, 01:05 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.15 BTC</div>
+                        <div class="trade-price">@ $67,840 (+0.62%)</div>
+                    </div>
+                </div>
+                <div class="trade-item">
+                    <div class="trade-icon buy">B</div>
+                    <div class="trade-info">
+                        <div class="trade-action buy">BUY BTC</div>
+                        <div class="trade-time">Jun 06, 03:22 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.20 BTC</div>
+                        <div class="trade-price">@ $67,650</div>
+                    </div>
+                </div>
+                <div class="trade-item">
+                    <div class="trade-icon sell">S</div>
+                    <div class="trade-info">
+                        <div class="trade-action sell">SELL BTC</div>
+                        <div class="trade-time">Jun 06, 04:48 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.20 BTC</div>
+                        <div class="trade-price">@ $68,490 (+1.24%)</div>
+                    </div>
+                </div>
+                <div class="trade-item">
+                    <div class="trade-icon buy">B</div>
+                    <div class="trade-info">
+                        <div class="trade-action buy">BUY BTC</div>
+                        <div class="trade-time">Jun 06, 08:15 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.10 BTC</div>
+                        <div class="trade-price">@ $68,200</div>
+                    </div>
+                </div>
+                <div class="trade-item">
+                    <div class="trade-icon sell">S</div>
+                    <div class="trade-info">
+                        <div class="trade-action sell">SELL BTC</div>
+                        <div class="trade-time">Jun 06, 09:30 UTC</div>
+                    </div>
+                    <div class="trade-details">
+                        <div class="trade-amount">0.10 BTC</div>
+                        <div class="trade-price">@ $67,890 (-0.45%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Panel: Charts -->
+    <div class="tab-panel" id="panel-charts">
+        <!-- PnL Chart -->
+        <div class="chart-container">
+            <div class="chart-title">PnL Over Time (24h)</div>
+            <div class="chart-placeholder">
+                <div class="chart-value-line">+3.42%</div>
+                <div class="chart-line">
+                    <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="pnlGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4ade80" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,80 L20,75 L40,60 L60,65 L80,50 L100,45 L120,55 L140,40 L160,35 L180,30 L200,25 L220,28 L240,20 L260,22 L280,15 L300,18" fill="none" stroke="#4ade80" stroke-width="2"/>
+                        <path d="M0,80 L20,75 L40,60 L60,65 L80,50 L100,45 L120,55 L140,40 L160,35 L180,30 L200,25 L220,28 L240,20 L260,22 L280,15 L300,18 L300,100 L0,100 Z" fill="url(#pnlGrad)"/>
+                    </svg>
+                </div>
+                <div class="chart-labels">
+                    <span class="chart-label">00:00</span>
+                    <span class="chart-label">06:00</span>
+                    <span class="chart-label">12:00</span>
+                    <span class="chart-label">18:00</span>
+                    <span class="chart-label">24:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rank Position Chart -->
+        <div class="chart-container">
+            <div class="chart-title">Rank Position Over Time</div>
+            <div class="chart-placeholder">
+                <div class="chart-value-line" style="color: #F5B70A;">#5</div>
+                <div class="chart-line">
+                    <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="rankGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#F5B70A" stop-opacity="0.2"/>
+                                <stop offset="100%" stop-color="#F5B70A" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,20 L20,25 L40,35 L60,30 L80,40 L100,45 L120,38 L140,42 L160,50 L180,55 L200,60 L220,58 L240,65 L260,62 L280,68 L300,70" fill="none" stroke="#F5B70A" stroke-width="2"/>
+                        <path d="M0,20 L20,25 L40,35 L60,30 L80,40 L100,45 L120,38 L140,42 L160,50 L180,55 L200,60 L220,58 L240,65 L260,62 L280,68 L300,70 L300,100 L0,100 Z" fill="url(#rankGrad)"/>
+                    </svg>
+                </div>
+                <div class="chart-labels">
+                    <span class="chart-label">00:00</span>
+                    <span class="chart-label">06:00</span>
+                    <span class="chart-label">12:00</span>
+                    <span class="chart-label">18:00</span>
+                    <span class="chart-label">24:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Bars -->
+        <div class="chart-container">
+            <div class="chart-title">Your Performance vs Average</div>
+            <div class="compare-bars">
+                <div class="compare-item">
+                    <div class="compare-header">
+                        <span class="compare-label">Your PnL</span>
+                        <span class="compare-value green">+3.42%</span>
+                    </div>
+                    <div class="compare-bar"><div class="compare-fill green" style="width: 68%;"></div></div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-header">
+                        <span class="compare-label">Average PnL</span>
+                        <span class="compare-value gold">+1.24%</span>
+                    </div>
+                    <div class="compare-bar"><div class="compare-fill gold" style="width: 35%;"></div></div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-header">
+                        <span class="compare-label">Winner PnL</span>
+                        <span class="compare-value green">+8.21%</span>
+                    </div>
+                    <div class="compare-bar"><div class="compare-fill blue" style="width: 100%;"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function switchResultTab(tab, el) {
+    document.querySelectorAll('.result-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+}
+</script>
+</body>
+</html>

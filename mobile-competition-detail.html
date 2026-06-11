@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Competition Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; z-index: 100;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.back-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+}
+.back-btn:hover { border-color: #f5a623; background: rgba(245,166,35,0.08); }
+.back-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.7); fill: none; stroke-width: 2; }
+.top-bar-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.top-bar-right { display: flex; align-items: center; gap: 8px; }
+.share-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.share-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 2; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content { padding-top: 56px; padding-bottom: 90px; }
+
+/* ===== HERO BANNER ===== */
+.hero-banner {
+    position: relative; height: 160px; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex; align-items: center; justify-content: center;
+}
+.hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, #0B0B0B 100%);
+}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 16px; }
+.hero-pair-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(245,183,10,0.15); border: 2px solid rgba(245,183,10,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px; font-size: 18px; font-weight: 800; color: #F5B70A;
+}
+.hero-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #fff; }
+.hero-subtitle { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+/* ===== STATUS BADGE ===== */
+.status-section { padding: 0 16px; margin-top: -20px; position: relative; z-index: 3; }
+.status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+}
+.status-badge.registering { background: rgba(245,183,10,0.12); color: #F5B70A; border: 1px solid rgba(245,183,10,0.25); }
+.status-badge.live { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; }
+.status-dot.registering { background: #F5B70A; }
+.status-dot.live { background: #4ade80; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ===== INFO GRID ===== */
+.info-grid {
+    margin: 16px 16px 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.info-card {
+    background: #141414; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px;
+}
+.info-card-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.info-card-value { font-size: 14px; font-weight: 700; color: #fff; }
+.info-card-value.gold { color: #F5B70A; }
+.info-card-value.green { color: #4ade80; }
+.info-card-sub { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+/* ===== DETAIL TABS ===== */
+.detail-tabs {
+    margin: 16px 16px 0;
+    display: flex; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.detail-tab {
+    flex: 1; text-align: center; padding: 10px 4px;
+    font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4);
+    cursor: pointer; position: relative; transition: color 0.2s;
+}
+.detail-tab.active { color: #F5B70A; }
+.detail-tab.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 20%; right: 20%;
+    height: 2px; background: #F5B70A; border-radius: 1px;
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel { display: none; padding: 16px; }
+.tab-panel.active { display: block; }
+
+/* ===== RULES SECTION ===== */
+.section-title {
+    font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
+    color: #F5B70A; margin-bottom: 12px; letter-spacing: 0.05em;
+}
+.rule-list { list-style: none; }
+.rule-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.rule-item:last-child { border-bottom: none; }
+.rule-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(245,183,10,0.1); border: 1px solid rgba(245,183,10,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: #F5B70A; flex-shrink: 0;
+}
+.rule-text { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.rule-text strong { color: #fff; }
+
+/* ===== TIMELINE ===== */
+.timeline { margin-top: 16px; }
+.timeline-item {
+    display: flex; gap: 12px; padding-bottom: 16px; position: relative;
+}
+.timeline-item:not(:last-child)::before {
+    content: ''; position: absolute; left: 11px; top: 24px; bottom: 0;
+    width: 1px; background: rgba(255,255,255,0.08);
+}
+.timeline-dot {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+.timeline-dot.done { background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.3); }
+.timeline-dot.done::after { content: '✓'; font-size: 10px; color: #4ade80; }
+.timeline-dot.current { background: rgba(245,183,10,0.15); border: 1px solid rgba(245,183,10,0.4); animation: pulse 1.5s infinite; }
+.timeline-dot.current::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #F5B70A; }
+.timeline-dot.future { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+.timeline-dot.future::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+.timeline-info { flex: 1; }
+.timeline-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.timeline-time { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.timeline-status { font-size: 9px; font-weight: 600; margin-top: 2px; }
+.timeline-status.done { color: #4ade80; }
+.timeline-status.active { color: #F5B70A; }
+
+/* ===== PRIZE TABLE ===== */
+.prize-table {
+    width: 100%; border-collapse: collapse; margin-top: 12px;
+}
+.prize-table th {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.4); text-align: left; padding: 8px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.prize-table td {
+    font-size: 12px; color: rgba(255,255,255,0.7); padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.prize-table td.rank { font-weight: 700; color: #F5B70A; }
+.prize-table td.prize { font-weight: 600; color: #4ade80; }
+.prize-total {
+    margin-top: 12px; padding: 12px; background: rgba(245,183,10,0.05);
+    border: 1px solid rgba(245,183,10,0.15); border-radius: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.prize-total-label { font-size: 11px; color: rgba(255,255,255,0.5); }
+.prize-total-value { font-size: 16px; font-weight: 800; color: #F5B70A; }
+
+/* ===== PARTICIPANTS ===== */
+.participants-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.participants-count { font-size: 11px; color: rgba(255,255,255,0.4); }
+.participant-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.participant-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+}
+.participant-info { flex: 1; }
+.participant-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.participant-tier { font-size: 9px; color: rgba(255,255,255,0.4); }
+.participant-badge { font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+.participant-badge.you { background: rgba(245,183,10,0.12); color: #F5B70A; }
+
+/* ===== PROGRESS BAR ===== */
+.reg-progress { margin-top: 16px; }
+.reg-progress-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.reg-progress-label { font-size: 10px; color: rgba(255,255,255,0.5); }
+.reg-progress-value { font-size: 10px; font-weight: 700; color: #F5B70A; }
+.reg-progress-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.reg-progress-fill { height: 100%; background: linear-gradient(90deg, #F5B70A, #e8912d); border-radius: 3px; transition: width 0.5s; }
+
+/* ===== BOTTOM ACTION ===== */
+.bottom-action {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+    display: flex; align-items: center; gap: 12px; z-index: 100;
+}
+.action-info { flex: 1; }
+.action-prize { font-size: 10px; color: rgba(255,255,255,0.4); }
+.action-prize strong { color: #F5B70A; font-size: 14px; }
+.action-btn {
+    padding: 12px 28px; border-radius: 8px; border: none;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+}
+.action-btn.register { background: #4ade80; color: #0B0B0B; }
+.action-btn.register:hover { background: #22c55e; }
+.action-btn.enter { background: #F5B70A; color: #0B0B0B; }
+.action-btn.enter:hover { background: #e8912d; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="back-btn" onclick="history.back()">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </div>
+        <span class="top-bar-title">Competition Details</span>
+    </div>
+    <div class="top-bar-right">
+        <div class="share-btn">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-pair-icon">₿</div>
+            <div class="hero-title">QUALIFICATION CHALLENGE R24</div>
+            <div class="hero-subtitle">Beginner Arena · ETH/USDT</div>
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-section">
+        <div class="status-badge registering">
+            <div class="status-dot registering"></div>
+            REGISTRATION OPEN
+        </div>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-card-label">Trading Pair</div>
+            <div class="info-card-value">ETH/USDT</div>
+            <div class="info-card-sub">Spot trading only</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Duration</div>
+            <div class="info-card-value">24 Hours</div>
+            <div class="info-card-sub">Jun 08, 00:00 - Jun 09, 00:00 UTC</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Prize Pool</div>
+            <div class="info-card-value gold">250 USDT</div>
+            <div class="info-card-sub">Top 10 share prizes</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Participants</div>
+            <div class="info-card-value green">12 / 100</div>
+            <div class="info-card-sub">Registration closes in 6h</div>
+        </div>
+    </div>
+
+    <!-- Registration Progress -->
+    <div style="padding: 0 16px; margin-top: 12px;">
+        <div class="reg-progress">
+            <div class="reg-progress-header">
+                <span class="reg-progress-label">Registration Progress</span>
+                <span class="reg-progress-value">12 / 100</span>
+            </div>
+            <div class="reg-progress-bar">
+                <div class="reg-progress-fill" style="width: 12%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Tabs -->
+    <div class="detail-tabs">
+        <div class="detail-tab active" onclick="switchDetailTab('rules', this)">Rules</div>
+        <div class="detail-tab" onclick="switchDetailTab('schedule', this)">Schedule</div>
+        <div class="detail-tab" onclick="switchDetailTab('prizes', this)">Prizes</div>
+        <div class="detail-tab" onclick="switchDetailTab('players', this)">Players</div>
+    </div>
+
+    <!-- Tab Panel: Rules -->
+    <div class="tab-panel active" id="panel-rules">
+        <div class="section-title">TRADING RULES</div>
+        <ul class="rule-list">
+            <li class="rule-item">
+                <div class="rule-num">1</div>
+                <div class="rule-text"><strong>Starting Balance:</strong> Each participant starts with a virtual balance of 10,000 USDT. No real funds are at risk.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">2</div>
+                <div class="rule-text"><strong>Trading Pair:</strong> Only ETH/USDT spot trading is allowed during this round. No leverage or margin.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">3</div>
+                <div class="rule-text"><strong>Duration:</strong> The competition lasts exactly 24 hours. All open positions are auto-closed at the end.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">4</div>
+                <div class="rule-text"><strong>Ranking:</strong> Participants are ranked by PnL percentage. Highest PnL% wins.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">5</div>
+                <div class="rule-text"><strong>Max Position:</strong> Maximum single position size is 50% of total balance. No all-in allowed.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">6</div>
+                <div class="rule-text"><strong>Min Trades:</strong> At least 3 trades must be executed to qualify for prizes.</div>
+            </li>
+            <li class="rule-item">
+                <div class="rule-num">7</div>
+                <div class="rule-text"><strong>Fair Play:</strong> Any manipulation, wash trading, or exploiting bugs will result in disqualification.</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Panel: Schedule -->
+    <div class="tab-panel" id="panel-schedule">
+        <div class="section-title">COMPETITION TIMELINE</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-info">
+                    <div class="timeline-label">Registration Opens</div>
+                    <div class="timeline-time">Jun 07, 12:00 UTC</div>
+                    <div class="timeline-status done">Completed</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot current"></div>
+                <div class="timeline-info">
+                    <div class="timeline-label">Registration Closes</div>
+                    <div class="timeline-time">Jun 08, 00:00 UTC</div>
+                    <div class="timeline-status active">Closes in 6h</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot future"></div>
+                <div class="timeline-info">
+                    <div class="timeline-label">Competition Starts</div>
+                    <div class="timeline-time">Jun 08, 00:00 UTC</div>
+                    <div class="timeline-status" style="color:rgba(255,255,255,0.3);">Upcoming</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot future"></div>
+                <div class="timeline-info">
+                    <div class="timeline-label">Competition Ends</div>
+                    <div class="timeline-time">Jun 09, 00:00 UTC</div>
+                    <div class="timeline-status" style="color:rgba(255,255,255,0.3);">Upcoming</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot future"></div>
+                <div class="timeline-info">
+                    <div class="timeline-label">Results & Prize Distribution</div>
+                    <div class="timeline-time">Jun 09, 01:00 UTC</div>
+                    <div class="timeline-status" style="color:rgba(255,255,255,0.3);">Upcoming</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Panel: Prizes -->
+    <div class="tab-panel" id="panel-prizes">
+        <div class="section-title">PRIZE DISTRIBUTION</div>
+        <table class="prize-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Prize</th>
+                    <th>% of Pool</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="rank">🥇 1st</td><td class="prize">75 USDT</td><td>30%</td></tr>
+                <tr><td class="rank">🥈 2nd</td><td class="prize">50 USDT</td><td>20%</td></tr>
+                <tr><td class="rank">🥉 3rd</td><td class="prize">37.5 USDT</td><td>15%</td></tr>
+                <tr><td class="rank">4th</td><td class="prize">25 USDT</td><td>10%</td></tr>
+                <tr><td class="rank">5th</td><td class="prize">20 USDT</td><td>8%</td></tr>
+                <tr><td class="rank">6th - 7th</td><td class="prize">12.5 USDT</td><td>5% each</td></tr>
+                <tr><td class="rank">8th - 10th</td><td class="prize">6.25 USDT</td><td>2.5% each</td></tr>
+            </tbody>
+        </table>
+        <div class="prize-total">
+            <div class="prize-total-label">Total Prize Pool</div>
+            <div class="prize-total-value">250 USDT</div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <div class="section-title">WITHDRAWAL RULES</div>
+            <ul class="rule-list">
+                <li class="rule-item">
+                    <div class="rule-num">!</div>
+                    <div class="rule-text">Prizes can be withdrawn after completing <strong>3 competition rounds</strong> in the current cycle.</div>
+                </li>
+                <li class="rule-item">
+                    <div class="rule-num">!</div>
+                    <div class="rule-text">Minimum withdrawal amount: <strong>10 USDT</strong>. Withdrawals are processed within 24 hours.</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab Panel: Players -->
+    <div class="tab-panel" id="panel-players">
+        <div class="participants-header">
+            <div class="section-title" style="margin-bottom:0;">REGISTERED PLAYERS</div>
+            <div class="participants-count">12 / 100</div>
+        </div>
+
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #f5a623, #e8912d);">OT</div>
+            <div class="participant-info">
+                <div class="participant-name">OtterTrader_01</div>
+                <div class="participant-tier">Bronze Tier · 5 wins</div>
+            </div>
+            <div class="participant-badge you">YOU</div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #4ade80, #22c55e);">CK</div>
+            <div class="participant-info">
+                <div class="participant-name">CryptoKing_88</div>
+                <div class="participant-tier">Silver Tier · 12 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #60a5fa, #3b82f6);">TX</div>
+            <div class="participant-info">
+                <div class="participant-name">TradeX_Pro</div>
+                <div class="participant-tier">Bronze Tier · 3 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #a855f7, #7c3aed);">MN</div>
+            <div class="participant-info">
+                <div class="participant-name">MoonNinja</div>
+                <div class="participant-tier">Bronze Tier · 8 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #f472b6, #ec4899);">SW</div>
+            <div class="participant-info">
+                <div class="participant-name">SwingWhale</div>
+                <div class="participant-tier">Silver Tier · 15 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #fbbf24, #d97706);">BH</div>
+            <div class="participant-info">
+                <div class="participant-name">BullHunter</div>
+                <div class="participant-tier">Bronze Tier · 2 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #34d399, #059669);">DT</div>
+            <div class="participant-info">
+                <div class="participant-name">DeFiTiger</div>
+                <div class="participant-tier">Bronze Tier · 6 wins</div>
+            </div>
+        </div>
+        <div class="participant-item">
+            <div class="participant-avatar" style="background: linear-gradient(135deg, #818cf8, #6366f1);">AS</div>
+            <div class="participant-info">
+                <div class="participant-name">AlphaSniper</div>
+                <div class="participant-tier">Gold Tier · 28 wins</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BOTTOM ACTION BAR -->
+<div class="bottom-action">
+    <div class="action-info">
+        <div class="action-prize">Prize Pool: <strong>250 USDT</strong></div>
+    </div>
+    <button class="action-btn register" onclick="this.textContent='REGISTERED ✓'; this.style.background='rgba(74,222,128,0.15)'; this.style.color='#4ade80'; this.style.border='1px solid rgba(74,222,128,0.3)';">REGISTER NOW</button>
+</div>
+
+<script>
+function switchDetailTab(tab, el) {
+    document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+}
+</script>
+</body>
+</html>
