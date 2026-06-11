@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Notifications</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 48px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; z-index: 100;
+}
+.header-logo { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #F5B70A; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-icon { font-size: 16px; cursor: pointer; opacity: 0.7; }
+.header-user { font-size: 11px; color: rgba(255,255,255,0.6); }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 64px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: space-around;
+    z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; text-decoration: none; }
+.nav-item.active { opacity: 1; }
+.nav-item .nav-icon { font-size: 20px; }
+.nav-item .nav-label { font-size: 10px; color: rgba(255,255,255,0.7); }
+.nav-item.active .nav-label { color: #F5B70A; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content { padding-top: 48px; padding-bottom: 80px; }
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+    padding: 16px 16px 12px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+}
+.page-header-left {}
+.page-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px; font-weight: 700; color: #fff;
+}
+.page-subtitle {
+    font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px;
+}
+.mark-all-btn {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 500; color: #F5B70A;
+    cursor: pointer; padding: 6px 10px;
+    border: 1px solid rgba(245,183,10,0.2); border-radius: 6px;
+    background: rgba(245,183,10,0.05);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.mark-all-btn:hover { background: rgba(245,183,10,0.1); }
+
+/* ===== NOTIFICATION LIST ===== */
+.notification-list { padding: 0 12px; }
+
+.notification-card {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px 14px 12px;
+    margin-bottom: 10px;
+    position: relative;
+    transition: all 0.2s;
+}
+.notification-card.unread {
+    border-color: rgba(74,222,128,0.25);
+    background: rgba(74,222,128,0.03);
+}
+
+.notification-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 6px;
+}
+.notification-title-row {
+    display: flex; align-items: center; gap: 8px;
+}
+.notification-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+}
+.notification-card.unread .notification-dot {
+    background: #4ade80;
+    box-shadow: 0 0 6px rgba(74,222,128,0.4);
+}
+.notification-title {
+    font-size: 13px; font-weight: 600; color: #fff;
+}
+.notification-time {
+    font-size: 10px; color: rgba(255,255,255,0.35);
+    white-space: nowrap; flex-shrink: 0;
+}
+
+.notification-body {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+    padding-left: 16px;
+    margin-bottom: 8px;
+}
+
+.notification-action {
+    padding-left: 16px;
+}
+.notification-action a {
+    font-size: 11px; font-weight: 600; color: #F5B70A;
+    text-decoration: none;
+}
+.notification-action a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+    <div class="header-logo">OTTER TRADE</div>
+    <div class="header-right">
+        <span class="header-icon">🌐</span>
+        <span class="header-icon">🔔</span>
+        <span class="header-user">trader@</span>
+    </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="page-title">Notification Center</div>
+            <div class="page-subtitle">1 unread</div>
+        </div>
+        <div class="mark-all-btn" onclick="markAllRead()">✓ Mark all read</div>
+    </div>
+
+    <!-- Notification List -->
+    <div class="notification-list">
+
+        <!-- Unread notification -->
+        <div class="notification-card unread">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">19h ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 25" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <!-- Read notifications -->
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">2d ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 23" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">5d ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 21" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">6d ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 20" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">8d ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 19" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Competition Ended</div>
+                </div>
+                <div class="notification-time">10d ago</div>
+            </div>
+            <div class="notification-body">
+                "Qualification Challenge Round 18" has been settled. Check your ranking and rewards!
+            </div>
+            <div class="notification-action">
+                <a href="mobile-competition-result.html">View Details →</a>
+            </div>
+        </div>
+
+        <div class="notification-card">
+            <div class="notification-top">
+                <div class="notification-title-row">
+                    <div class="notification-dot"></div>
+                    <div class="notification-title">Achievement Unlocked!</div>
+                </div>
+                <div class="notification-time">10d ago</div>
+            </div>
+            <div class="notification-body">
+                Congratulations! You earned "First Blood" — Complete your first arena trade
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== BOTTOM NAV ===== -->
+<div class="bottom-nav">
+    <a class="nav-item" href="mobile-arena.html"><span class="nav-icon">⚔️</span><span class="nav-label">Arena</span></a>
+    <a class="nav-item" href="mobile-schedule.html"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></a>
+    <a class="nav-item" href="mobile-watch.html"><span class="nav-icon">👁</span><span class="nav-label">Watch</span></a>
+    <a class="nav-item" href="mobile-dashboard.html"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+    <a class="nav-item" href="mobile-rewards.html"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></a>
+</div>
+
+<script>
+function markAllRead() {
+    document.querySelectorAll('.notification-card.unread').forEach(card => {
+        card.classList.remove('unread');
+    });
+    document.querySelector('.page-subtitle').textContent = '0 unread';
+    document.querySelector('.mark-all-btn').style.opacity = '0.4';
+    document.querySelector('.mark-all-btn').style.pointerEvents = 'none';
+}
+</script>
+</body>
+</html>
