@@ -34,101 +34,40 @@ body {
     padding: 0 16px;
     z-index: 100;
 }
-.top-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+.top-bar-left { display: flex; align-items: center; gap: 8px; }
 .top-bar-logo {
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     background: linear-gradient(135deg, #f5a623, #e8912d);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
 }
-.top-bar-brand {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: #fff;
-}
-.top-bar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+.top-bar-brand { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+.top-bar-right { display: flex; align-items: center; gap: 12px; }
 .top-bar-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s;
-    position: relative;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.2s; position: relative;
 }
 .top-bar-icon:hover { background: rgba(255,255,255,0.08); }
-.top-bar-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: none;
-    stroke: rgba(255,255,255,0.7);
-    stroke-width: 1.8;
-}
-.notif-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 8px;
-    height: 8px;
-    background: #e74c3c;
-    border-radius: 50%;
-    border: 1.5px solid #0B0B0B;
-}
+.top-bar-icon svg { width: 20px; height: 20px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 1.8; }
+.notif-badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #e74c3c; border-radius: 50%; border: 1.5px solid #0B0B0B; }
 .top-bar-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    width: 32px; height: 32px; border-radius: 50%;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; cursor: pointer;
     border: 2px solid rgba(255,255,255,0.15);
-    transition: border-color 0.2s;
 }
 .top-bar-avatar:hover { border-color: #f5a623; }
 
 /* ===== MAIN CONTENT ===== */
-.main-content {
-    padding-top: 56px;
-    padding-bottom: 80px;
-}
+.main-content { padding-top: 56px; padding-bottom: 80px; }
 
-/* ===== WELCOME SECTION ===== */
-.welcome-section {
-    padding: 20px 16px 0;
-}
-.welcome-greeting {
-    font-size: 18px;
-    font-weight: 300;
-    color: rgba(255,255,255,0.7);
-}
-.welcome-greeting strong {
-    color: #f5a623;
-    font-weight: 700;
-}
-.welcome-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    margin-top: 4px;
-}
+/* ===== WELCOME ===== */
+.welcome-section { padding: 20px 16px 0; }
+.welcome-greeting { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.7); }
+.welcome-greeting strong { color: #f5a623; font-weight: 700; }
+.welcome-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
 
 /* ===== USER STATS CARD ===== */
 .user-stats-card {
@@ -138,102 +77,37 @@ body {
     border-radius: 12px;
     padding: 16px;
 }
-.user-stats-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-}
+.user-stats-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .user-avatar-lg {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600;
     border: 2px solid rgba(245, 166, 35, 0.4);
 }
-.user-info-col {
-    flex: 1;
-}
-.user-name-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.user-name {
-    font-size: 15px;
-    font-weight: 600;
-}
+.user-info-col { flex: 1; }
+.user-name-row { display: flex; align-items: center; gap: 8px; }
+.user-name { font-size: 15px; font-weight: 600; }
 .user-tier-badge {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #cd7f32, #a0522d);
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 10px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff;
+    padding: 2px 8px; border-radius: 10px;
 }
-.user-leverage {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    margin-top: 2px;
-}
-.user-stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
-}
+.user-leverage { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.user-stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .stat-item {
-    text-align: center;
-    padding: 10px 4px;
-    background: rgba(255,255,255,0.02);
-    border-radius: 8px;
+    text-align: center; padding: 10px 4px;
+    background: rgba(255,255,255,0.02); border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.04);
 }
-.stat-value {
-    font-size: 16px;
-    font-weight: 700;
-    color: #4ade80;
-}
+.stat-value { font-size: 16px; font-weight: 700; color: #4ade80; }
 .stat-value.gold { color: #f5a623; }
 .stat-value.white { color: #fff; }
-.stat-label {
-    font-size: 9px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-top: 4px;
-}
-/* Points progress */
-.points-progress {
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.progress-bar-wrap {
-    flex: 1;
-    height: 4px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    overflow: hidden;
-}
-.progress-bar-fill {
-    height: 100%;
-    width: 49%;
-    background: linear-gradient(90deg, #4ade80, #f5a623);
-    border-radius: 2px;
-}
-.progress-text {
-    font-size: 9px;
-    color: rgba(255,255,255,0.4);
-    white-space: nowrap;
-}
+.stat-label { font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.points-progress { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.progress-bar-wrap { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; width: 49%; background: linear-gradient(90deg, #4ade80, #f5a623); border-radius: 2px; }
+.progress-text { font-size: 9px; color: rgba(255,255,255,0.4); white-space: nowrap; }
 
 /* ===== REFERRAL BANNER ===== */
 .referral-banner {
@@ -242,269 +116,72 @@ body {
     border: 1px solid rgba(245, 166, 35, 0.15);
     border-radius: 10px;
     padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
 }
 .referral-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    width: 32px; height: 32px; border-radius: 50%;
     background: rgba(245, 166, 35, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.referral-icon svg {
-    width: 16px;
-    height: 16px;
-    stroke: #f5a623;
-    fill: none;
-    stroke-width: 2;
-}
-.referral-text {
-    flex: 1;
-}
-.referral-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-}
-.referral-desc {
-    font-size: 10px;
-    color: rgba(255,255,255,0.5);
-    margin-top: 2px;
-}
+.referral-icon svg { width: 16px; height: 16px; stroke: #f5a623; fill: none; stroke-width: 2; }
+.referral-text { flex: 1; }
+.referral-title { font-size: 12px; font-weight: 600; }
+.referral-desc { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; }
 .referral-desc span { color: #4ade80; font-weight: 600; }
 .referral-copy-btn {
-    padding: 6px 12px;
-    background: #f5a623;
-    color: #0B0B0B;
-    font-size: 10px;
-    font-weight: 700;
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
-    letter-spacing: 0.03em;
+    padding: 6px 12px; background: #f5a623; color: #0B0B0B;
+    font-size: 10px; font-weight: 700; border-radius: 6px;
+    cursor: pointer; white-space: nowrap;
 }
 
-/* ===== ENTER THE ARENA ===== */
-.arena-section {
-    padding: 20px 16px 0;
-}
-.section-title {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 12px;
-}
-
-.arena-card {
+/* ===== ARENA TABS ===== */
+.arena-tabs {
+    margin: 16px 16px 0;
+    display: flex;
     background: #141414;
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 12px;
-    position: relative;
-    overflow: hidden;
+    border-radius: 10px;
+    padding: 4px;
 }
-.arena-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    opacity: 0.06;
-}
-.arena-card.beginner { border-color: rgba(74, 222, 128, 0.15); }
-.arena-card.beginner::before { background: radial-gradient(circle, #4ade80, transparent); }
-.arena-card.advanced { border-color: rgba(168, 85, 247, 0.15); }
-.arena-card.advanced::before { background: radial-gradient(circle, #a855f7, transparent); }
-
-.arena-card-tag {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-.arena-card.beginner .arena-card-tag {
-    background: rgba(74, 222, 128, 0.12);
-    color: #4ade80;
-}
-.arena-card.advanced .arena-card-tag {
-    background: rgba(168, 85, 247, 0.12);
-    color: #a855f7;
-}
-
-.arena-card-title {
-    font-size: 18px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    margin-bottom: 12px;
-}
-.arena-card.beginner .arena-card-title { color: #4ade80; }
-.arena-card.advanced .arena-card-title { color: #a855f7; }
-
-.arena-card-features {
-    list-style: none;
-    margin-bottom: 14px;
-}
-.arena-card-features li {
+.arena-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    padding: 3px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.arena-card-features li::before {
-    content: '';
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    flex-shrink: 0;
-}
-
-.arena-card-prize {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 14px;
-}
-.arena-card-prize strong {
-    font-size: 16px;
-    color: #fff;
-    font-weight: 700;
-}
-
-.arena-card-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.arena-card.beginner .arena-card-btn {
-    background: #4ade80;
-    color: #0B0B0B;
-}
-.arena-card.advanced .arena-card-btn {
-    background: rgba(168, 85, 247, 0.15);
-    color: #a855f7;
-    border: 1px solid rgba(168, 85, 247, 0.3);
-}
-.arena-card.advanced .arena-card-btn.locked {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* Unlock requirements */
-.unlock-req {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-}
-.unlock-title {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 10px;
-}
-.unlock-item {
-    margin-bottom: 8px;
-}
-.unlock-item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-}
-.unlock-item-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-}
-.unlock-item-value {
-    font-size: 11px;
-    color: #f5a623;
     font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.02em;
 }
-.unlock-bar {
-    height: 3px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    overflow: hidden;
+.arena-tab.active {
+    background: rgba(245, 183, 10, 0.12);
+    color: #F5B70A;
+    border: 1px solid rgba(245, 183, 10, 0.25);
 }
-.unlock-bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #a855f7, #f5a623);
+.arena-tab:not(.active):hover {
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.03);
 }
 
-/* ===== BEGINNER EXPANDED VIEW ===== */
-.beginner-expanded {
+/* ===== TAB PANELS ===== */
+.tab-panel {
     display: none;
-    padding: 0;
+    padding: 16px;
 }
-.beginner-expanded.active {
+.tab-panel.active {
     display: block;
 }
-.beginner-expanded-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-}
-.beginner-expanded-title {
-    font-size: 15px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #F5B70A;
-}
-.beginner-back-btn {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-}
-.comp-category {
-    margin-bottom: 16px;
-}
+
+/* ===== BEGINNER PANEL ===== */
+.comp-category { margin-bottom: 16px; }
 .comp-category-title {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 10px;
 }
-.comp-category-title .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-}
+.comp-category-title .dot { width: 7px; height: 7px; border-radius: 50%; }
 .comp-category-title .dot.live { background: #4ade80; }
 .comp-category-title .dot.upcoming { background: #F5B70A; }
 .comp-category-title .live-text { color: #4ade80; }
@@ -518,410 +195,162 @@ body {
     padding: 14px;
     margin-bottom: 10px;
 }
-.m-comp-card.live-card {
-    border-left-color: #4ade80;
-}
-.m-comp-card.upcoming-card {
-    border-left-color: #F5B70A;
-}
-.m-comp-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-.m-comp-tags {
-    display: flex;
-    gap: 6px;
-}
+.m-comp-card.live-card { border-left-color: #4ade80; }
+.m-comp-card.upcoming-card { border-left-color: #F5B70A; }
+.m-comp-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.m-comp-tags { display: flex; gap: 6px; }
 .m-comp-tag {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 3px 7px;
-    border-radius: 4px;
-    text-transform: uppercase;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 3px 7px; border-radius: 4px; text-transform: uppercase;
 }
-.m-comp-tag.live {
-    background: rgba(74, 222, 128, 0.12);
-    color: #4ade80;
-}
-.m-comp-tag.registering {
-    background: rgba(245, 182, 10, 0.12);
-    color: #F5B70A;
-}
-.m-comp-tag.pair {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.7);
-}
-.m-comp-countdown {
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-}
-.m-comp-countdown span {
-    font-weight: 400;
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-}
-.m-comp-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-}
-.m-comp-date {
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 10px;
-}
-.m-comp-stats {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-}
-.m-comp-stat {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
+.m-comp-tag.live { background: rgba(74, 222, 128, 0.12); color: #4ade80; }
+.m-comp-tag.registering { background: rgba(245, 182, 10, 0.12); color: #F5B70A; }
+.m-comp-tag.pair { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+.m-comp-countdown { font-size: 12px; font-weight: 700; color: #fff; }
+.m-comp-countdown span { font-weight: 400; font-size: 10px; color: rgba(255,255,255,0.4); }
+.m-comp-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.m-comp-date { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.m-comp-stats { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+.m-comp-stat { font-size: 11px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 4px; }
 .m-comp-stat.pnl-positive { color: #4ade80; font-weight: 600; }
 .m-comp-stat.prize { color: #F5B70A; font-weight: 600; }
-.m-comp-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.m-comp-participants {
-    font-size: 10px;
-    color: rgba(255,255,255,0.35);
-}
-.m-comp-actions {
-    display: flex;
-    gap: 8px;
-}
+.m-comp-bottom { display: flex; align-items: center; justify-content: space-between; }
+.m-comp-participants { font-size: 10px; color: rgba(255,255,255,0.35); }
+.m-comp-actions { display: flex; gap: 8px; }
 .m-comp-btn {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 7px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 7px 14px; border-radius: 6px; border: none;
+    cursor: pointer; text-transform: uppercase;
 }
-.m-comp-btn.secondary {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-.m-comp-btn.enter {
-    background: #F5B70A;
-    color: #0B0B0B;
-}
-.m-comp-btn.register {
-    background: #4ade80;
-    color: #0B0B0B;
-}
-.m-comp-btn.registered {
-    background: rgba(74, 222, 128, 0.1);
-    color: #4ade80;
-    border: 1px solid rgba(74, 222, 128, 0.3);
-    cursor: default;
-}
-.m-comp-time-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-}
-.m-comp-time-item {
-    font-size: 9px;
-    color: rgba(255,255,255,0.4);
-}
-.m-comp-time-item strong {
-    color: #F5B70A;
-}
+.m-comp-btn.secondary { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.1); }
+.m-comp-btn.enter { background: #F5B70A; color: #0B0B0B; }
+.m-comp-btn.register { background: #4ade80; color: #0B0B0B; }
+.m-comp-btn.registered { background: rgba(74, 222, 128, 0.1); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); cursor: default; }
+.m-comp-time-info { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.m-comp-time-item { font-size: 9px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 3px; }
+.m-comp-time-item strong { color: #F5B70A; }
 
-/* ===== TASK SYSTEM ===== */
-.task-section {
-    padding: 20px 16px 0;
+/* ===== ADVANCED PANEL ===== */
+.advanced-panel-content {
+    background: #141414;
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    border-radius: 14px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
 }
+.advanced-panel-content::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #a855f7, transparent);
+    opacity: 0.06;
+}
+.adv-tag {
+    display: inline-block;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+    background: rgba(168, 85, 247, 0.12); color: #a855f7;
+    margin-bottom: 10px;
+}
+.adv-title {
+    font-size: 18px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.02em; margin-bottom: 12px; color: #a855f7;
+}
+.adv-features { list-style: none; margin-bottom: 14px; }
+.adv-features li {
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    padding: 3px 0; display: flex; align-items: center; gap: 8px;
+}
+.adv-features li::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(255,255,255,0.3); flex-shrink: 0;
+}
+.adv-prize { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 14px; }
+.adv-prize strong { font-size: 16px; color: #fff; font-weight: 700; }
+.adv-btn {
+    display: inline-block; padding: 10px 20px; border-radius: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: not-allowed;
+    background: rgba(168, 85, 247, 0.15); color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.3); opacity: 0.6;
+}
+.unlock-req { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+.unlock-title { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.unlock-item { margin-bottom: 8px; }
+.unlock-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.unlock-item-label { font-size: 11px; color: rgba(255,255,255,0.6); }
+.unlock-item-value { font-size: 11px; color: #f5a623; font-weight: 600; }
+.unlock-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.unlock-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #a855f7, #f5a623); }
+
+/* ===== TASK PANEL ===== */
 .task-card {
     background: #141414;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 18px;
 }
-.task-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-.task-title {
-    font-size: 16px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-}
-.task-pts-total {
-    font-size: 14px;
-    font-weight: 700;
-    color: #4ade80;
-}
-.task-progress-bar {
-    height: 4px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 18px;
-}
-.task-progress-fill {
-    height: 100%;
-    width: 28%;
-    background: linear-gradient(90deg, #4ade80, #f5a623);
-    border-radius: 2px;
-}
-
-.task-category {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    margin-bottom: 8px;
-    margin-top: 16px;
-}
+.task-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.task-title { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; }
+.task-pts-total { font-size: 14px; font-weight: 700; color: #4ade80; }
+.task-progress-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-bottom: 18px; }
+.task-progress-fill { height: 100%; width: 28%; background: linear-gradient(90deg, #4ade80, #f5a623); border-radius: 2px; }
+.task-category { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 8px; margin-top: 16px; }
 .task-category:first-of-type { margin-top: 0; }
-
-.task-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-}
+.task-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .task-item:last-child { border-bottom: none; }
-
-.task-check {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.task-check.done {
-    background: #4ade80;
-    border-color: #4ade80;
-}
-.task-check.done svg {
-    width: 12px;
-    height: 12px;
-    stroke: #0B0B0B;
-    fill: none;
-    stroke-width: 3;
-}
-
-.task-info {
-    flex: 1;
-    min-width: 0;
-}
-.task-name {
-    font-size: 13px;
-    color: rgba(255,255,255,0.85);
-    font-weight: 500;
-}
-.task-item.completed .task-name {
-    text-decoration: line-through;
-    color: rgba(255,255,255,0.35);
-}
-.task-milestone-progress {
-    margin-top: 3px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.task-milestone-text {
-    font-size: 10px;
-    color: rgba(255,255,255,0.35);
-}
-.task-milestone-bar {
-    flex: 1;
-    height: 2px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 1px;
-    max-width: 60px;
-}
-.task-milestone-bar-fill {
-    height: 100%;
-    background: #f5a623;
-    border-radius: 1px;
-}
-
-.task-pts {
-    font-size: 13px;
-    font-weight: 700;
-    color: #4ade80;
-    white-space: nowrap;
-}
-.task-item.completed .task-pts {
-    color: rgba(255,255,255,0.25);
-}
-
-.task-action-btn {
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    white-space: nowrap;
-}
-.task-action-btn.link {
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.25);
-}
-.task-action-btn.verify {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.6);
-    border: 1px solid rgba(255,255,255,0.12);
-}
+.task-check { width: 20px; height: 20px; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.task-check.done { background: #4ade80; border-color: #4ade80; }
+.task-check.done svg { width: 12px; height: 12px; stroke: #0B0B0B; fill: none; stroke-width: 3; }
+.task-info { flex: 1; min-width: 0; }
+.task-name { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500; }
+.task-item.completed .task-name { text-decoration: line-through; color: rgba(255,255,255,0.35); }
+.task-milestone-progress { margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.task-milestone-text { font-size: 10px; color: rgba(255,255,255,0.35); }
+.task-milestone-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; max-width: 60px; }
+.task-milestone-bar-fill { height: 100%; background: #f5a623; border-radius: 1px; }
+.task-pts { font-size: 13px; font-weight: 700; color: #4ade80; white-space: nowrap; }
+.task-item.completed .task-pts { color: rgba(255,255,255,0.25); }
+.task-action-btn { padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.03em; cursor: pointer; white-space: nowrap; }
+.task-action-btn.link { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+.task-action-btn.verify { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.12); }
 
 /* ===== BOTTOM NAV ===== */
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    height: 72px;
-    background: #111111;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 8px;
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    z-index: 100;
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 72px;
+    background: #111111; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100;
 }
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 12px;
-    transition: all 0.2s;
-    position: relative;
-}
-.nav-item svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: rgba(255,255,255,0.4);
-    stroke-width: 1.8;
-    transition: stroke 0.2s;
-}
-.nav-item span {
-    font-size: 10px;
-    letter-spacing: 0.02em;
-    color: rgba(255,255,255,0.4);
-    transition: color 0.2s;
-}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 8px 12px; border-radius: 12px; position: relative; text-decoration: none; }
+.nav-item svg { width: 22px; height: 22px; fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 1.8; }
+.nav-item span { font-size: 10px; color: rgba(255,255,255,0.4); }
 .nav-item.active svg { stroke: #f5a623; }
 .nav-item.active span { color: #f5a623; font-weight: 600; }
-.nav-item.center-item { position: relative; }
 .nav-item.center-item .nav-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 48px; height: 48px; border-radius: 50%;
     background: linear-gradient(135deg, #f5a623, #e8912d);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -20px;
-    box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin-top: -20px; box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
 }
-.nav-item.center-item .nav-icon-wrap svg {
-    stroke: #0B0B0B;
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.2;
-}
+.nav-item.center-item .nav-icon-wrap svg { stroke: #0B0B0B; width: 24px; height: 24px; stroke-width: 2.2; }
 .nav-item.center-item span { margin-top: 2px; }
-.nav-item.center-item.active span { color: #f5a623; }
 
 /* ===== DRAWER ===== */
-.drawer-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-}
+.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
 .drawer-overlay.open { opacity: 1; pointer-events: all; }
-.drawer {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 280px;
-    height: 100%;
-    background: #141414;
-    border-left: 1px solid rgba(255,255,255,0.08);
-    z-index: 300;
-    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
+.drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #141414; border-left: 1px solid rgba(255,255,255,0.08); z-index: 300; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; overflow-y: auto; }
 .drawer.open { right: 0; }
-.drawer-header {
-    padding: 20px 20px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.drawer-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
-}
+.drawer-header { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
+.drawer-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; }
 .drawer-user-info { flex: 1; }
-.drawer-username { font-size: 14px; font-weight: 600; color: #fff; }
+.drawer-username { font-size: 14px; font-weight: 600; }
 .drawer-email { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-.drawer-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
+.drawer-close { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .drawer-close svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 2; }
 .drawer-section { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer; }
@@ -935,34 +364,9 @@ body {
 .drawer-logout-btn { width: 100%; padding: 12px; border: 1px solid rgba(231, 76, 60, 0.3); border-radius: 8px; background: rgba(231, 76, 60, 0.08); color: #e74c3c; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; }
 
 /* ===== LANGUAGE DROPDOWN ===== */
-.lang-dropdown {
-    position: fixed;
-    top: 56px;
-    right: 16px;
-    width: 180px;
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 8px;
-    z-index: 150;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-8px);
-    transition: all 0.2s;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
+.lang-dropdown { position: fixed; top: 56px; right: 16px; width: 180px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 8px; z-index: 150; opacity: 0; pointer-events: none; transform: translateY(-8px); transition: all 0.2s; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
 .lang-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-.lang-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    color: rgba(255,255,255,0.7);
-    transition: background 0.15s;
-}
+.lang-option { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.7); }
 .lang-option:hover { background: rgba(255,255,255,0.06); }
 .lang-option.active { color: #f5a623; }
 .lang-option.active::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #f5a623; }
@@ -1059,133 +463,117 @@ body {
         <div class="referral-copy-btn" onclick="copyRef()">COPY</div>
     </div>
 
-    <!-- Enter the Arena -->
-    <div class="arena-section">
-        <div class="section-title">Enter the Arena</div>
+    <!-- ===== ARENA TABS ===== -->
+    <div class="arena-tabs">
+        <div class="arena-tab active" onclick="switchArenaTab('beginner')">Beginner</div>
+        <div class="arena-tab" onclick="switchArenaTab('advanced')">Advanced</div>
+        <div class="arena-tab" onclick="switchArenaTab('task')">Task</div>
+    </div>
 
-        <!-- Beginner Arena (default card) -->
-        <div class="arena-card beginner" id="beginnerCard" onclick="enterBeginner()">
-            <div class="arena-card-tag">Beginner</div>
-            <div class="arena-card-title">Beginner Arena</div>
-            <ul class="arena-card-features">
-                <li>Open to all registered users</li>
-                <li>24-hour match duration</li>
-                <li>Trade BTC/ETH/SOL pairs</li>
-                <li>Min 5 trades required to qualify</li>
-                <li>Top 100 share the prize pool</li>
-            </ul>
-            <div class="arena-card-prize">Prize Pool: <strong>250 USDT</strong> per round</div>
-            <div class="arena-card-btn">ENTER ARENA</div>
-        </div>
-
-        <!-- Beginner Expanded (competitions list) -->
-        <div class="beginner-expanded" id="beginnerExpanded">
-            <div class="beginner-expanded-header">
-                <div class="beginner-expanded-title">Beginner Competitions</div>
-                <div class="beginner-back-btn" onclick="backToArena()">&#8249; Back</div>
+    <!-- ===== TAB PANEL: BEGINNER ===== -->
+    <div class="tab-panel active" id="panel-beginner">
+        <!-- LIVE NOW -->
+        <div class="comp-category">
+            <div class="comp-category-title">
+                <span class="dot live"></span>
+                <span class="live-text">LIVE NOW</span>
             </div>
-
-            <!-- LIVE NOW -->
-            <div class="comp-category">
-                <div class="comp-category-title">
-                    <span class="dot live"></span>
-                    <span class="live-text">LIVE NOW</span>
+            <div class="m-comp-card live-card">
+                <div class="m-comp-card-top">
+                    <div class="m-comp-tags">
+                        <span class="m-comp-tag live">LIVE</span>
+                        <span class="m-comp-tag pair">BTC/USDT</span>
+                    </div>
+                    <div class="m-comp-countdown">4h 26m <span>remaining</span></div>
                 </div>
-                <div class="m-comp-card live-card">
-                    <div class="m-comp-card-top">
-                        <div class="m-comp-tags">
-                            <span class="m-comp-tag live">LIVE</span>
-                            <span class="m-comp-tag pair">BTC/USDT</span>
-                        </div>
-                        <div class="m-comp-countdown">4h 26m <span>remaining</span></div>
-                    </div>
-                    <div class="m-comp-title">Qualification Challenge Round 23</div>
-                    <div class="m-comp-date">Started: Jun 07, 2026 17:00 UTC</div>
-                    <div class="m-comp-stats">
-                        <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> #18 / 48</div>
-                        <div class="m-comp-stat pnl-positive">+1.16%</div>
-                        <div class="m-comp-stat prize">250 USDT</div>
-                    </div>
-                    <div class="m-comp-bottom">
-                        <div class="m-comp-participants">48 traders competing</div>
-                        <div class="m-comp-actions">
-                            <button class="m-comp-btn secondary">DETAILS</button>
-                            <button class="m-comp-btn enter">ENTER</button>
-                        </div>
-                    </div>
+                <div class="m-comp-title">Qualification Challenge Round 23</div>
+                <div class="m-comp-date">Started: Jun 07, 2026 17:00 UTC</div>
+                <div class="m-comp-stats">
+                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> #18 / 48</div>
+                    <div class="m-comp-stat pnl-positive">+1.16%</div>
+                    <div class="m-comp-stat prize">250 USDT</div>
                 </div>
-            </div>
-
-            <!-- UPCOMING -->
-            <div class="comp-category">
-                <div class="comp-category-title">
-                    <span class="dot upcoming"></span>
-                    <span class="upcoming-text">UPCOMING</span>
-                </div>
-                <div class="m-comp-card upcoming-card">
-                    <div class="m-comp-card-top">
-                        <div class="m-comp-tags">
-                            <span class="m-comp-tag registering">REGISTERING</span>
-                            <span class="m-comp-tag pair">ETH/USDT</span>
-                        </div>
-                        <div class="m-comp-time-info">
-                            <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>6h</strong></span>
-                            <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00 UTC</span>
-                        </div>
-                    </div>
-                    <div class="m-comp-title">Qualification Challenge Round 24</div>
-                    <div class="m-comp-stats">
-                        <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 12 / 100 registered</div>
-                        <div class="m-comp-stat prize">250 USDT</div>
-                    </div>
-                    <div class="m-comp-bottom">
-                        <div class="m-comp-participants">Registration open</div>
-                        <div class="m-comp-actions">
-                            <button class="m-comp-btn secondary">DETAILS</button>
-                            <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-comp-card upcoming-card">
-                    <div class="m-comp-card-top">
-                        <div class="m-comp-tags">
-                            <span class="m-comp-tag registering">REGISTERING</span>
-                            <span class="m-comp-tag pair">SOL/USDT</span>
-                        </div>
-                        <div class="m-comp-time-info">
-                            <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>18h</strong></span>
-                            <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00 UTC</span>
-                        </div>
-                    </div>
-                    <div class="m-comp-title">Qualification Challenge Round 25</div>
-                    <div class="m-comp-stats">
-                        <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 5 / 100 registered</div>
-                        <div class="m-comp-stat prize">250 USDT</div>
-                    </div>
-                    <div class="m-comp-bottom">
-                        <div class="m-comp-participants">Registration open</div>
-                        <div class="m-comp-actions">
-                            <button class="m-comp-btn secondary">DETAILS</button>
-                            <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
-                        </div>
+                <div class="m-comp-bottom">
+                    <div class="m-comp-participants">48 traders competing</div>
+                    <div class="m-comp-actions">
+                        <button class="m-comp-btn secondary">DETAILS</button>
+                        <button class="m-comp-btn enter">ENTER</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Advanced Arena -->
-        <div class="arena-card advanced">
-            <div class="arena-card-tag">Advanced</div>
-            <div class="arena-card-title">Advanced Arena</div>
-            <ul class="arena-card-features">
+        <!-- UPCOMING -->
+        <div class="comp-category">
+            <div class="comp-category-title">
+                <span class="dot upcoming"></span>
+                <span class="upcoming-text">UPCOMING</span>
+            </div>
+            <div class="m-comp-card upcoming-card">
+                <div class="m-comp-card-top">
+                    <div class="m-comp-tags">
+                        <span class="m-comp-tag registering">REGISTERING</span>
+                        <span class="m-comp-tag pair">ETH/USDT</span>
+                    </div>
+                    <div class="m-comp-time-info">
+                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>6h</strong></span>
+                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00 UTC</span>
+                    </div>
+                </div>
+                <div class="m-comp-title">Qualification Challenge Round 24</div>
+                <div class="m-comp-stats">
+                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 12 / 100 registered</div>
+                    <div class="m-comp-stat prize">250 USDT</div>
+                </div>
+                <div class="m-comp-bottom">
+                    <div class="m-comp-participants">Registration open</div>
+                    <div class="m-comp-actions">
+                        <button class="m-comp-btn secondary">DETAILS</button>
+                        <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-comp-card upcoming-card">
+                <div class="m-comp-card-top">
+                    <div class="m-comp-tags">
+                        <span class="m-comp-tag registering">REGISTERING</span>
+                        <span class="m-comp-tag pair">SOL/USDT</span>
+                    </div>
+                    <div class="m-comp-time-info">
+                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>18h</strong></span>
+                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00 UTC</span>
+                    </div>
+                </div>
+                <div class="m-comp-title">Qualification Challenge Round 25</div>
+                <div class="m-comp-stats">
+                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 5 / 100 registered</div>
+                    <div class="m-comp-stat prize">250 USDT</div>
+                </div>
+                <div class="m-comp-bottom">
+                    <div class="m-comp-participants">Registration open</div>
+                    <div class="m-comp-actions">
+                        <button class="m-comp-btn secondary">DETAILS</button>
+                        <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TAB PANEL: ADVANCED ===== -->
+    <div class="tab-panel" id="panel-advanced">
+        <div class="advanced-panel-content">
+            <div class="adv-tag">Advanced</div>
+            <div class="adv-title">Advanced Arena</div>
+            <ul class="adv-features">
                 <li>Requires unlock conditions</li>
                 <li>48-hour match duration</li>
                 <li>All trading pairs available</li>
                 <li>Advanced strategies allowed</li>
                 <li>Top 50 share the prize pool</li>
             </ul>
-            <div class="arena-card-prize">Prize Pool: <strong>2,500 USDT</strong> per round</div>
-            <div class="arena-card-btn locked">LOCKED</div>
+            <div class="adv-prize">Prize Pool: <strong>2,500 USDT</strong> per round</div>
+            <div class="adv-btn">LOCKED</div>
 
             <div class="unlock-req">
                 <div class="unlock-title">Unlock Requirements</div>
@@ -1211,8 +599,8 @@ body {
         </div>
     </div>
 
-    <!-- Task System -->
-    <div class="task-section">
+    <!-- ===== TAB PANEL: TASK ===== -->
+    <div class="tab-panel" id="panel-task">
         <div class="task-card">
             <div class="task-header">
                 <div class="task-title">Tasks</div>
@@ -1225,7 +613,6 @@ body {
             <!-- One-Time Tasks -->
             <div class="task-category">One-Time</div>
 
-            <!-- Follow Twitter - Link button -->
             <div class="task-item">
                 <div class="task-check"></div>
                 <div class="task-info"><div class="task-name">Follow Twitter</div></div>
@@ -1233,7 +620,6 @@ body {
                 <div class="task-action-btn link">LINK</div>
             </div>
 
-            <!-- Link Discord - Link button -->
             <div class="task-item">
                 <div class="task-check"></div>
                 <div class="task-info"><div class="task-name">Link Discord</div></div>
@@ -1241,42 +627,36 @@ body {
                 <div class="task-action-btn link">LINK</div>
             </div>
 
-            <!-- Register first competition - completed -->
             <div class="task-item completed">
                 <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <div class="task-info"><div class="task-name">Register first competition</div></div>
                 <div class="task-pts">+10</div>
             </div>
 
-            <!-- Complete first competition - completed -->
             <div class="task-item completed">
                 <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <div class="task-info"><div class="task-name">Complete first competition</div></div>
                 <div class="task-pts">+20</div>
             </div>
 
-            <!-- Bind wallet address - completed -->
             <div class="task-item completed">
                 <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <div class="task-info"><div class="task-name">Bind wallet address</div></div>
                 <div class="task-pts">+15</div>
             </div>
 
-            <!-- First chat in arena - completed -->
             <div class="task-item completed">
                 <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <div class="task-info"><div class="task-name">First chat in arena</div></div>
                 <div class="task-pts">+5</div>
             </div>
 
-            <!-- First vote in competition - completed -->
             <div class="task-item completed">
                 <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                 <div class="task-info"><div class="task-name">First vote in competition</div></div>
                 <div class="task-pts">+5</div>
             </div>
 
-            <!-- First win a prize - verify -->
             <div class="task-item">
                 <div class="task-check"></div>
                 <div class="task-info"><div class="task-name">First win a prize</div></div>
@@ -1438,16 +818,18 @@ document.addEventListener('click', function(e) {
     }
 });
 
-function enterBeginner() {
-    document.getElementById('beginnerCard').style.display = 'none';
-    document.getElementById('beginnerExpanded').classList.add('active');
+// Arena Tab Switching
+function switchArenaTab(tab) {
+    // Update tab buttons
+    document.querySelectorAll('.arena-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    // Update panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
 }
-function backToArena() {
-    document.getElementById('beginnerCard').style.display = '';
-    document.getElementById('beginnerExpanded').classList.remove('active');
-}
+
 function mobileRegister(btn) {
-    btn.textContent = 'Registered';
+    btn.textContent = 'REGISTERED';
     btn.classList.remove('register');
     btn.classList.add('registered');
     btn.onclick = null;
