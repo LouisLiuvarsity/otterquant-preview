@@ -7,325 +7,424 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0B0B0B; color: #fff; min-height: 100vh; max-width: 430px; margin: 0 auto; position: relative; overflow-x: hidden; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
 
-/* TOP BAR */
-.top-bar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 56px; background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; }
-.top-bar-left { display: flex; align-items: center; gap: 8px; }
-.top-bar-logo { width: 32px; height: 32px; background: linear-gradient(135deg, #f5a623, #e8912d); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.top-bar-logo svg { width: 18px; height: 18px; }
-.top-bar-brand { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
-.top-bar-right { display: flex; align-items: center; gap: 12px; }
-.top-bar-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
-.top-bar-icon svg { width: 20px; height: 20px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 1.8; }
-.notif-badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #e74c3c; border-radius: 50%; border: 1.5px solid #0B0B0B; }
-.top-bar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid rgba(255,255,255,0.15); }
+/* ===== HEADER ===== */
+.header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 48px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; z-index: 100;
+}
+.header-logo { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #F5B70A; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-icon { font-size: 16px; cursor: pointer; opacity: 0.7; }
+.header-user { font-size: 11px; color: rgba(255,255,255,0.6); }
 
-/* MAIN */
-.main-content { padding-top: 56px; padding-bottom: 80px; }
-.page-header { padding: 16px 16px 0; }
-.page-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-.page-subtitle { font-size: 11px; color: rgba(255,255,255,0.4); }
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 64px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: space-around;
+    z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; text-decoration: none; }
+.nav-item.active { opacity: 1; }
+.nav-item .nav-icon { font-size: 20px; }
+.nav-item .nav-label { font-size: 10px; color: rgba(255,255,255,0.7); }
+.nav-item.active .nav-label { color: #F5B70A; }
 
-/* STATS OVERVIEW */
-.stats-overview { padding: 16px; }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.stat-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; text-align: center; }
-.stat-card-value { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+/* ===== MAIN CONTENT ===== */
+.main-content { padding-top: 48px; padding-bottom: 80px; }
+
+/* ===== PLATFORM STATS ===== */
+.platform-stats {
+    margin: 16px 12px 0;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+.platform-stats-label {
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #F5B70A; margin-bottom: 4px;
+}
+.platform-stats-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px; font-weight: 700; color: #fff;
+    margin-bottom: 16px;
+}
+.stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px 12px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+}
+.stat-card-info {}
+.stat-card-label {
+    font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+}
+.stat-card-value {
+    font-size: 20px; font-weight: 700; color: #fff;
+    margin-top: 6px;
+}
 .stat-card-value.green { color: #4ade80; }
-.stat-card-value.gold { color: #F5B70A; }
-.stat-card-value.red { color: #ef4444; }
-.stat-card-value.white { color: #fff; }
-.stat-card-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-card-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+}
+.stat-card-icon.players { background: rgba(245,183,10,0.15); }
+.stat-card-icon.matches { background: rgba(245,183,10,0.15); }
+.stat-card-icon.volume { background: rgba(59,130,246,0.15); }
+.stat-card-icon.prize { background: rgba(74,222,128,0.15); }
 
-/* CHART PLACEHOLDER */
-.chart-section { padding: 0 16px 16px; }
-.chart-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; }
-.chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.chart-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-.chart-period-tabs { display: flex; gap: 4px; }
-.chart-period-tab { padding: 4px 10px; border-radius: 4px; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; }
-.chart-period-tab.active { color: #F5B70A; background: rgba(245,183,10,0.08); border-color: rgba(245,183,10,0.3); }
-.chart-area { height: 160px; display: flex; align-items: flex-end; gap: 3px; padding: 8px 0; }
-.chart-bar { flex: 1; border-radius: 3px 3px 0 0; transition: height 0.3s; min-height: 4px; }
-.chart-bar.green { background: linear-gradient(180deg, #4ade80, rgba(74,222,128,0.3)); }
-.chart-bar.red { background: linear-gradient(180deg, #ef4444, rgba(239,68,68,0.3)); }
-.chart-x-labels { display: flex; justify-content: space-between; padding: 4px 0 0; }
-.chart-x-label { font-size: 8px; color: rgba(255,255,255,0.3); }
+/* ===== LEADERBOARD ===== */
+.leaderboard {
+    margin: 16px 12px 0;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+.leaderboard-label {
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #F5B70A; margin-bottom: 4px;
+}
+.leaderboard-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px; font-weight: 700; color: #fff;
+    margin-bottom: 16px;
+}
 
-/* PERFORMANCE TABLE */
-.perf-section { padding: 0 16px 16px; }
-.perf-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; }
-.perf-header { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.perf-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-.perf-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.perf-row:last-child { border-bottom: none; }
-.perf-row-label { font-size: 11px; color: rgba(255,255,255,0.6); }
-.perf-row-value { font-size: 12px; font-weight: 600; }
-.perf-row-value.green { color: #4ade80; }
-.perf-row-value.gold { color: #F5B70A; }
-.perf-row-value.red { color: #ef4444; }
+/* Table header */
+.lb-header {
+    display: grid; grid-template-columns: 28px 1fr 56px 48px 48px;
+    align-items: center; gap: 4px;
+    padding: 8px 4px;
+    font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
 
-/* MATCH BREAKDOWN */
-.breakdown-section { padding: 0 16px 16px; }
-.breakdown-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; }
-.breakdown-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-.breakdown-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.breakdown-item:last-child { border-bottom: none; }
-.breakdown-pair { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); }
-.breakdown-stats { display: flex; gap: 12px; align-items: center; }
-.breakdown-stat { text-align: right; }
-.breakdown-stat-value { font-size: 11px; font-weight: 700; }
-.breakdown-stat-value.green { color: #4ade80; }
-.breakdown-stat-value.red { color: #ef4444; }
-.breakdown-stat-label { font-size: 8px; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+/* Table row */
+.lb-row {
+    display: grid; grid-template-columns: 28px 1fr 56px 48px 48px;
+    align-items: center; gap: 4px;
+    padding: 11px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.lb-row:last-child { border-bottom: none; }
 
-/* BADGES */
-.badges-section { padding: 0 16px 16px; }
-.badges-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; }
-.badges-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-.badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.badge-item { text-align: center; }
-.badge-icon { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 4px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.badge-icon.earned { background: rgba(245,183,10,0.12); border: 1px solid rgba(245,183,10,0.3); }
-.badge-icon.locked { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); opacity: 0.4; }
-.badge-name { font-size: 8px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.03em; }
+.lb-rank {
+    font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5);
+    text-align: center;
+}
+.lb-rank.medal { font-size: 16px; }
 
-/* BOTTOM NAV */
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 72px; background: #111111; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-around; padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
-.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 8px 12px; border-radius: 12px; text-decoration: none; }
-.nav-item svg { width: 22px; height: 22px; fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 1.8; }
-.nav-item span { font-size: 10px; color: rgba(255,255,255,0.4); }
-.nav-item.active svg { stroke: #f5a623; }
-.nav-item.active span { color: #f5a623; font-weight: 600; }
-.nav-item.center-item .nav-icon-wrap { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #f5a623, #e8912d); display: flex; align-items: center; justify-content: center; margin-top: -20px; box-shadow: 0 4px 16px rgba(245,166,35,0.3); }
-.nav-item.center-item .nav-icon-wrap svg { stroke: #0B0B0B; width: 24px; height: 24px; stroke-width: 2.2; }
-.nav-item.center-item span { margin-top: 2px; }
+.lb-player {
+    display: flex; align-items: center; gap: 6px;
+    overflow: hidden;
+}
+.lb-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+}
+.lb-player-name {
+    font-size: 11px; font-weight: 500; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
-/* DRAWER */
-.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-.drawer-overlay.open { opacity: 1; pointer-events: all; }
-.drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #141414; border-left: 1px solid rgba(255,255,255,0.08); z-index: 300; transition: right 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; overflow-y: auto; }
-.drawer.open { right: 0; }
-.drawer-header { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
-.drawer-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; }
-.drawer-username { font-size: 14px; font-weight: 600; }
-.drawer-email { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-.drawer-close { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.drawer-close svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 2; }
-.drawer-section { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer; }
-.drawer-item-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; }
-.drawer-item-icon svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 1.8; }
-.drawer-item-label { font-size: 13px; color: rgba(255,255,255,0.8); }
-.drawer-logout { margin-top: auto; padding: 20px; }
-.drawer-logout-btn { width: 100%; padding: 12px; border: 1px solid rgba(231,76,60,0.3); border-radius: 8px; background: rgba(231,76,60,0.08); color: #e74c3c; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; }
+.lb-tier {
+    display: flex; align-items: center; gap: 2px;
+    font-size: 9px; color: rgba(255,255,255,0.6);
+}
+.lb-tier .tier-icon { font-size: 10px; }
+.lb-tier.gold-tier { color: #F5B70A; }
+.lb-tier.silver-tier { color: #a0a0a0; }
+
+.lb-points {
+    font-size: 11px; font-weight: 700; color: #4ade80;
+    text-align: right;
+}
+
+.lb-prize {
+    font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.7);
+    text-align: right;
+}
+
+/* Pagination */
+.pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 4px; margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.page-btn {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer; transition: all 0.2s;
+}
+.page-btn.active {
+    background: #F5B70A; color: #000; font-weight: 700;
+    border-color: #F5B70A;
+}
+.page-btn:hover:not(.active) { background: rgba(255,255,255,0.08); }
+.page-dots { font-size: 11px; color: rgba(255,255,255,0.3); padding: 0 2px; }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-    <div class="top-bar-left">
-        <div class="top-bar-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B0B0B" stroke-width="2.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="10" r="1" fill="#0B0B0B"/><circle cx="15" cy="10" r="1" fill="#0B0B0B"/></svg></div>
-        <span class="top-bar-brand">OTTER TRADE</span>
-    </div>
-    <div class="top-bar-right">
-        <div class="top-bar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="top-bar-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge"></div></div>
-        <div class="top-bar-avatar" onclick="openDrawer()">OT</div>
+<!-- ===== HEADER ===== -->
+<div class="header">
+    <div class="header-logo">OTTER TRADE</div>
+    <div class="header-right">
+        <span class="header-icon">🌐</span>
+        <span class="header-icon">🔔</span>
+        <span class="header-user">trader@</span>
     </div>
 </div>
 
-<!-- MAIN -->
+<!-- ===== MAIN CONTENT ===== -->
 <div class="main-content">
-    <div class="page-header">
-        <div class="page-title">STATS</div>
-        <div class="page-subtitle">Your trading performance overview</div>
-    </div>
 
-    <!-- Stats Overview -->
-    <div class="stats-overview">
+    <!-- Platform Stats -->
+    <div class="platform-stats">
+        <div class="platform-stats-label">GLOBAL COMPETITION DATA OVERVIEW</div>
+        <div class="platform-stats-title">Platform Stats</div>
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-card-value green">+$142</div>
-                <div class="stat-card-label">Total PnL</div>
+                <div class="stat-card-info">
+                    <div class="stat-card-label">Total Players</div>
+                    <div class="stat-card-value">6,445</div>
+                </div>
+                <div class="stat-card-icon players">👥</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value gold">62.5%</div>
-                <div class="stat-card-label">Win Rate</div>
+                <div class="stat-card-info">
+                    <div class="stat-card-label">Total Matches</div>
+                    <div class="stat-card-value">24</div>
+                </div>
+                <div class="stat-card-icon matches">🏆</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value white">12</div>
-                <div class="stat-card-label">Matches Played</div>
+                <div class="stat-card-info">
+                    <div class="stat-card-label">Total Volume</div>
+                    <div class="stat-card-value">$202.73M</div>
+                </div>
+                <div class="stat-card-icon volume">💹</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value gold">1.8</div>
-                <div class="stat-card-label">Profit Factor</div>
+                <div class="stat-card-info">
+                    <div class="stat-card-label">Total Prize Distributed</div>
+                    <div class="stat-card-value green">4,486</div>
+                </div>
+                <div class="stat-card-icon prize">💰</div>
             </div>
         </div>
     </div>
 
-    <!-- PnL Chart -->
-    <div class="chart-section">
-        <div class="chart-card">
-            <div class="chart-header">
-                <div class="chart-title">PnL History</div>
-                <div class="chart-period-tabs">
-                    <div class="chart-period-tab" onclick="selectPeriod(this)">7D</div>
-                    <div class="chart-period-tab active" onclick="selectPeriod(this)">30D</div>
-                    <div class="chart-period-tab" onclick="selectPeriod(this)">ALL</div>
-                </div>
+    <!-- Leaderboard -->
+    <div class="leaderboard">
+        <div class="leaderboard-label">LEADERBOARD</div>
+        <div class="leaderboard-title">Season Total</div>
+
+        <!-- Table Header -->
+        <div class="lb-header">
+            <span>#</span>
+            <span>Player</span>
+            <span>Tier</span>
+            <span style="text-align:right;">Points</span>
+            <span style="text-align:right;">Prize</span>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="lb-row">
+            <div class="lb-rank medal">🥇</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#2d6b3f;">A</div>
+                <div class="lb-player-name">Ahmed</div>
             </div>
-            <div class="chart-area" id="chartArea">
-                <!-- Bars generated by JS -->
+            <div class="lb-tier gold-tier"><span class="tier-icon">👑</span> Gold</div>
+            <div class="lb-points">680</div>
+            <div class="lb-prize">88.5U</div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="lb-row">
+            <div class="lb-rank medal">🥈</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#6b2d5e;">M</div>
+                <div class="lb-player-name">Manjevhure</div>
             </div>
-            <div class="chart-x-labels">
-                <span class="chart-x-label">May 12</span>
-                <span class="chart-x-label">May 19</span>
-                <span class="chart-x-label">May 26</span>
-                <span class="chart-x-label">Jun 2</span>
-                <span class="chart-x-label">Jun 9</span>
+            <div class="lb-tier gold-tier"><span class="tier-icon">👑</span> Gold</div>
+            <div class="lb-points">605</div>
+            <div class="lb-prize">58.25U</div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="lb-row">
+            <div class="lb-rank medal">🥉</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#4a3d2d;">新</div>
+                <div class="lb-player-name">新加坡CBD做面的仔</div>
             </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">575</div>
+            <div class="lb-prize">10.5U</div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="lb-row">
+            <div class="lb-rank">4</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#5e2d6b;">M</div>
+                <div class="lb-player-name">Mnzrkhml</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">565</div>
+            <div class="lb-prize">31U</div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="lb-row">
+            <div class="lb-rank">5</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#2d4a6b;">H</div>
+                <div class="lb-player-name">Heritier</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">555</div>
+            <div class="lb-prize">42.5U</div>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="lb-row">
+            <div class="lb-rank">6</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#3d6b2d;">B</div>
+                <div class="lb-player-name">BBMAmalagasy</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">550</div>
+            <div class="lb-prize">38.75U</div>
+        </div>
+
+        <!-- Row 7 -->
+        <div class="lb-row">
+            <div class="lb-rank">7</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#2d6b5e;">A</div>
+                <div class="lb-player-name">AST</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">500</div>
+            <div class="lb-prize">20.75U</div>
+        </div>
+
+        <!-- Row 8 -->
+        <div class="lb-row">
+            <div class="lb-rank">8</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#6b4a2d;">N</div>
+                <div class="lb-player-name">Neerajmeena</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">415</div>
+            <div class="lb-prize">15.5U</div>
+        </div>
+
+        <!-- Row 9 -->
+        <div class="lb-row">
+            <div class="lb-rank">9</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#2d6b3f;">E</div>
+                <div class="lb-player-name">Earnzimflash</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">415</div>
+            <div class="lb-prize">19.5U</div>
+        </div>
+
+        <!-- Row 10 -->
+        <div class="lb-row">
+            <div class="lb-rank">10</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#6b2d2d;">H</div>
+                <div class="lb-player-name">Hakim</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">400</div>
+            <div class="lb-prize">8.25U</div>
+        </div>
+
+        <!-- Row 11 -->
+        <div class="lb-row">
+            <div class="lb-rank">11</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#4a2d6b;">x</div>
+                <div class="lb-player-name">xpinox</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">340</div>
+            <div class="lb-prize">3U</div>
+        </div>
+
+        <!-- Row 12 -->
+        <div class="lb-row">
+            <div class="lb-rank">12</div>
+            <div class="lb-player">
+                <div class="lb-avatar" style="background:#6b5e2d;">S</div>
+                <div class="lb-player-name">Soso</div>
+            </div>
+            <div class="lb-tier silver-tier"><span class="tier-icon">⚔️</span> Silver</div>
+            <div class="lb-points">325</div>
+            <div class="lb-prize">24.75U</div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="page-btn">‹</div>
+            <div class="page-btn active">1</div>
+            <div class="page-btn">2</div>
+            <div class="page-btn">3</div>
+            <div class="page-btn">4</div>
+            <div class="page-dots">…</div>
+            <div class="page-btn">76</div>
+            <div class="page-btn">›</div>
         </div>
     </div>
 
-    <!-- Performance Metrics -->
-    <div class="perf-section">
-        <div class="perf-card">
-            <div class="perf-header"><div class="perf-title">Performance Metrics</div></div>
-            <div class="perf-row"><span class="perf-row-label">Best Match PnL</span><span class="perf-row-value green">+4.82%</span></div>
-            <div class="perf-row"><span class="perf-row-label">Worst Match PnL</span><span class="perf-row-value red">-2.15%</span></div>
-            <div class="perf-row"><span class="perf-row-label">Average Match PnL</span><span class="perf-row-value green">+1.18%</span></div>
-            <div class="perf-row"><span class="perf-row-label">Max Drawdown</span><span class="perf-row-value red">-$28</span></div>
-            <div class="perf-row"><span class="perf-row-label">Avg Trades per Match</span><span class="perf-row-value">4.2</span></div>
-            <div class="perf-row"><span class="perf-row-label">Best Ranking</span><span class="perf-row-value gold">#3</span></div>
-            <div class="perf-row"><span class="perf-row-label">Avg Ranking</span><span class="perf-row-value gold">Top 15%</span></div>
-            <div class="perf-row"><span class="perf-row-label">Total Prizes Won</span><span class="perf-row-value green">$380</span></div>
-        </div>
-    </div>
-
-    <!-- Pair Breakdown -->
-    <div class="breakdown-section">
-        <div class="breakdown-card">
-            <div class="breakdown-title">Pair Breakdown</div>
-            <div class="breakdown-item">
-                <div class="breakdown-pair">BTC/USDT</div>
-                <div class="breakdown-stats">
-                    <div class="breakdown-stat"><div class="breakdown-stat-value green">+$98</div><div class="breakdown-stat-label">PnL</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value">7</div><div class="breakdown-stat-label">Matches</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value green">71%</div><div class="breakdown-stat-label">Win</div></div>
-                </div>
-            </div>
-            <div class="breakdown-item">
-                <div class="breakdown-pair">ETH/USDT</div>
-                <div class="breakdown-stats">
-                    <div class="breakdown-stat"><div class="breakdown-stat-value green">+$32</div><div class="breakdown-stat-label">PnL</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value">3</div><div class="breakdown-stat-label">Matches</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value green">67%</div><div class="breakdown-stat-label">Win</div></div>
-                </div>
-            </div>
-            <div class="breakdown-item">
-                <div class="breakdown-pair">SOL/USDT</div>
-                <div class="breakdown-stats">
-                    <div class="breakdown-stat"><div class="breakdown-stat-value green">+$12</div><div class="breakdown-stat-label">PnL</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value">2</div><div class="breakdown-stat-label">Matches</div></div>
-                    <div class="breakdown-stat"><div class="breakdown-stat-value">50%</div><div class="breakdown-stat-label">Win</div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Badges -->
-    <div class="badges-section">
-        <div class="badges-card">
-            <div class="badges-title">Achievements</div>
-            <div class="badges-grid">
-                <div class="badge-item">
-                    <div class="badge-icon earned">&#9733;</div>
-                    <div class="badge-name">First Win</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon earned">&#9812;</div>
-                    <div class="badge-name">Top 10</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon earned">&#9889;</div>
-                    <div class="badge-name">5 Streak</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon locked">&#9830;</div>
-                    <div class="badge-name">10 Streak</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon locked">&#9827;</div>
-                    <div class="badge-name">Top 3</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon locked">&#9829;</div>
-                    <div class="badge-name">Champion</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon locked">&#9824;</div>
-                    <div class="badge-name">50 Matches</div>
-                </div>
-                <div class="badge-item">
-                    <div class="badge-icon locked">&#10047;</div>
-                    <div class="badge-name">Whale</div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- ===== BOTTOM NAV ===== -->
 <div class="bottom-nav">
-    <a class="nav-item" href="mobile-schedule.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Schedule</span></a>
-    <a class="nav-item" href="mobile-watch.html"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Watch</span></a>
-    <a class="nav-item center-item" href="mobile-arena.html"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><span>Arena</span></a>
-    <a class="nav-item" href="mobile-dashboard.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Dashboard</span></a>
-    <a class="nav-item" href="mobile-rewards.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>Rewards</span></a>
+    <a class="nav-item" href="mobile-arena.html"><span class="nav-icon">⚔️</span><span class="nav-label">Arena</span></a>
+    <a class="nav-item" href="mobile-schedule.html"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></a>
+    <a class="nav-item" href="mobile-watch.html"><span class="nav-icon">👁</span><span class="nav-label">Watch</span></a>
+    <a class="nav-item" href="mobile-dashboard.html"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+    <a class="nav-item" href="mobile-rewards.html"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></a>
 </div>
 
-<!-- DRAWER -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-    <div class="drawer-header">
-        <div class="drawer-avatar">OT</div>
-        <div style="flex:1"><div class="drawer-username">OtterTrader_01</div><div class="drawer-email">user@example.com</div></div>
-        <div class="drawer-close" onclick="closeDrawer()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    </div>
-    <div class="drawer-section"><div class="drawer-item"><div class="drawer-item-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="drawer-item-label">Stats</span></div></div>
-    <div class="drawer-logout"><div class="drawer-logout-btn">Log Out</div></div>
-</div>
-
-<script>
-function openDrawer() { document.getElementById('drawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeDrawer() { document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerOverlay').classList.remove('open'); document.body.style.overflow=''; }
-
-function selectPeriod(el) {
-    document.querySelectorAll('.chart-period-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    generateChart();
-}
-
-function generateChart() {
-    const container = document.getElementById('chartArea');
-    container.innerHTML = '';
-    const data = [];
-    for (let i = 0; i < 20; i++) {
-        data.push((Math.random() - 0.35) * 100);
-    }
-    const maxAbs = Math.max(...data.map(Math.abs));
-    data.forEach(val => {
-        const bar = document.createElement('div');
-        bar.className = 'chart-bar ' + (val >= 0 ? 'green' : 'red');
-        bar.style.height = Math.max(4, (Math.abs(val) / maxAbs) * 140) + 'px';
-        container.appendChild(bar);
-    });
-}
-
-generateChart();
-</script>
 </body>
 </html>
