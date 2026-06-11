@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Otter Trade - Arena</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0B0B0B;
+    color: #fff;
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: 56px;
+    background: #0B0B0B;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 100;
+}
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.top-bar-logo {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #f5a623, #e8912d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.top-bar-brand {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.top-bar-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+}
+.top-bar-icon:hover { background: rgba(255,255,255,0.08); }
+.top-bar-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: rgba(255,255,255,0.7);
+    stroke-width: 1.8;
+}
+.notif-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: #e74c3c;
+    border-radius: 50%;
+    border: 1.5px solid #0B0B0B;
+}
+.top-bar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: border-color 0.2s;
+}
+.top-bar-avatar:hover { border-color: #f5a623; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    padding-top: 56px;
+    padding-bottom: 80px;
+}
+
+/* ===== WELCOME SECTION ===== */
+.welcome-section {
+    padding: 20px 16px 0;
+}
+.welcome-greeting {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+}
+.welcome-greeting strong {
+    color: #f5a623;
+    font-weight: 700;
+}
+.welcome-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+}
+
+/* ===== USER STATS CARD ===== */
+.user-stats-card {
+    margin: 16px 16px 0;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px;
+}
+.user-stats-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.user-avatar-lg {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid rgba(245, 166, 35, 0.4);
+}
+.user-info-col {
+    flex: 1;
+}
+.user-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.user-name {
+    font-size: 15px;
+    font-weight: 600;
+}
+.user-tier-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #cd7f32, #a0522d);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+.user-leverage {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+}
+.user-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+.stat-item {
+    text-align: center;
+    padding: 10px 4px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #4ade80;
+}
+.stat-value.gold { color: #f5a623; }
+.stat-value.white { color: #fff; }
+.stat-label {
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+}
+/* Points progress */
+.points-progress {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.progress-bar-wrap {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    width: 49%;
+    background: linear-gradient(90deg, #4ade80, #f5a623);
+    border-radius: 2px;
+}
+.progress-text {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    white-space: nowrap;
+}
+
+/* ===== REFERRAL BANNER ===== */
+.referral-banner {
+    margin: 12px 16px 0;
+    background: linear-gradient(135deg, rgba(245, 166, 35, 0.08), rgba(245, 166, 35, 0.02));
+    border: 1px solid rgba(245, 166, 35, 0.15);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.referral-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(245, 166, 35, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.referral-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #f5a623;
+    fill: none;
+    stroke-width: 2;
+}
+.referral-text {
+    flex: 1;
+}
+.referral-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+.referral-desc {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+}
+.referral-desc span { color: #4ade80; font-weight: 600; }
+.referral-copy-btn {
+    padding: 6px 12px;
+    background: #f5a623;
+    color: #0B0B0B;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+}
+
+/* ===== ENTER THE ARENA ===== */
+.arena-section {
+    padding: 20px 16px 0;
+}
+.section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 12px;
+}
+
+.arena-card {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+.arena-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    opacity: 0.06;
+}
+.arena-card.beginner { border-color: rgba(74, 222, 128, 0.15); }
+.arena-card.beginner::before { background: radial-gradient(circle, #4ade80, transparent); }
+.arena-card.advanced { border-color: rgba(168, 85, 247, 0.15); }
+.arena-card.advanced::before { background: radial-gradient(circle, #a855f7, transparent); }
+
+.arena-card-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.arena-card.beginner .arena-card-tag {
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+}
+.arena-card.advanced .arena-card-tag {
+    background: rgba(168, 85, 247, 0.12);
+    color: #a855f7;
+}
+
+.arena-card-title {
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+}
+.arena-card.beginner .arena-card-title { color: #4ade80; }
+.arena-card.advanced .arena-card-title { color: #a855f7; }
+
+.arena-card-features {
+    list-style: none;
+    margin-bottom: 14px;
+}
+.arena-card-features li {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.arena-card-features li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+
+.arena-card-prize {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 14px;
+}
+.arena-card-prize strong {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.arena-card-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.arena-card.beginner .arena-card-btn {
+    background: #4ade80;
+    color: #0B0B0B;
+}
+.arena-card.advanced .arena-card-btn {
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.arena-card.advanced .arena-card-btn.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Unlock requirements */
+.unlock-req {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.unlock-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+}
+.unlock-item {
+    margin-bottom: 8px;
+}
+.unlock-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+.unlock-item-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+}
+.unlock-item-value {
+    font-size: 11px;
+    color: #f5a623;
+    font-weight: 600;
+}
+.unlock-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.unlock-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #a855f7, #f5a623);
+}
+
+/* ===== TASK SYSTEM ===== */
+.task-section {
+    padding: 20px 16px 0;
+}
+.task-card {
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px;
+}
+.task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.task-title {
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.task-pts-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4ade80;
+}
+.task-progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+.task-progress-fill {
+    height: 100%;
+    width: 28%;
+    background: linear-gradient(90deg, #4ade80, #f5a623);
+    border-radius: 2px;
+}
+
+.task-category {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+.task-category:first-of-type { margin-top: 0; }
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.task-item:last-child { border-bottom: none; }
+
+.task-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.task-check.done {
+    background: #4ade80;
+    border-color: #4ade80;
+}
+.task-check.done svg {
+    width: 12px;
+    height: 12px;
+    stroke: #0B0B0B;
+    fill: none;
+    stroke-width: 3;
+}
+
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+.task-name {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+}
+.task-item.completed .task-name {
+    text-decoration: line-through;
+    color: rgba(255,255,255,0.35);
+}
+.task-milestone-progress {
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.task-milestone-text {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+}
+.task-milestone-bar {
+    flex: 1;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 1px;
+    max-width: 60px;
+}
+.task-milestone-bar-fill {
+    height: 100%;
+    background: #f5a623;
+    border-radius: 1px;
+}
+
+.task-pts {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ade80;
+    white-space: nowrap;
+}
+.task-item.completed .task-pts {
+    color: rgba(255,255,255,0.25);
+}
+
+.task-action-btn {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.task-action-btn.link {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+}
+.task-action-btn.verify {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: 72px;
+    background: #111111;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    z-index: 100;
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    position: relative;
+}
+.nav-item svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1.8;
+    transition: stroke 0.2s;
+}
+.nav-item span {
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.4);
+    transition: color 0.2s;
+}
+.nav-item.active svg { stroke: #f5a623; }
+.nav-item.active span { color: #f5a623; font-weight: 600; }
+.nav-item.center-item { position: relative; }
+.nav-item.center-item .nav-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f5a623, #e8912d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -20px;
+    box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
+}
+.nav-item.center-item .nav-icon-wrap svg {
+    stroke: #0B0B0B;
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.2;
+}
+.nav-item.center-item span { margin-top: 2px; }
+.nav-item.center-item.active span { color: #f5a623; }
+
+/* ===== DRAWER ===== */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: all; }
+.drawer {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100%;
+    background: #141414;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    z-index: 300;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.drawer.open { right: 0; }
+.drawer-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.drawer-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+.drawer-user-info { flex: 1; }
+.drawer-username { font-size: 14px; font-weight: 600; color: #fff; }
+.drawer-email { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.drawer-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.drawer-close svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 2; }
+.drawer-section { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer; }
+.drawer-item-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; }
+.drawer-item-icon svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 1.8; }
+.drawer-item-label { font-size: 13px; color: rgba(255,255,255,0.8); }
+.drawer-social { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.drawer-social-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.drawer-social-icon svg { width: 16px; height: 16px; fill: rgba(255,255,255,0.5); }
+.drawer-logout { margin-top: auto; padding: 20px; }
+.drawer-logout-btn { width: 100%; padding: 12px; border: 1px solid rgba(231, 76, 60, 0.3); border-radius: 8px; background: rgba(231, 76, 60, 0.08); color: #e74c3c; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; }
+
+/* ===== LANGUAGE DROPDOWN ===== */
+.lang-dropdown {
+    position: fixed;
+    top: 56px;
+    right: 16px;
+    width: 180px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 8px;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: all 0.2s;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.lang-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+.lang-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    transition: background 0.15s;
+}
+.lang-option:hover { background: rgba(255,255,255,0.06); }
+.lang-option.active { color: #f5a623; }
+.lang-option.active::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #f5a623; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="top-bar-logo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B0B0B" stroke-width="2.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="10" r="1" fill="#0B0B0B"/><circle cx="15" cy="10" r="1" fill="#0B0B0B"/></svg>
+        </div>
+        <span class="top-bar-brand">OTTER TRADE</span>
+    </div>
+    <div class="top-bar-right">
+        <div class="top-bar-icon" onclick="toggleLang()">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="top-bar-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="notif-badge"></div>
+        </div>
+        <div class="top-bar-avatar" onclick="openDrawer()">OT</div>
+    </div>
+</div>
+
+<!-- Language Dropdown -->
+<div class="lang-dropdown" id="langDropdown">
+    <div class="lang-option active" onclick="selectLang(this)">English</div>
+    <div class="lang-option" onclick="selectLang(this)">中文</div>
+    <div class="lang-option" onclick="selectLang(this)">Espanol</div>
+    <div class="lang-option" onclick="selectLang(this)">Portugues</div>
+    <div class="lang-option" onclick="selectLang(this)">日本語</div>
+    <div class="lang-option" onclick="selectLang(this)">한국어</div>
+    <div class="lang-option" onclick="selectLang(this)">Русский</div>
+    <div class="lang-option" onclick="selectLang(this)">Tieng Viet</div>
+    <div class="lang-option" onclick="selectLang(this)">Bahasa Indonesia</div>
+    <div class="lang-option" onclick="selectLang(this)">Bahasa Melayu</div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+
+    <!-- Welcome -->
+    <div class="welcome-section">
+        <div class="welcome-greeting">Welcome back, <strong>OtterTrader_01</strong></div>
+        <div class="welcome-sub">Ready to compete? Check your stats and enter the arena.</div>
+    </div>
+
+    <!-- User Stats Card -->
+    <div class="user-stats-card">
+        <div class="user-stats-top">
+            <div class="user-avatar-lg">OT</div>
+            <div class="user-info-col">
+                <div class="user-name-row">
+                    <span class="user-name">OtterTrader_01</span>
+                    <span class="user-tier-badge">Bronze</span>
+                </div>
+                <div class="user-leverage">5x Leverage</div>
+            </div>
+        </div>
+        <div class="user-stats-grid">
+            <div class="stat-item">
+                <div class="stat-value gold">2,450</div>
+                <div class="stat-label">Points</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">$380</div>
+                <div class="stat-label">Prize Won</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value white">12</div>
+                <div class="stat-label">Matches</div>
+            </div>
+        </div>
+        <div class="points-progress">
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <span class="progress-text">2,450 / 5,000 pts to Silver</span>
+        </div>
+    </div>
+
+    <!-- Referral Banner -->
+    <div class="referral-banner">
+        <div class="referral-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        </div>
+        <div class="referral-text">
+            <div class="referral-title">Invite Friends, Earn More</div>
+            <div class="referral-desc"><span>+10% bonus</span> on winnings, <span>35% commission</span></div>
+        </div>
+        <div class="referral-copy-btn" onclick="copyRef()">COPY</div>
+    </div>
+
+    <!-- Enter the Arena -->
+    <div class="arena-section">
+        <div class="section-title">Enter the Arena</div>
+
+        <!-- Beginner Arena -->
+        <div class="arena-card beginner">
+            <div class="arena-card-tag">Beginner</div>
+            <div class="arena-card-title">Beginner Arena</div>
+            <ul class="arena-card-features">
+                <li>Open to all registered users</li>
+                <li>24-hour match duration</li>
+                <li>Trade BTC/ETH/SOL pairs</li>
+                <li>Min 5 trades required to qualify</li>
+                <li>Top 100 share the prize pool</li>
+            </ul>
+            <div class="arena-card-prize">Prize Pool: <strong>250 USDT</strong> per round</div>
+            <div class="arena-card-btn">ENTER ARENA</div>
+        </div>
+
+        <!-- Advanced Arena -->
+        <div class="arena-card advanced">
+            <div class="arena-card-tag">Advanced</div>
+            <div class="arena-card-title">Advanced Arena</div>
+            <ul class="arena-card-features">
+                <li>Requires unlock conditions</li>
+                <li>48-hour match duration</li>
+                <li>All trading pairs available</li>
+                <li>Advanced strategies allowed</li>
+                <li>Top 50 share the prize pool</li>
+            </ul>
+            <div class="arena-card-prize">Prize Pool: <strong>2,500 USDT</strong> per round</div>
+            <div class="arena-card-btn locked">LOCKED</div>
+
+            <div class="unlock-req">
+                <div class="unlock-title">Unlock Requirements</div>
+                <div class="unlock-item">
+                    <div class="unlock-item-row">
+                        <span class="unlock-item-label">Accumulated Points</span>
+                        <span class="unlock-item-value">2,450 / 5,000</span>
+                    </div>
+                    <div class="unlock-bar">
+                        <div class="unlock-bar-fill" style="width: 49%"></div>
+                    </div>
+                </div>
+                <div class="unlock-item">
+                    <div class="unlock-item-row">
+                        <span class="unlock-item-label">Trading Credit Score</span>
+                        <span class="unlock-item-value">72 / 100</span>
+                    </div>
+                    <div class="unlock-bar">
+                        <div class="unlock-bar-fill" style="width: 72%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task System -->
+    <div class="task-section">
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Tasks</div>
+                <div class="task-pts-total">125/450 PTS</div>
+            </div>
+            <div class="task-progress-bar">
+                <div class="task-progress-fill"></div>
+            </div>
+
+            <!-- One-Time Tasks -->
+            <div class="task-category">One-Time</div>
+
+            <!-- Follow Twitter - Link button -->
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info"><div class="task-name">Follow Twitter</div></div>
+                <div class="task-pts">+10</div>
+                <div class="task-action-btn link">LINK</div>
+            </div>
+
+            <!-- Link Discord - Link button -->
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info"><div class="task-name">Link Discord</div></div>
+                <div class="task-pts">+15</div>
+                <div class="task-action-btn link">LINK</div>
+            </div>
+
+            <!-- Register first competition - completed -->
+            <div class="task-item completed">
+                <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="task-info"><div class="task-name">Register first competition</div></div>
+                <div class="task-pts">+10</div>
+            </div>
+
+            <!-- Complete first competition - completed -->
+            <div class="task-item completed">
+                <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="task-info"><div class="task-name">Complete first competition</div></div>
+                <div class="task-pts">+20</div>
+            </div>
+
+            <!-- Bind wallet address - completed -->
+            <div class="task-item completed">
+                <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="task-info"><div class="task-name">Bind wallet address</div></div>
+                <div class="task-pts">+15</div>
+            </div>
+
+            <!-- First chat in arena - completed -->
+            <div class="task-item completed">
+                <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="task-info"><div class="task-name">First chat in arena</div></div>
+                <div class="task-pts">+5</div>
+            </div>
+
+            <!-- First vote in competition - completed -->
+            <div class="task-item completed">
+                <div class="task-check done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="task-info"><div class="task-name">First vote in competition</div></div>
+                <div class="task-pts">+5</div>
+            </div>
+
+            <!-- First win a prize - verify -->
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info"><div class="task-name">First win a prize</div></div>
+                <div class="task-pts">+30</div>
+                <div class="task-action-btn verify">VERIFY</div>
+            </div>
+
+            <!-- Milestones -->
+            <div class="task-category">Milestones</div>
+
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info">
+                    <div class="task-name">Complete 10 matches</div>
+                    <div class="task-milestone-progress">
+                        <span class="task-milestone-text">4 / 10</span>
+                        <div class="task-milestone-bar"><div class="task-milestone-bar-fill" style="width:40%"></div></div>
+                    </div>
+                </div>
+                <div class="task-pts">+50</div>
+                <div class="task-action-btn verify">VERIFY</div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info">
+                    <div class="task-name">Complete 50 matches</div>
+                    <div class="task-milestone-progress">
+                        <span class="task-milestone-text">4 / 50</span>
+                        <div class="task-milestone-bar"><div class="task-milestone-bar-fill" style="width:8%"></div></div>
+                    </div>
+                </div>
+                <div class="task-pts">+100</div>
+                <div class="task-action-btn verify">VERIFY</div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info">
+                    <div class="task-name">Complete 100 matches</div>
+                    <div class="task-milestone-progress">
+                        <span class="task-milestone-text">4 / 100</span>
+                        <div class="task-milestone-bar"><div class="task-milestone-bar-fill" style="width:4%"></div></div>
+                    </div>
+                </div>
+                <div class="task-pts">+150</div>
+                <div class="task-action-btn verify">VERIFY</div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div class="task-info">
+                    <div class="task-name">Complete 150 matches</div>
+                    <div class="task-milestone-progress">
+                        <span class="task-milestone-text">4 / 150</span>
+                        <div class="task-milestone-bar"><div class="task-milestone-bar-fill" style="width:3%"></div></div>
+                    </div>
+                </div>
+                <div class="task-pts">+200</div>
+                <div class="task-action-btn verify">VERIFY</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== BOTTOM NAV ===== -->
+<div class="bottom-nav">
+    <div class="nav-item" onclick="switchTab(this, 'schedule')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Schedule</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(this, 'watch')">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>Watch</span>
+    </div>
+    <div class="nav-item center-item active" onclick="switchTab(this, 'arena')">
+        <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span>Arena</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(this, 'dashboard')">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Dashboard</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(this, 'rewards')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <span>Rewards</span>
+    </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- Right Drawer -->
+<div class="drawer" id="drawer">
+    <div class="drawer-header">
+        <div class="drawer-avatar">OT</div>
+        <div class="drawer-user-info">
+            <div class="drawer-username">OtterTrader_01</div>
+            <div class="drawer-email">user@example.com</div>
+        </div>
+        <div class="drawer-close" onclick="closeDrawer()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+    </div>
+    <div class="drawer-section">
+        <div class="drawer-item">
+            <div class="drawer-item-icon">
+                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="drawer-item-label">Stats</span>
+        </div>
+    </div>
+    <div class="drawer-social">
+        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
+        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M10.802 17.77a.703.703 0 1 1-.002 1.406.703.703 0 0 1 .002-1.406m11.024-4.347a.703.703 0 1 1 .001-1.406.703.703 0 0 1-.001 1.406m0-2.876a2.176 2.176 0 0 0-2.174 2.174c0 .233.039.465.115.691l-7.181 3.823a2.165 2.165 0 0 0-1.784-.937c-.829 0-1.584.475-1.95 1.216l-6.451-3.402c-.682-.358-1.192-1.48-1.138-2.502.028-.533.212-.947.493-1.107.178-.1.392-.092.62.027l.042.023c1.71.9 7.304 3.847 7.54 3.956.363.168.565.237 1.185-.057l11.564-6.014c.17-.064.368-.227.368-.474 0-.342-.354-.477-.355-.477-.658-.315-1.669-.788-2.655-1.25-2.108-.987-4.497-2.105-5.546-2.655-.906-.474-1.635-.074-1.765.006l-.252.125C7.78 6.048 1.46 9.178 1.1 9.397.457 9.789.058 10.57.006 11.539c-.08 1.537.703 3.14 1.824 3.727l6.822 3.518a2.175 2.175 0 0 0 2.15 1.862 2.177 2.177 0 0 0 2.173-2.14l7.514-4.073c.38.298.853.461 1.337.461A2.176 2.176 0 0 0 24 12.72a2.176 2.176 0 0 0-2.174-2.174"/></svg></div>
+    </div>
+    <div class="drawer-logout">
+        <div class="drawer-logout-btn">Log Out</div>
+    </div>
+</div>
+
+<script>
+function toggleLang() {
+    document.getElementById('langDropdown').classList.toggle('open');
+}
+function selectLang(el) {
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    setTimeout(() => document.getElementById('langDropdown').classList.remove('open'), 200);
+}
+function openDrawer() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+function switchTab(el, tab) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+}
+function copyRef() {
+    navigator.clipboard.writeText('ottertrade.com/ref/OT01X7');
+    const btn = document.querySelector('.referral-copy-btn');
+    btn.textContent = 'COPIED';
+    setTimeout(() => btn.textContent = 'COPY', 2000);
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.top-bar-icon') && !e.target.closest('.lang-dropdown')) {
+        document.getElementById('langDropdown').classList.remove('open');
+    }
+});
+</script>
+</body>
+</html>
