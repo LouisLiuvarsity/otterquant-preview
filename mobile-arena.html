@@ -175,30 +175,89 @@ body {
 }
 
 /* ===== BEGINNER PANEL ===== */
-.comp-category { margin-bottom: 16px; }
+.beginner-arena-card {
+    background: #141414;
+    border: 1px solid rgba(245, 183, 10, 0.15);
+    border-radius: 14px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(245, 183, 10, 0.06) 0%, rgba(0,0,0,0) 60%);
+}
+.beginner-view { }
+.beginner-card-tag {
+    display: inline-block;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+    background: rgba(245, 183, 10, 0.12); color: #F5B70A;
+    border: 1px solid rgba(245, 183, 10, 0.25);
+    margin-bottom: 10px;
+}
+.beginner-card-title {
+    font-size: 18px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.02em; margin-bottom: 14px; color: #F5B70A;
+}
+.beginner-card-rules { list-style: none; margin-bottom: 14px; }
+.beginner-card-rules li {
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    padding: 4px 0; display: flex; align-items: center; gap: 8px;
+}
+.beginner-card-rules li::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    border: 1px solid #F5B70A; flex-shrink: 0;
+}
+.beginner-card-prize { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.beginner-card-prize strong { font-size: 15px; color: #fff; font-weight: 700; }
+.beginner-enter-btn {
+    display: inline-block; padding: 10px 24px; border-radius: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: pointer;
+    background: #F5B70A; color: #0B0B0B;
+    transition: opacity 0.2s;
+}
+.beginner-enter-btn:hover { opacity: 0.85; }
+
+/* Beginner List Header */
+.beginner-list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+}
+.beginner-list-title {
+    font-size: 15px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.02em; color: #F5B70A;
+}
+.beginner-back-btn {
+    font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer;
+    padding: 4px 10px; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; transition: all 0.2s;
+}
+.beginner-back-btn:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+.comp-category { margin-bottom: 14px; }
 .comp-category-title {
     display: flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 8px;
 }
-.comp-category-title .dot { width: 7px; height: 7px; border-radius: 50%; }
+.comp-category-title .dot { width: 6px; height: 6px; border-radius: 50%; }
 .comp-category-title .dot.live { background: #4ade80; }
 .comp-category-title .dot.upcoming { background: #F5B70A; }
 .comp-category-title .live-text { color: #4ade80; }
 .comp-category-title .upcoming-text { color: #F5B70A; }
 
-.m-comp-card {
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-left: 3px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 10px;
+/* Inner competition cards (inside the unified beginner card) */
+.inner-comp-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
 }
-.m-comp-card.live-card { border-left-color: #4ade80; }
-.m-comp-card.upcoming-card { border-left-color: #F5B70A; }
-.m-comp-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.m-comp-tags { display: flex; gap: 6px; }
+.inner-comp-card.live-border { border-left-color: #4ade80; }
+.inner-comp-card.upcoming-border { border-left-color: #F5B70A; }
+.inner-comp-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.m-comp-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 .m-comp-tag {
     font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
     padding: 3px 7px; border-radius: 4px; text-transform: uppercase;
@@ -472,88 +531,114 @@ body {
 
     <!-- ===== TAB PANEL: BEGINNER ===== -->
     <div class="tab-panel active" id="panel-beginner">
-        <!-- LIVE NOW -->
-        <div class="comp-category">
-            <div class="comp-category-title">
-                <span class="dot live"></span>
-                <span class="live-text">LIVE NOW</span>
+        <!-- Single unified card container -->
+        <div class="beginner-arena-card">
+            <!-- View 1: Intro (default) -->
+            <div class="beginner-view" id="beginnerIntro">
+                <div class="beginner-card-tag">Beginner</div>
+                <div class="beginner-card-title">BEGINNER ARENA</div>
+                <ul class="beginner-card-rules">
+                    <li>Open to all registered users</li>
+                    <li>24-hour match duration</li>
+                    <li>Trade BTC/ETH/SOL pairs</li>
+                    <li>Min 5 trades required to qualify</li>
+                    <li>Top 100 share the prize pool</li>
+                </ul>
+                <div class="beginner-card-prize">Prize Pool: <strong>250 USDT</strong> per round</div>
+                <div class="beginner-enter-btn" onclick="enterBeginnerArena()">ENTER ARENA</div>
             </div>
-            <div class="m-comp-card live-card">
-                <div class="m-comp-card-top">
-                    <div class="m-comp-tags">
-                        <span class="m-comp-tag live">LIVE</span>
-                        <span class="m-comp-tag pair">BTC/USDT</span>
-                    </div>
-                    <div class="m-comp-countdown">4h 26m <span>remaining</span></div>
-                </div>
-                <div class="m-comp-title">Qualification Challenge Round 23</div>
-                <div class="m-comp-date">Started: Jun 07, 2026 17:00 UTC</div>
-                <div class="m-comp-stats">
-                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> #18 / 48</div>
-                    <div class="m-comp-stat pnl-positive">+1.16%</div>
-                    <div class="m-comp-stat prize">250 USDT</div>
-                </div>
-                <div class="m-comp-bottom">
-                    <div class="m-comp-participants">48 traders competing</div>
-                    <div class="m-comp-actions">
-                        <button class="m-comp-btn secondary">DETAILS</button>
-                        <button class="m-comp-btn enter">ENTER</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- UPCOMING -->
-        <div class="comp-category">
-            <div class="comp-category-title">
-                <span class="dot upcoming"></span>
-                <span class="upcoming-text">UPCOMING</span>
-            </div>
-            <div class="m-comp-card upcoming-card">
-                <div class="m-comp-card-top">
-                    <div class="m-comp-tags">
-                        <span class="m-comp-tag registering">REGISTERING</span>
-                        <span class="m-comp-tag pair">ETH/USDT</span>
-                    </div>
-                    <div class="m-comp-time-info">
-                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>6h</strong></span>
-                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00 UTC</span>
-                    </div>
+            <!-- View 2: Competition List (shown after clicking ENTER) -->
+            <div class="beginner-view" id="beginnerList" style="display:none;">
+                <div class="beginner-list-header">
+                    <div class="beginner-list-title">Beginner Competitions</div>
+                    <div class="beginner-back-btn" onclick="backToBeginnerIntro()">&#8249; Back</div>
                 </div>
-                <div class="m-comp-title">Qualification Challenge Round 24</div>
-                <div class="m-comp-stats">
-                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 12 / 100 registered</div>
-                    <div class="m-comp-stat prize">250 USDT</div>
-                </div>
-                <div class="m-comp-bottom">
-                    <div class="m-comp-participants">Registration open</div>
-                    <div class="m-comp-actions">
-                        <button class="m-comp-btn secondary">DETAILS</button>
-                        <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+
+                <!-- LIVE NOW -->
+                <div class="comp-category">
+                    <div class="comp-category-title">
+                        <span class="dot live"></span>
+                        <span class="live-text">LIVE NOW</span>
                     </div>
-                </div>
-            </div>
-            <div class="m-comp-card upcoming-card">
-                <div class="m-comp-card-top">
-                    <div class="m-comp-tags">
-                        <span class="m-comp-tag registering">REGISTERING</span>
-                        <span class="m-comp-tag pair">SOL/USDT</span>
-                    </div>
-                    <div class="m-comp-time-info">
-                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>18h</strong></span>
-                        <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00 UTC</span>
+                    <div class="inner-comp-card live-border">
+                        <div class="inner-comp-top">
+                            <div class="m-comp-tags">
+                                <span class="m-comp-tag live">LIVE</span>
+                                <span class="m-comp-tag pair">BTC/USDT</span>
+                            </div>
+                            <div class="m-comp-countdown">4h 26m <span>remaining</span></div>
+                        </div>
+                        <div class="m-comp-title">Qualification Challenge Round 23</div>
+                        <div class="m-comp-date">Started: Jun 07, 2026 17:00 UTC</div>
+                        <div class="m-comp-stats">
+                            <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> #18 / 48</div>
+                            <div class="m-comp-stat pnl-positive">+1.16%</div>
+                            <div class="m-comp-stat prize">250 USDT</div>
+                        </div>
+                        <div class="m-comp-bottom">
+                            <div class="m-comp-participants">48 traders competing</div>
+                            <div class="m-comp-actions">
+                                <button class="m-comp-btn secondary">DETAILS</button>
+                                <button class="m-comp-btn enter">ENTER</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="m-comp-title">Qualification Challenge Round 25</div>
-                <div class="m-comp-stats">
-                    <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 5 / 100 registered</div>
-                    <div class="m-comp-stat prize">250 USDT</div>
-                </div>
-                <div class="m-comp-bottom">
-                    <div class="m-comp-participants">Registration open</div>
-                    <div class="m-comp-actions">
-                        <button class="m-comp-btn secondary">DETAILS</button>
-                        <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+
+                <!-- UPCOMING -->
+                <div class="comp-category">
+                    <div class="comp-category-title">
+                        <span class="dot upcoming"></span>
+                        <span class="upcoming-text">UPCOMING</span>
+                    </div>
+                    <div class="inner-comp-card upcoming-border">
+                        <div class="inner-comp-top">
+                            <div class="m-comp-tags">
+                                <span class="m-comp-tag registering">REGISTERING</span>
+                                <span class="m-comp-tag pair">ETH/USDT</span>
+                            </div>
+                            <div class="m-comp-time-info">
+                                <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>6h</strong></span>
+                                <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 00:00 UTC</span>
+                            </div>
+                        </div>
+                        <div class="m-comp-title">Qualification Challenge Round 24</div>
+                        <div class="m-comp-stats">
+                            <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 12 / 100 registered</div>
+                            <div class="m-comp-stat prize">250 USDT</div>
+                        </div>
+                        <div class="m-comp-bottom">
+                            <div class="m-comp-participants">Registration open</div>
+                            <div class="m-comp-actions">
+                                <button class="m-comp-btn secondary">DETAILS</button>
+                                <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inner-comp-card upcoming-border">
+                        <div class="inner-comp-top">
+                            <div class="m-comp-tags">
+                                <span class="m-comp-tag registering">REGISTERING</span>
+                                <span class="m-comp-tag pair">SOL/USDT</span>
+                            </div>
+                            <div class="m-comp-time-info">
+                                <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Registration closes in <strong>18h</strong></span>
+                                <span class="m-comp-time-item"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starts Jun 08, 12:00 UTC</span>
+                            </div>
+                        </div>
+                        <div class="m-comp-title">Qualification Challenge Round 25</div>
+                        <div class="m-comp-stats">
+                            <div class="m-comp-stat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> 5 / 100 registered</div>
+                            <div class="m-comp-stat prize">250 USDT</div>
+                        </div>
+                        <div class="m-comp-bottom">
+                            <div class="m-comp-participants">Registration open</div>
+                            <div class="m-comp-actions">
+                                <button class="m-comp-btn secondary">DETAILS</button>
+                                <button class="m-comp-btn register" onclick="mobileRegister(this)">REGISTER</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -826,6 +911,16 @@ function switchArenaTab(tab) {
     // Update panels
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// Beginner card: Enter / Back toggle
+function enterBeginnerArena() {
+    document.getElementById('beginnerIntro').style.display = 'none';
+    document.getElementById('beginnerList').style.display = 'block';
+}
+function backToBeginnerIntro() {
+    document.getElementById('beginnerList').style.display = 'none';
+    document.getElementById('beginnerIntro').style.display = 'block';
 }
 
 function mobileRegister(btn) {
