@@ -18,597 +18,959 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== TOP BAR ===== */
-.top-bar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 56px; background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; }
-.top-bar-left { display: flex; align-items: center; gap: 8px; }
-.top-bar-logo { width: 32px; height: 32px; background: linear-gradient(135deg, #f5a623, #e8912d); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.top-bar-logo svg { width: 18px; height: 18px; }
-.top-bar-brand { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
-.top-bar-right { display: flex; align-items: center; gap: 12px; }
-.top-bar-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
-.top-bar-icon svg { width: 20px; height: 20px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 1.8; }
-.notif-badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #e74c3c; border-radius: 50%; border: 1.5px solid #0B0B0B; }
-.top-bar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid rgba(255,255,255,0.15); }
-
-/* ===== MAIN ===== */
-.main-content { padding-top: 56px; padding-bottom: 80px; }
-
-/* ===== PROFILE SNAPSHOT ===== */
-.profile-section {
-    padding: 16px;
+/* ===== HEADER ===== */
+.header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 48px;
+    background: #0B0B0B; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; z-index: 100;
 }
-.profile-card {
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 16px;
+.header-logo { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #F5B70A; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; cursor: pointer;
 }
-.profile-top {
+.header-user { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; height: 56px;
+    background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.nav-item .nav-icon { font-size: 16px; }
+.nav-item .nav-label { font-size: 8px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.nav-item.active .nav-label { color: #F5B70A; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content { padding: 56px 0 64px; }
+
+/* ===== USER OVERVIEW (always visible) ===== */
+.user-overview {
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.user-profile {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 12px;
 }
-.profile-avatar {
-    width: 48px; height: 48px; border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700;
-}
-.profile-info { flex: 1; }
-.profile-name { font-size: 15px; font-weight: 700; }
-.profile-tier {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: rgba(205,127,50,0.15);
-    color: #cd7f32;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 3px;
-}
-.profile-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-.profile-stat {
-    text-align: center;
-    padding: 10px 0;
-    background: rgba(255,255,255,0.03);
+.user-avatar {
+    width: 40px; height: 40px;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.04);
-}
-.profile-stat-value {
+    background: rgba(245,183,10,0.1);
+    border: 1px solid rgba(245,183,10,0.3);
+    display: flex; align-items: center; justify-content: center;
     font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 16px; font-weight: 700;
     color: #F5B70A;
 }
-.profile-stat-label {
+.user-info { flex: 1; }
+.user-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.user-tier {
+    font-size: 9px; font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(245,183,10,0.15);
+    color: #F5B70A;
+}
+.user-season {
     font-size: 9px;
     color: rgba(255,255,255,0.4);
+}
+.edit-profile-btn {
+    font-size: 9px;
+    padding: 5px 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: rgba(255,255,255,0.6);
+    background: transparent;
+    cursor: pointer;
+}
+.user-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+.user-stats-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+.stat-card {
+    text-align: center;
+    padding: 8px 4px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.stat-card-label {
+    font-size: 7px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 3px;
+}
+.stat-card-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+.stat-card-value.gold { color: #F5B70A; }
+.stat-card-value.green { color: #4ade80; }
+.stat-card-sub {
+    font-size: 7px;
+    color: rgba(255,255,255,0.3);
     margin-top: 2px;
 }
 
-/* ===== COMPETITION STATUS ===== */
-.status-section { padding: 0 16px 16px; }
-.status-card {
-    background: #141414;
-    border: 1px solid rgba(74,222,128,0.2);
-    border-radius: 12px;
-    padding: 14px;
-}
-.status-header {
+/* ===== CONTENT TABS ===== */
+.content-tabs {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.status-badge {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 4px;
-    background: rgba(74,222,128,0.12);
-    color: #4ade80;
-    text-transform: uppercase;
-}
-.status-time {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-}
-.status-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-.status-meta {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-.status-meta-item { font-size: 10px; color: rgba(255,255,255,0.5); }
-.status-meta-item strong { color: #F5B70A; }
-.status-meta-item.positive { color: #4ade80; font-weight: 600; }
-.status-btn {
-    width: 100%;
-    padding: 10px;
-    background: #F5B70A;
-    color: #0B0B0B;
-    border: none;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-}
-
-/* ===== COLLAPSIBLE SECTIONS ===== */
-.collapsible-section { padding: 0 16px 12px; }
-.collapsible-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 14px;
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.collapsible-header.open { border-radius: 10px 10px 0 0; }
-.collapsible-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-.collapsible-toggle { font-size: 14px; color: rgba(255,255,255,0.4); transition: transform 0.2s; }
-.collapsible-header.open .collapsible-toggle { transform: rotate(180deg); }
-.collapsible-body {
-    display: none;
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 14px;
-}
-.collapsible-body.open { display: block; }
-
-/* Analytics */
-.analytics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-}
-.analytics-item {
-    padding: 10px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 8px;
-    text-align: center;
-}
-.analytics-value {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-}
-.analytics-value.green { color: #4ade80; }
-.analytics-value.gold { color: #F5B70A; }
-.analytics-value.red { color: #ef4444; }
-.analytics-label {
-    font-size: 9px;
-    color: rgba(255,255,255,0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-top: 3px;
-}
-
-/* Match History */
-.match-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.match-item:last-child { border-bottom: none; }
-.match-item-left { flex: 1; }
-.match-item-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); }
-.match-item-date { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-.match-item-right { text-align: right; }
-.match-item-pnl { font-size: 12px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
-.match-item-pnl.positive { color: #4ade80; }
-.match-item-pnl.negative { color: #ef4444; }
-.match-item-rank { font-size: 9px; color: rgba(255,255,255,0.4); }
-.share-btn {
-    font-size: 9px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(74,222,128,0.3);
-    background: rgba(74,222,128,0.08);
-    color: #4ade80;
-    cursor: pointer;
-    margin-top: 4px;
-    display: inline-block;
-}
-
-/* ===== TASK SYSTEM ===== */
-.tasks-section { padding: 0 16px 16px; }
-.tasks-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-.tasks-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-.tasks-progress { font-size: 11px; color: #F5B70A; font-weight: 600; }
-.task-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
-.task-tab {
-    flex: 1;
-    padding: 8px 0;
+.content-tabs::-webkit-scrollbar { display: none; }
+.content-tab {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    text-align: center;
     font-size: 10px;
     font-weight: 600;
     color: rgba(255,255,255,0.4);
-    background: none;
-    border: none;
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    text-align: center;
-    text-transform: uppercase;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
-.task-tab.active { color: #F5B70A; border-bottom-color: #F5B70A; }
-.task-list { }
-.task-panel { display: none; }
-.task-panel.active { display: block; }
+.content-tab.active {
+    color: #F5B70A;
+    border-bottom-color: #F5B70A;
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ===== COMPETITIONS PANEL ===== */
+.comp-panel { padding: 12px; }
+.welcome-text { margin-bottom: 12px; }
+.welcome-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.welcome-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+.live-comp-card {
+    border: 1px solid rgba(245,183,10,0.3);
+    border-top: 3px solid #F5B70A;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    background: rgba(245,183,10,0.02);
+}
+.live-comp-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4CAF50;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.live-comp-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+}
+.comp-tag {
+    font-size: 7px;
+    padding: 2px 5px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 3px;
+    color: rgba(255,255,255,0.5);
+}
+.comp-tag.live { border-color: #4CAF50; color: #4CAF50; }
+.live-comp-time-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+.live-comp-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #F5B70A;
+}
+.live-comp-time-label {
+    font-size: 8px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-left: 4px;
+}
+.live-comp-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.live-stat { text-align: center; }
+.live-stat-label { font-size: 7px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 2px; }
+.live-stat-value { font-size: 11px; font-weight: 700; color: #fff; }
+.live-stat-value.green { color: #4ade80; }
+.live-stat-value.gold { color: #F5B70A; }
+.live-comp-participants { font-size: 9px; color: rgba(255,255,255,0.4); margin-bottom: 8px; text-align: center; }
+.live-comp-actions { display: flex; gap: 8px; }
+.enter-arena-btn {
+    flex: 1;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(76,175,80,0.2), rgba(76,175,80,0.05));
+    border: 1px solid rgba(76,175,80,0.4);
+    border-radius: 6px;
+    color: #4ade80;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+}
+.view-details-link {
+    padding: 10px 12px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.other-comps-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.other-comp-card {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.02);
+}
+.other-comp-name { font-size: 11px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.other-comp-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.other-comp-meta .prize { color: #F5B70A; }
+.other-comp-meta .registered { color: #4ade80; }
+.other-comp-bottom { display: flex; align-items: center; justify-content: space-between; }
+.reg-closes { font-size: 8px; color: rgba(255,255,255,0.4); }
+.reg-closes span { color: #F5B70A; font-weight: 700; }
+.register-btn {
+    padding: 6px 12px;
+    background: rgba(76,175,80,0.15);
+    border: 1px solid rgba(76,175,80,0.4);
+    border-radius: 4px;
+    color: #4ade80;
+    font-size: 9px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ===== TASKS PANEL ===== */
+.tasks-panel { padding: 12px; }
+.tasks-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.tasks-title { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; }
+.tasks-pts { font-size: 11px; font-weight: 700; color: #F5B70A; }
+.tasks-section-title {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; color: rgba(255,255,255,0.4);
+    margin-bottom: 8px; margin-top: 12px;
+}
 .task-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
+    gap: 8px;
+    padding: 8px 0;
     border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.task-item:last-child { border-bottom: none; }
-.task-item-left { flex: 1; }
-.task-item-name { font-size: 11px; color: rgba(255,255,255,0.7); }
-.task-item-right { display: flex; align-items: center; gap: 8px; }
-.task-points { font-size: 10px; color: #F5B70A; font-weight: 600; }
-.task-status {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 3px 8px;
+.task-check {
+    width: 18px; height: 18px;
     border-radius: 4px;
-    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
 }
-.task-status.done { background: rgba(74,222,128,0.1); color: #4ade80; }
-.task-status.verify { background: rgba(245,183,10,0.1); color: #F5B70A; border: 1px solid rgba(245,183,10,0.3); cursor: pointer; }
-.task-status.link { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); cursor: pointer; }
+.task-check.done { background: rgba(76,175,80,0.2); border-color: #4ade80; }
+.task-check.done::after { content: '✓'; font-size: 10px; color: #4ade80; }
+.task-name { flex: 1; font-size: 11px; color: rgba(255,255,255,0.7); }
+.task-name.completed { color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.task-pts-badge { font-size: 9px; font-weight: 700; color: #4ade80; }
+.task-action-btn {
+    font-size: 8px; font-weight: 700;
+    padding: 3px 8px;
+    border: 1px solid #F5B70A;
+    border-radius: 3px;
+    color: #F5B70A;
+    cursor: pointer;
+}
+.milestone-progress {
+    width: 40px; height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px; overflow: hidden;
+    margin-top: 2px;
+}
+.milestone-progress-bar { height: 100%; background: #F5B70A; border-radius: 2px; }
 
-/* ===== BOTTOM NAV ===== */
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 72px; background: #111111; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-around; padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
-.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 8px 12px; border-radius: 12px; text-decoration: none; }
-.nav-item svg { width: 22px; height: 22px; fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 1.8; }
-.nav-item span { font-size: 10px; color: rgba(255,255,255,0.4); }
-.nav-item.active svg { stroke: #f5a623; }
-.nav-item.active span { color: #f5a623; font-weight: 600; }
-.nav-item.center-item .nav-icon-wrap { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #f5a623, #e8912d); display: flex; align-items: center; justify-content: center; margin-top: -20px; box-shadow: 0 4px 16px rgba(245,166,35,0.3); }
-.nav-item.center-item .nav-icon-wrap svg { stroke: #0B0B0B; width: 24px; height: 24px; stroke-width: 2.2; }
-.nav-item.center-item span { margin-top: 2px; }
+/* ===== ANALYTICS PANEL ===== */
+.analytics-panel { padding: 12px; }
+.analytics-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 6px;
+}
+.analytics-stats-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.analytics-stat {
+    text-align: center;
+    padding: 8px 4px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.analytics-stat-label {
+    font-size: 7px; text-transform: uppercase;
+    letter-spacing: 0.03em; color: rgba(255,255,255,0.4);
+    margin-bottom: 3px;
+}
+.analytics-stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px; font-weight: 700; color: #fff;
+}
+.analytics-stat-value.green { color: #4ade80; }
+.analytics-stat-value.red { color: #ef4444; }
+.analytics-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+.analytics-card-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 10px; }
+.pnl-chart-placeholder {
+    height: 120px;
+    background: rgba(30,30,60,0.5);
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 10px;
+    gap: 3px;
+}
+.pnl-bar { width: 8px; border-radius: 2px 2px 0 0; }
+.pnl-bar.loss { background: #ef4444; }
+.pnl-bar.profit { background: #F5B70A; }
+.pnl-bar.big-profit { background: #4ade80; }
+.long-short-section { margin-bottom: 8px; }
+.ls-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.ls-label { font-size: 9px; font-weight: 700; }
+.ls-label.long { color: #4ade80; }
+.ls-label.short { color: #ef4444; }
+.ls-bar { height: 6px; border-radius: 3px; background: #ef4444; overflow: hidden; margin-bottom: 8px; }
+.ls-bar-fill { height: 100%; background: #4ade80; border-radius: 3px; }
+.ls-details {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4px; font-size: 9px; color: rgba(255,255,255,0.5);
+}
+.ls-details strong { color: rgba(255,255,255,0.8); }
+.ls-details .neg { color: #ef4444; }
+.ls-details .pos { color: #4ade80; }
+.close-reason-chart { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
+.donut-placeholder {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 8px solid #4ade80;
+    position: relative;
+}
+.donut-placeholder::after {
+    content: ''; position: absolute; inset: 4px;
+    border-radius: 50%; background: #0B0B0B;
+}
+.donut-label { font-size: 9px; color: rgba(255,255,255,0.5); }
+.trades-hour-placeholder {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0 4px;
+}
+.hour-bar { flex: 1; background: #60a5fa; border-radius: 2px 2px 0 0; min-height: 4px; }
 
-/* ===== DRAWER ===== */
-.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-.drawer-overlay.open { opacity: 1; pointer-events: all; }
-.drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #141414; border-left: 1px solid rgba(255,255,255,0.08); z-index: 300; transition: right 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; overflow-y: auto; }
-.drawer.open { right: 0; }
-.drawer-header { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
-.drawer-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; }
-.drawer-username { font-size: 14px; font-weight: 600; }
-.drawer-email { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
-.drawer-close { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.drawer-close svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 2; }
-.drawer-section { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer; }
-.drawer-item-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; }
-.drawer-item-icon svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); fill: none; stroke-width: 1.8; }
-.drawer-item-label { font-size: 13px; color: rgba(255,255,255,0.8); }
-.drawer-social { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.drawer-social-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.drawer-social-icon svg { width: 16px; height: 16px; fill: rgba(255,255,255,0.5); }
-.drawer-logout { margin-top: auto; padding: 20px; }
-.drawer-logout-btn { width: 100%; padding: 12px; border: 1px solid rgba(231,76,60,0.3); border-radius: 8px; background: rgba(231,76,60,0.08); color: #e74c3c; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; }
-
-.lang-dropdown { position: fixed; top: 56px; right: 16px; width: 180px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 8px; z-index: 150; opacity: 0; pointer-events: none; transform: translateY(-8px); transition: all 0.2s; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-.lang-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-.lang-option { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.7); }
-.lang-option:hover { background: rgba(255,255,255,0.06); }
-.lang-option.active { color: #f5a623; }
+/* ===== MATCH HISTORY PANEL ===== */
+.history-panel { padding: 12px; }
+.history-filter { display: flex; gap: 6px; margin-bottom: 12px; }
+.filter-btn {
+    padding: 5px 12px; font-size: 9px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 4px;
+    color: rgba(255,255,255,0.5); background: transparent; cursor: pointer;
+}
+.filter-btn.active { border-color: #F5B70A; color: #F5B70A; background: rgba(245,183,10,0.08); }
+.history-summary {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 6px; margin-bottom: 6px;
+}
+.history-summary-row2 {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 6px; margin-bottom: 14px;
+}
+.history-stat {
+    text-align: center; padding: 8px 4px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+.history-stat-label {
+    font-size: 7px; text-transform: uppercase;
+    letter-spacing: 0.03em; color: rgba(255,255,255,0.4);
+    margin-bottom: 3px;
+}
+.history-stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px; font-weight: 700; color: #fff;
+}
+.history-stat-value.gold { color: #F5B70A; }
+.history-stat-value.green { color: #4ade80; }
+.match-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 8px;
+}
+.match-id { font-size: 10px; color: rgba(255,255,255,0.5); width: 28px; flex-shrink: 0; }
+.match-rank-badge {
+    font-size: 8px; font-weight: 700;
+    padding: 2px 5px; border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6); flex-shrink: 0;
+}
+.match-rank-badge.top { background: rgba(245,183,10,0.15); border-color: rgba(245,183,10,0.3); color: #F5B70A; }
+.match-details {
+    flex: 1; display: flex; align-items: center;
+    gap: 6px; font-size: 9px; color: rgba(255,255,255,0.4);
+    flex-wrap: wrap;
+}
+.match-details .pts { color: #4ade80; }
+.match-details .prize-icon { color: #F5B70A; }
+.match-pnl { font-size: 10px; font-weight: 700; flex-shrink: 0; }
+.match-pnl.green { color: #4ade80; }
+.match-pnl.red { color: #ef4444; }
+.match-date { font-size: 8px; color: rgba(255,255,255,0.3); flex-shrink: 0; }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-    <div class="top-bar-left">
-        <div class="top-bar-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B0B0B" stroke-width="2.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="10" r="1" fill="#0B0B0B"/><circle cx="15" cy="10" r="1" fill="#0B0B0B"/></svg></div>
-        <span class="top-bar-brand">OTTER TRADE</span>
+<!-- HEADER -->
+<div class="header">
+    <div class="header-logo">OTTER TRADE</div>
+    <div class="header-right">
+        <div class="header-icon">🌐</div>
+        <div class="header-icon">🔔</div>
+        <div class="header-user">trader@</div>
     </div>
-    <div class="top-bar-right">
-        <div class="top-bar-icon" onclick="toggleLang()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="top-bar-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge"></div></div>
-        <div class="top-bar-avatar" onclick="openDrawer()">OT</div>
-    </div>
-</div>
-
-<div class="lang-dropdown" id="langDropdown">
-    <div class="lang-option active">English</div>
-    <div class="lang-option">中文</div>
-    <div class="lang-option">Espanol</div>
-    <div class="lang-option">日本語</div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
 
-    <!-- Profile Snapshot -->
-    <div class="profile-section">
-        <div class="profile-card">
-            <div class="profile-top">
-                <div class="profile-avatar">OT</div>
-                <div class="profile-info">
-                    <div class="profile-name">OtterTrader_01</div>
-                    <div class="profile-tier">Bronze</div>
+    <!-- USER OVERVIEW (always visible) -->
+    <div class="user-overview">
+        <div class="user-profile">
+            <div class="user-avatar">B</div>
+            <div class="user-info">
+                <div class="user-name">Billyjuice</div>
+                <div class="user-meta">
+                    <span class="user-tier">★ IRON</span>
+                    <span class="user-season">Season 1 – Genesis</span>
                 </div>
             </div>
-            <div class="profile-stats">
-                <div class="profile-stat">
-                    <div class="profile-stat-value">2,450</div>
-                    <div class="profile-stat-label">Points</div>
+            <button class="edit-profile-btn">Edit Profile</button>
+        </div>
+        <div class="user-stats">
+            <div class="stat-card">
+                <div class="stat-card-label">Season Points</div>
+                <div class="stat-card-value">40</div>
+                <div class="stat-card-sub">Next tier: 85 pts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Total Volume</div>
+                <div class="stat-card-value">$25.5K</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Win Rate</div>
+                <div class="stat-card-value green">25%</div>
+                <div class="stat-card-sub">2W / 22L</div>
+            </div>
+        </div>
+        <div class="user-stats-row2">
+            <div class="stat-card">
+                <div class="stat-card-label">Prize Won</div>
+                <div class="stat-card-value gold">2 USDT</div>
+                <div class="stat-card-sub">Best #21</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Matches</div>
+                <div class="stat-card-value">4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT TABS -->
+    <div class="content-tabs">
+        <div class="content-tab active" onclick="switchTab('competitions', this)">Competitions</div>
+        <div class="content-tab" onclick="switchTab('tasks', this)">Tasks</div>
+        <div class="content-tab" onclick="switchTab('analytics', this)">Analytics</div>
+        <div class="content-tab" onclick="switchTab('history', this)">History</div>
+    </div>
+
+    <!-- COMPETITIONS PANEL (default) -->
+    <div class="tab-panel active" id="panel-competitions">
+        <div class="comp-panel">
+            <div class="welcome-text">
+                <div class="welcome-title">Welcome back, Billyjuice</div>
+                <div class="welcome-sub">Your "Qualification Challenge Round 23" is live</div>
+            </div>
+
+            <!-- Live Competition Card -->
+            <div class="live-comp-card">
+                <div class="live-comp-header">
+                    <span class="live-dot"></span>
+                    <span class="live-comp-name">Qualification Challenge Round 23</span>
+                    <span class="comp-tag live">LIVE</span>
+                    <span class="comp-tag">BEGINNER</span>
+                    <span class="comp-tag">HUMAN</span>
                 </div>
-                <div class="profile-stat">
-                    <div class="profile-stat-value">$380</div>
-                    <div class="profile-stat-label">Prize Won</div>
+                <div class="live-comp-time-area">
+                    <span class="live-comp-time">4h 26m</span>
+                    <span class="live-comp-time-label">remaining</span>
                 </div>
-                <div class="profile-stat">
-                    <div class="profile-stat-value">12</div>
-                    <div class="profile-stat-label">Matches</div>
+                <div class="live-comp-stats">
+                    <div class="live-stat">
+                        <div class="live-stat-label">Rank</div>
+                        <div class="live-stat-value">#18 / 48</div>
+                    </div>
+                    <div class="live-stat">
+                        <div class="live-stat-label">Return</div>
+                        <div class="live-stat-value green">+1.10%</div>
+                    </div>
+                    <div class="live-stat">
+                        <div class="live-stat-label">Prize Pool</div>
+                        <div class="live-stat-value gold">250 USDT</div>
+                    </div>
+                    <div class="live-stat">
+                        <div class="live-stat-label">Pair</div>
+                        <div class="live-stat-value">SOLUSDT</div>
+                    </div>
+                </div>
+                <div class="live-comp-participants">Participants: 48</div>
+                <div class="live-comp-actions">
+                    <div class="enter-arena-btn">▶ Enter Arena</div>
+                    <div class="view-details-link">View Details →</div>
+                </div>
+            </div>
+
+            <!-- Other Open Competitions -->
+            <div class="other-comps-title">⏱ Other Open Competitions</div>
+            <div class="other-comp-card">
+                <div class="other-comp-name">Qualification Challenge Round 24</div>
+                <div class="other-comp-meta">
+                    <span>SOLUSDT</span>
+                    <span class="prize">250 USDT</span>
+                    <span class="registered">406 / 1000 registered</span>
+                    <span>Start: 6/8, 4:30 PM</span>
+                </div>
+                <div class="other-comp-bottom">
+                    <div class="reg-closes">REG. CLOSES IN <span>1h 50m</span></div>
+                    <button class="register-btn">Register Now</button>
+                </div>
+            </div>
+            <div class="other-comp-card">
+                <div class="other-comp-name">Qualification Challenge Round 25</div>
+                <div class="other-comp-meta">
+                    <span>SOLUSDT</span>
+                    <span class="prize">250 USDT</span>
+                    <span class="registered">128 / 1000 registered</span>
+                    <span>Start: 6/9, 11:00 PM</span>
+                </div>
+                <div class="other-comp-bottom">
+                    <div class="reg-closes">REG. CLOSES IN <span>1d 8h</span></div>
+                    <button class="register-btn">Register Now</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Competition Status -->
-    <div class="status-section">
-        <div class="status-card">
-            <div class="status-header">
-                <div class="status-badge">In Progress</div>
-                <div class="status-time">4h 26m remaining</div>
+    <!-- TASKS PANEL -->
+    <div class="tab-panel" id="panel-tasks">
+        <div class="tasks-panel">
+            <div class="tasks-header">
+                <span class="tasks-title">TASKS</span>
+                <span class="tasks-pts">125/450 PTS</span>
             </div>
-            <div class="status-title">Qualification Challenge R24</div>
-            <div class="status-meta">
-                <div class="status-meta-item">BTC/USDT</div>
-                <div class="status-meta-item">Rank: <strong>#18</strong> / 687</div>
-                <div class="status-meta-item positive">PnL: +1.16%</div>
-                <div class="status-meta-item">Prize: <strong>25 USDT</strong></div>
-            </div>
-            <button class="status-btn">ENTER TRADING ARENA</button>
-        </div>
-    </div>
 
-    <!-- Analytics (collapsible, default open) -->
-    <div class="collapsible-section">
-        <div class="collapsible-header open" onclick="toggleCollapsible(this)">
-            <div class="collapsible-title">Analytics</div>
-            <div class="collapsible-toggle">&#9662;</div>
-        </div>
-        <div class="collapsible-body open">
-            <div class="analytics-grid">
-                <div class="analytics-item">
-                    <div class="analytics-value green">62.5%</div>
-                    <div class="analytics-label">Win Rate</div>
-                </div>
-                <div class="analytics-item">
-                    <div class="analytics-value gold">1.8</div>
-                    <div class="analytics-label">Profit Factor</div>
-                </div>
-                <div class="analytics-item">
-                    <div class="analytics-value green">+$142</div>
-                    <div class="analytics-label">Total PnL</div>
-                </div>
-                <div class="analytics-item">
-                    <div class="analytics-value">4.2</div>
-                    <div class="analytics-label">Avg Trades/Match</div>
-                </div>
-                <div class="analytics-item">
-                    <div class="analytics-value red">-$28</div>
-                    <div class="analytics-label">Max Drawdown</div>
-                </div>
-                <div class="analytics-item">
-                    <div class="analytics-value gold">Top 15%</div>
-                    <div class="analytics-label">Avg Ranking</div>
-                </div>
+            <div class="tasks-section-title">ONE-TIME</div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <span class="task-name">Follow Twitter</span>
+                <span class="task-pts-badge">+10</span>
+                <span class="task-action-btn">LINK</span>
             </div>
-        </div>
-    </div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <span class="task-name">Link Discord</span>
+                <span class="task-pts-badge">+15</span>
+                <span class="task-action-btn">LINK</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check done"></div>
+                <span class="task-name completed">Register first competition</span>
+                <span class="task-pts-badge">+10</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check done"></div>
+                <span class="task-name completed">Complete first competition</span>
+                <span class="task-pts-badge">+20</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check done"></div>
+                <span class="task-name completed">Bind wallet address</span>
+                <span class="task-pts-badge">+15</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check done"></div>
+                <span class="task-name completed">First chat in arena</span>
+                <span class="task-pts-badge">+5</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check done"></div>
+                <span class="task-name completed">First vote in competition</span>
+                <span class="task-pts-badge">+5</span>
+            </div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <span class="task-name">First win a prize</span>
+                <span class="task-pts-badge">+30</span>
+                <span class="task-action-btn">VERIFY</span>
+            </div>
 
-    <!-- Match History (collapsible, default collapsed) -->
-    <div class="collapsible-section">
-        <div class="collapsible-header" onclick="toggleCollapsible(this)">
-            <div class="collapsible-title">Match History</div>
-            <div class="collapsible-toggle">&#9662;</div>
-        </div>
-        <div class="collapsible-body">
-            <div class="match-item">
-                <div class="match-item-left">
-                    <div class="match-item-title">Qualification R23 - BTC/USDT</div>
-                    <div class="match-item-date">Jun 8, 2026</div>
+            <div class="tasks-section-title">MILESTONES</div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div style="flex:1;">
+                    <span class="task-name">Complete 10 matches</span>
+                    <div class="milestone-progress"><div class="milestone-progress-bar" style="width:40%;"></div></div>
+                    <span style="font-size:8px;color:rgba(255,255,255,0.3);">4 / 10</span>
                 </div>
-                <div class="match-item-right">
-                    <div class="match-item-pnl positive">+2.34%</div>
-                    <div class="match-item-rank">#12 / 542</div>
-                    <div class="share-btn" onclick="alert('Share poster generated!')">Share</div>
-                </div>
+                <span class="task-pts-badge">+50</span>
+                <span class="task-action-btn">VERIFY</span>
             </div>
-            <div class="match-item">
-                <div class="match-item-left">
-                    <div class="match-item-title">Qualification R22 - ETH/USDT</div>
-                    <div class="match-item-date">Jun 7, 2026</div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div style="flex:1;">
+                    <span class="task-name">Complete 50 matches</span>
+                    <div class="milestone-progress"><div class="milestone-progress-bar" style="width:8%;"></div></div>
+                    <span style="font-size:8px;color:rgba(255,255,255,0.3);">4 / 50</span>
                 </div>
-                <div class="match-item-right">
-                    <div class="match-item-pnl positive">+1.87%</div>
-                    <div class="match-item-rank">#8 / 498</div>
-                    <div class="share-btn" onclick="alert('Share poster generated!')">Share</div>
-                </div>
+                <span class="task-pts-badge">+100</span>
+                <span class="task-action-btn">VERIFY</span>
             </div>
-            <div class="match-item">
-                <div class="match-item-left">
-                    <div class="match-item-title">Qualification R21 - SOL/USDT</div>
-                    <div class="match-item-date">Jun 6, 2026</div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div style="flex:1;">
+                    <span class="task-name">Complete 100 matches</span>
+                    <div class="milestone-progress"><div class="milestone-progress-bar" style="width:4%;"></div></div>
+                    <span style="font-size:8px;color:rgba(255,255,255,0.3);">4 / 100</span>
                 </div>
-                <div class="match-item-right">
-                    <div class="match-item-pnl negative">-0.92%</div>
-                    <div class="match-item-rank">#156 / 612</div>
-                </div>
+                <span class="task-pts-badge">+150</span>
+                <span class="task-action-btn">VERIFY</span>
             </div>
-            <div class="match-item">
-                <div class="match-item-left">
-                    <div class="match-item-title">Qualification R20 - BTC/USDT</div>
-                    <div class="match-item-date">Jun 5, 2026</div>
+            <div class="task-item">
+                <div class="task-check"></div>
+                <div style="flex:1;">
+                    <span class="task-name">Complete 150 matches</span>
+                    <div class="milestone-progress"><div class="milestone-progress-bar" style="width:2.7%;"></div></div>
+                    <span style="font-size:8px;color:rgba(255,255,255,0.3);">4 / 150</span>
                 </div>
-                <div class="match-item-right">
-                    <div class="match-item-pnl positive">+3.12%</div>
-                    <div class="match-item-rank">#5 / 580</div>
-                    <div class="share-btn" onclick="alert('Share poster generated!')">Share</div>
-                </div>
-            </div>
-            <div class="match-item">
-                <div class="match-item-left">
-                    <div class="match-item-title">Qualification R19 - ETH/USDT</div>
-                    <div class="match-item-date">Jun 4, 2026</div>
-                </div>
-                <div class="match-item-right">
-                    <div class="match-item-pnl negative">-1.45%</div>
-                    <div class="match-item-rank">#234 / 501</div>
-                </div>
+                <span class="task-pts-badge">+200</span>
+                <span class="task-action-btn">VERIFY</span>
             </div>
         </div>
     </div>
 
-    <!-- Task System -->
-    <div class="tasks-section">
-        <div class="tasks-header">
-            <div class="tasks-title">Tasks</div>
-            <div class="tasks-progress">125 / 450 PTS</div>
-        </div>
-        <div class="task-tabs">
-            <button class="task-tab active" onclick="switchTaskTab('daily', this)">Daily</button>
-            <button class="task-tab" onclick="switchTaskTab('weekly', this)">Weekly</button>
-            <button class="task-tab" onclick="switchTaskTab('onetime', this)">One-Time</button>
-        </div>
-        <div class="task-panel active" id="panel-daily">
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Log in today</div></div>
-                <div class="task-item-right"><span class="task-points">+5</span><span class="task-status done">Done</span></div>
+    <!-- ANALYTICS PANEL -->
+    <div class="tab-panel" id="panel-analytics">
+        <div class="analytics-panel">
+            <div class="analytics-stats">
+                <div class="analytics-stat">
+                    <div class="analytics-stat-label">Total Trades</div>
+                    <div class="analytics-stat-value">25</div>
+                </div>
+                <div class="analytics-stat">
+                    <div class="analytics-stat-label">Win Rate</div>
+                    <div class="analytics-stat-value red">8%</div>
+                </div>
+                <div class="analytics-stat">
+                    <div class="analytics-stat-label">Avg PnL/Trade</div>
+                    <div class="analytics-stat-value green">+4.11</div>
+                </div>
             </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Complete 1 trade</div></div>
-                <div class="task-item-right"><span class="task-points">+10</span><span class="task-status done">Done</span></div>
+            <div class="analytics-stats-row2">
+                <div class="analytics-stat">
+                    <div class="analytics-stat-label">Avg Hold</div>
+                    <div class="analytics-stat-value">1h37m</div>
+                </div>
+                <div class="analytics-stat">
+                    <div class="analytics-stat-label">Profit Factor</div>
+                    <div class="analytics-stat-value">4.51</div>
+                </div>
             </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Send a chat message</div></div>
-                <div class="task-item-right"><span class="task-points">+5</span><span class="task-status verify">Verify</span></div>
+
+            <!-- PnL Distribution -->
+            <div class="analytics-card">
+                <div class="analytics-card-title">PnL Distribution</div>
+                <div class="pnl-chart-placeholder">
+                    <div class="pnl-bar loss" style="height:8px;"></div>
+                    <div class="pnl-bar loss" style="height:8px;"></div>
+                    <div class="pnl-bar loss" style="height:6px;"></div>
+                    <div class="pnl-bar loss" style="height:8px;"></div>
+                    <div class="pnl-bar loss" style="height:10px;"></div>
+                    <div class="pnl-bar profit" style="height:95px;"></div>
+                    <div class="pnl-bar profit" style="height:40px;"></div>
+                    <div class="pnl-bar profit" style="height:6px;"></div>
+                    <div class="pnl-bar profit" style="height:4px;"></div>
+                    <div class="pnl-bar profit" style="height:4px;"></div>
+                    <div class="pnl-bar profit" style="height:4px;"></div>
+                    <div class="pnl-bar profit" style="height:4px;"></div>
+                    <div class="pnl-bar profit" style="height:4px;"></div>
+                    <div class="pnl-bar big-profit" style="height:12px;"></div>
+                    <div class="pnl-bar big-profit" style="height:8px;"></div>
+                    <div class="pnl-bar big-profit" style="height:20px;"></div>
+                </div>
             </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Vote in a competition</div></div>
-                <div class="task-item-right"><span class="task-points">+5</span><span class="task-status verify">Verify</span></div>
+
+            <!-- Long / Short -->
+            <div class="analytics-card">
+                <div class="analytics-card-title">Long / Short</div>
+                <div class="long-short-section">
+                    <div class="ls-header">
+                        <span class="ls-label long">LONG (6)</span>
+                        <span class="ls-label short">SHORT (19)</span>
+                    </div>
+                    <div class="ls-bar">
+                        <div class="ls-bar-fill" style="width:24%;"></div>
+                    </div>
+                    <div class="ls-details">
+                        <div>Long WR: <strong>17%</strong></div>
+                        <div>Short WR: <strong>32%</strong></div>
+                        <div>Long Avg PnL: <span class="neg">-0.47</span></div>
+                        <div>Short Avg PnL: <span class="pos">+0.42</span></div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="task-panel" id="panel-weekly">
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Complete 5 matches</div></div>
-                <div class="task-item-right"><span class="task-points">+30</span><span class="task-status verify">Verify</span></div>
+
+            <!-- Close Reason -->
+            <div class="analytics-card">
+                <div class="analytics-card-title">Close Reason</div>
+                <div class="close-reason-chart">
+                    <div class="donut-placeholder"></div>
+                    <div class="donut-label">■ Manual (100%)</div>
+                </div>
             </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Finish in Top 50 once</div></div>
-                <div class="task-item-right"><span class="task-points">+25</span><span class="task-status verify">Verify</span></div>
-            </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Refer a friend</div></div>
-                <div class="task-item-right"><span class="task-points">+20</span><span class="task-status link">Link</span></div>
-            </div>
-        </div>
-        <div class="task-panel" id="panel-onetime">
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Follow on Twitter</div></div>
-                <div class="task-item-right"><span class="task-points">+10</span><span class="task-status link">Link</span></div>
-            </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Link Discord</div></div>
-                <div class="task-item-right"><span class="task-points">+15</span><span class="task-status link">Link</span></div>
-            </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">Bind wallet address</div></div>
-                <div class="task-item-right"><span class="task-points">+15</span><span class="task-status verify">Verify</span></div>
-            </div>
-            <div class="task-item">
-                <div class="task-item-left"><div class="task-item-name">First win a prize</div></div>
-                <div class="task-item-right"><span class="task-points">+30</span><span class="task-status verify">Verify</span></div>
+
+            <!-- Trades by Hour -->
+            <div class="analytics-card">
+                <div class="analytics-card-title">Trades by Hour</div>
+                <div class="trades-hour-placeholder">
+                    <div class="hour-bar" style="height:5%;"></div>
+                    <div class="hour-bar" style="height:5%;"></div>
+                    <div class="hour-bar" style="height:5%;"></div>
+                    <div class="hour-bar" style="height:10%;"></div>
+                    <div class="hour-bar" style="height:15%;"></div>
+                    <div class="hour-bar" style="height:25%;"></div>
+                    <div class="hour-bar" style="height:40%;"></div>
+                    <div class="hour-bar" style="height:55%;"></div>
+                    <div class="hour-bar" style="height:70%;"></div>
+                    <div class="hour-bar" style="height:85%;"></div>
+                    <div class="hour-bar" style="height:90%;"></div>
+                    <div class="hour-bar" style="height:100%;"></div>
+                    <div class="hour-bar" style="height:75%;"></div>
+                    <div class="hour-bar" style="height:60%;"></div>
+                    <div class="hour-bar" style="height:80%;"></div>
+                    <div class="hour-bar" style="height:65%;"></div>
+                    <div class="hour-bar" style="height:50%;"></div>
+                    <div class="hour-bar" style="height:35%;"></div>
+                    <div class="hour-bar" style="height:20%;"></div>
+                    <div class="hour-bar" style="height:30%;"></div>
+                    <div class="hour-bar" style="height:45%;"></div>
+                    <div class="hour-bar" style="height:35%;"></div>
+                    <div class="hour-bar" style="height:15%;"></div>
+                    <div class="hour-bar" style="height:10%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(255,255,255,0.3);margin-top:4px;padding:0 4px;">
+                    <span>0</span><span>4</span><span>8</span><span>12</span><span>16</span><span>20</span><span>23</span>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- MATCH HISTORY PANEL -->
+    <div class="tab-panel" id="panel-history">
+        <div class="history-panel">
+            <div class="history-filter">
+                <button class="filter-btn active">All (4)</button>
+                <button class="filter-btn">Profit</button>
+                <button class="filter-btn">Loss</button>
+            </div>
+
+            <div class="history-summary">
+                <div class="history-stat">
+                    <div class="history-stat-label">Matches</div>
+                    <div class="history-stat-value">4</div>
+                </div>
+                <div class="history-stat">
+                    <div class="history-stat-label">Prize</div>
+                    <div class="history-stat-value gold">2U</div>
+                </div>
+                <div class="history-stat">
+                    <div class="history-stat-label">Points</div>
+                    <div class="history-stat-value green">+48</div>
+                </div>
+            </div>
+            <div class="history-summary-row2">
+                <div class="history-stat">
+                    <div class="history-stat-label">Avg PnL</div>
+                    <div class="history-stat-value green">+0.55%</div>
+                </div>
+                <div class="history-stat">
+                    <div class="history-stat-label">Best</div>
+                    <div class="history-stat-value">#21</div>
+                </div>
+                <div class="history-stat">
+                    <div class="history-stat-label">Win Rate</div>
+                    <div class="history-stat-value">25%</div>
+                </div>
+            </div>
+
+            <!-- Match Rows -->
+            <div class="match-row">
+                <span class="match-id">K22</span>
+                <span class="match-rank-badge">#525</span>
+                <div class="match-details">
+                    <span>6 trades</span>
+                    <span>WR 0.0%</span>
+                </div>
+                <span class="match-pnl red">-1.46%</span>
+                <span class="match-date">Jun 6, 2026</span>
+            </div>
+            <div class="match-row">
+                <span class="match-id">K21</span>
+                <span class="match-rank-badge">#206</span>
+                <div class="match-details">
+                    <span>6 trades</span>
+                    <span class="pts">@+8pts</span>
+                    <span>WR 0.0%</span>
+                </div>
+                <span class="match-pnl red">-1.11%</span>
+                <span class="match-date">Jun 5, 2026</span>
+            </div>
+            <div class="match-row">
+                <span class="match-id">K20</span>
+                <span class="match-rank-badge top">#21</span>
+                <div class="match-details">
+                    <span>6 trades</span>
+                    <span class="pts">@+30pts</span>
+                    <span class="prize-icon">🏆 2U</span>
+                    <span>WR 16.7%</span>
+                </div>
+                <span class="match-pnl green">+5.18%</span>
+                <span class="match-date">Jun 2, 2026</span>
+            </div>
+            <div class="match-row">
+                <span class="match-id">F15</span>
+                <span class="match-rank-badge">#123</span>
+                <div class="match-details">
+                    <span>7 trades</span>
+                    <span class="pts">@+8pts</span>
+                    <span>WR 14.3%</span>
+                </div>
+                <span class="match-pnl red">-0.86%</span>
+                <span class="match-date">May 31, 2026</span>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <a class="nav-item" href="mobile-schedule.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Schedule</span></a>
-    <a class="nav-item" href="mobile-watch.html"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Watch</span></a>
-    <a class="nav-item center-item" href="mobile-arena.html"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><span>Arena</span></a>
-    <a class="nav-item active" href="mobile-dashboard.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Dashboard</span></a>
-    <a class="nav-item" href="mobile-rewards.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>Rewards</span></a>
-</div>
-
-<!-- DRAWER -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-    <div class="drawer-header">
-        <div class="drawer-avatar">OT</div>
-        <div style="flex:1"><div class="drawer-username">OtterTrader_01</div><div class="drawer-email">user@example.com</div></div>
-        <div class="drawer-close" onclick="closeDrawer()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    </div>
-    <div class="drawer-section"><div class="drawer-item"><div class="drawer-item-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="drawer-item-label">Stats</span></div></div>
-    <div class="drawer-social">
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
-        <div class="drawer-social-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
-    </div>
-    <div class="drawer-logout"><div class="drawer-logout-btn">Log Out</div></div>
+    <div class="nav-item"><span class="nav-icon">⚔️</span><span class="nav-label">Arena</span></div>
+    <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Schedule</span></div>
+    <div class="nav-item"><span class="nav-icon">👁</span><span class="nav-label">Watch</span></div>
+    <div class="nav-item active"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></div>
 </div>
 
 <script>
-function toggleLang() { document.getElementById('langDropdown').classList.toggle('open'); }
-function openDrawer() { document.getElementById('drawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeDrawer() { document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerOverlay').classList.remove('open'); document.body.style.overflow=''; }
-
-function toggleCollapsible(header) {
-    header.classList.toggle('open');
-    const body = header.nextElementSibling;
-    body.classList.toggle('open');
-}
-
-function switchTaskTab(tab, btn) {
-    document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.task-panel').forEach(p => p.classList.remove('active'));
+function switchTab(tab, el) {
+    document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-' + tab).classList.add('active');
 }
 
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.top-bar-icon') && !e.target.closest('.lang-dropdown')) {
-        document.getElementById('langDropdown').classList.remove('open');
-    }
+// Filter buttons in match history
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    });
 });
 </script>
 </body>
