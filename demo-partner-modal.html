@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Partner Registration Modal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0B;
+            color: #fff;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+
+        /* trigger button for demo */
+        .trigger-btn {
+            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px;
+            letter-spacing: 0.06em; padding: 14px 28px; border-radius: 10px;
+            background: #F5B70A; color: #0B0B0B; border: none; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .trigger-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        /* ===== OVERLAY ===== */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.78);
+            backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+            z-index: 2000; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+        /* ===== MODAL ===== */
+        .modal {
+            width: 100%; max-width: 480px; background: #121212;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
+            overflow: hidden; max-height: 92vh; display: flex; flex-direction: column;
+            transform: translateY(16px) scale(0.98); transition: transform 0.25s;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+        }
+        .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+        /* ===== BANNER ===== */
+        .modal-banner {
+            position: relative; height: 150px; flex-shrink: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #242424 100%);
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        /* dashed placeholder look */
+        .banner-placeholder {
+            position: absolute; inset: 12px; border: 2px dashed rgba(245,183,10,0.35);
+            border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 8px; color: rgba(245,183,10,0.65);
+        }
+        .banner-placeholder svg { width: 28px; height: 28px; }
+        .banner-placeholder-text { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+        .banner-placeholder-sub { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: none; letter-spacing: 0; }
+        /* partner badge over banner */
+        .partner-badge {
+            position: absolute; top: 12px; left: 12px; z-index: 2;
+            display: flex; align-items: center; gap: 6px; padding: 5px 12px;
+            background: rgba(11,11,11,0.7); border: 1px solid rgba(245,183,10,0.4);
+            border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; color: #F5B70A;
+        }
+        .partner-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #F5B70A; }
+        /* close button */
+        .modal-close {
+            position: absolute; top: 12px; right: 12px; z-index: 3;
+            width: 30px; height: 30px; border-radius: 50%; border: none;
+            background: rgba(11,11,11,0.7); color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .modal-close:hover { background: rgba(239,68,68,0.85); }
+        .modal-close svg { width: 16px; height: 16px; }
+
+        /* ===== BODY ===== */
+        .modal-body { padding: 22px 24px 0; overflow-y: auto; }
+
+        /* logo + name row */
+        .partner-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        .partner-logo {
+            width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; color: #fff;
+            background: linear-gradient(135deg,#6c5ce7,#a29bfe);
+        }
+        .partner-name { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+        .partner-cat { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; }
+
+        /* description */
+        .partner-desc { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+
+        /* ===== REWARD CALLOUT (highlight) ===== */
+        .reward-callout {
+            position: relative; overflow: hidden;
+            border-radius: 14px; padding: 18px 18px; margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(245,183,10,0.16), rgba(245,183,10,0.04));
+            border: 1px solid rgba(245,183,10,0.45);
+            display: flex; align-items: center; gap: 14px;
+        }
+        .reward-callout::before {
+            content: ''; position: absolute; top: -40%; right: -10%;
+            width: 140px; height: 180px; background: radial-gradient(circle, rgba(245,183,10,0.25), transparent 70%);
+        }
+        .reward-icon {
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            background: #F5B70A; display: flex; align-items: center; justify-content: center;
+        }
+        .reward-icon svg { width: 24px; height: 24px; stroke: #0B0B0B; }
+        .reward-text-wrap { position: relative; z-index: 1; }
+        .reward-headline { font-size: 13px; line-height: 1.4; font-weight: 600; color: #fff; }
+        .reward-pct { font-family: 'Orbitron', sans-serif; font-weight: 800; color: #F5B70A; font-size: 17px; }
+        .reward-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+        /* ===== CHANNELS ===== */
+        .channels-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); font-weight: 600; margin-bottom: 10px; }
+        .channels-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+        .channel-link {
+            display: flex; align-items: center; gap: 8px; padding: 9px 14px;
+            border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+            color: rgba(255,255,255,0.75); text-decoration: none; font-size: 12px; font-weight: 500;
+            transition: all 0.2s;
+        }
+        .channel-link:hover { border-color: #F5B70A; color: #F5B70A; background: rgba(245,183,10,0.07); }
+        .channel-link svg { width: 15px; height: 15px; }
+
+        /* ===== FOOTER ACTIONS ===== */
+        .modal-footer {
+            padding: 16px 24px 22px; border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+        }
+        .btn-primary {
+            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.05em;
+            padding: 15px; border-radius: 11px; background: #F5B70A; color: #0B0B0B;
+            border: none; cursor: pointer; transition: all 0.2s; width: 100%;
+        }
+        .btn-primary:hover { filter: brightness(1.08); }
+        .btn-secondary {
+            font-size: 12px; padding: 10px; border-radius: 10px; background: transparent;
+            color: rgba(255,255,255,0.55); border: none; cursor: pointer; transition: color 0.2s; width: 100%;
+        }
+        .btn-secondary:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <button class="trigger-btn" onclick="document.getElementById('overlay').classList.add('open')">Open Partner Modal Demo</button>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay open" id="overlay">
+        <div class="modal">
+            <!-- BANNER -->
+            <div class="modal-banner">
+                <div class="partner-badge"><span class="dot"></span>Partner Event</div>
+                <button class="modal-close" onclick="document.getElementById('overlay').classList.remove('open')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+                <!-- IMAGE PLACEHOLDER -->
+                <div class="banner-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span class="banner-placeholder-text">Co-Branded Banner</span>
+                    <span class="banner-placeholder-sub">Upload partner artwork (1200 × 400)</span>
+                </div>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <!-- LOGO + NAME -->
+                <div class="partner-head">
+                    <div class="partner-logo">NC</div>
+                    <div>
+                        <div class="partner-name">NovaChain</div>
+                        <div class="partner-cat">Layer 1 Protocol · Official Sponsor</div>
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <p class="partner-desc">
+                    NovaChain is a high-performance Layer 1 blockchain built for next-generation DeFi.
+                    This competition is co-hosted with NovaChain to showcase real on-chain trading on their network.
+                    Join thousands of traders competing for the prize pool.
+                </p>
+
+                <!-- REWARD CALLOUT -->
+                <div class="reward-callout">
+                    <div class="reward-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <div class="reward-text-wrap">
+                        <div class="reward-headline">Register via NovaChain's link &amp; instantly unlock an extra <span class="reward-pct">+15%</span> competition reward</div>
+                        <div class="reward-sub">Bonus applied automatically to your final winnings.</div>
+                    </div>
+                </div>
+
+                <!-- CHANNELS -->
+                <div class="channels-label">Partner Channels</div>
+                <div class="channels-grid">
+                    <a href="#" target="_blank" class="channel-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                        Website
+                    </a>
+                    <a href="#" target="_blank" class="channel-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        X / Twitter
+                    </a>
+                    <a href="#" target="_blank" class="channel-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.015 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        Telegram
+                    </a>
+                    <a href="#" target="_blank" class="channel-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Discord
+                    </a>
+                    <a href="#" target="_blank" class="channel-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        YouTube
+                    </a>
+                </div>
+            </div>
+
+            <!-- FOOTER ACTIONS -->
+            <div class="modal-footer">
+                <button class="btn-primary">CONTINUE &amp; CLAIM +15% BONUS</button>
+                <button class="btn-secondary" onclick="document.getElementById('overlay').classList.remove('open')">Register without bonus</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
