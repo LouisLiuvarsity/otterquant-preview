@@ -130,16 +130,19 @@
         .wg-title { font-size: 13px; font-weight: 700; }
         .wg-prize { font-size: 11px; color: rgba(255,255,255,0.45); margin-left: auto; }
         .wg-prize b { color: #F5B70A; font-family: 'Orbitron', sans-serif; }
-        .winner-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-        .winner-chip {
-            display: flex; align-items: center; gap: 8px; padding: 7px 12px 7px 8px; border-radius: 9px;
-            border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); font-size: 12px;
+        .winner-list { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; }
+        .winner-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); font-size: 13px;
         }
-        .winner-chip.me { border-color: rgba(245,183,10,0.5); background: rgba(245,183,10,0.08); }
-        .chip-avatar { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #0B0B0B; flex-shrink: 0; }
-        .chip-name { color: rgba(255,255,255,0.85); font-weight: 500; }
-        .winner-chip.me .chip-name { color: #F5B70A; }
-        .chip-you { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: #0B0B0B; background: #F5B70A; padding: 1px 5px; border-radius: 4px; }
+        .winner-item:last-child { border-bottom: none; }
+        .winner-item.me { background: rgba(245,183,10,0.08); }
+        .wi-index { width: 26px; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); flex-shrink: 0; }
+        .wi-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #0B0B0B; flex-shrink: 0; }
+        .wi-name { color: rgba(255,255,255,0.85); font-weight: 500; flex: 1; }
+        .winner-item.me .wi-name { color: #F5B70A; font-weight: 600; }
+        .wi-you { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: #0B0B0B; background: #F5B70A; padding: 1px 6px; border-radius: 4px; }
+        .wi-prize { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; color: #F5B70A; flex-shrink: 0; }
 
         /* ===== PRIZES ===== */
         .prize-panel { border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; background: rgba(255,255,255,0.015); }
@@ -490,12 +493,14 @@
 
         const winnersContainer = document.getElementById('winnersContainer');
         winnersContainer.innerHTML = lastWinners.map(g => {
-            const chips = g.names.map(n => {
+            const rows = g.names.map((n, i) => {
                 const me = n.toLowerCase() === 'you';
-                return `<div class="winner-chip ${me?'me':''}">
-                    <span class="chip-avatar" style="background:${g.avColor};">${initials(n)}</span>
-                    <span class="chip-name">${me?'You':n}</span>
-                    ${me?'<span class="chip-you">YOU</span>':''}
+                return `<div class="winner-item ${me?'me':''}">
+                    <span class="wi-index">#${i+1}</span>
+                    <span class="wi-avatar" style="background:${g.avColor};">${initials(n)}</span>
+                    <span class="wi-name">${me?'You':n}</span>
+                    ${me?'<span class="wi-you">YOU</span>':''}
+                    <span class="wi-prize">${g.prize.replace(' each','')}</span>
                 </div>`;
             }).join('');
             return `<div class="winners-group">
@@ -504,7 +509,7 @@
                     <span class="wg-title">${g.title}</span>
                     <span class="wg-prize">${g.names.length} winner(s) · <b>${g.prize}</b></span>
                 </div>
-                <div class="winner-chips">${chips}</div>
+                <div class="winner-list">${rows}</div>
             </div>`;
         }).join('');
 
