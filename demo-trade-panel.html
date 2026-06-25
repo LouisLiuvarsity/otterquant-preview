@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Trade Panel (Market / Limit)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif; background: #0B0B0B; color: #fff;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            padding: 40px 20px; gap: 28px;
+        }
+        .demo-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: #F5B70A; }
+        .demo-note { font-size: 12px; color: rgba(255,255,255,0.45); max-width: 720px; text-align: center; line-height: 1.6; }
+
+        /* ===== TRADE PANEL ===== */
+        .trade-panel {
+            width: 100%; max-width: 1340px; background: #0d0d0d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 22px;
+        }
+
+        /* --- stats block (left) --- */
+        .stats-block { display: flex; gap: 26px; flex-shrink: 0; }
+        .stat-item { display: flex; flex-direction: column; gap: 4px; }
+        .stat-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 600; }
+        .stat-value .sub { font-size: 11px; font-weight: 400; }
+        .stat-value .neg { color: #ef4444; }
+
+        .vdivider { width: 1px; align-self: stretch; background: rgba(255,255,255,0.08); }
+
+        /* --- order config (center) --- */
+        .order-config { flex: 1; display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+
+        /* order type toggle (NEW) */
+        .order-type-row { display: flex; align-items: center; gap: 10px; }
+        .order-type-toggle {
+            display: inline-flex; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 7px; padding: 2px;
+        }
+        .ot-btn {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.03em; padding: 5px 14px; border-radius: 5px;
+            background: transparent; color: rgba(255,255,255,0.5); border: none; cursor: pointer; transition: all 0.15s;
+        }
+        .ot-btn:hover { color: rgba(255,255,255,0.85); }
+        .ot-btn.active { background: #F5B70A; color: #0B0B0B; }
+
+        /* limit price field (NEW, hidden by default) */
+        .limit-price-wrap { display: none; align-items: center; gap: 6px; }
+        .limit-price-wrap.show { display: flex; }
+        .limit-price-input {
+            width: 150px; background: rgba(255,255,255,0.04); border: 1px solid rgba(245,183,10,0.4);
+            border-radius: 6px; padding: 6px 10px; color: #fff; font-size: 13px; font-family: 'Inter', sans-serif;
+        }
+        .limit-price-input::placeholder { color: rgba(255,255,255,0.35); }
+        .limit-price-input:focus { outline: none; border-color: #F5B70A; }
+        .limit-price-suffix { font-size: 11px; color: rgba(255,255,255,0.4); }
+        .mkt-price-hint { font-size: 11px; color: rgba(255,255,255,0.4); }
+        .mkt-price-hint b { color: #F5B70A; font-weight: 600; }
+
+        .row { display: flex; align-items: center; gap: 10px; }
+        .amount-input {
+            flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 14px; min-width: 120px;
+        }
+        .amount-input:focus { outline: none; border-color: rgba(245,183,10,0.5); }
+        .ccy-toggle { display: inline-flex; border-radius: 6px; overflow: hidden; border: 1px solid rgba(245,183,10,0.5); flex-shrink: 0; }
+        .ccy-btn { font-size: 11px; font-weight: 700; padding: 8px 14px; background: transparent; color: rgba(255,255,255,0.6); border: none; cursor: pointer; transition: all 0.15s; }
+        .ccy-btn.active { background: #F5B70A; color: #0B0B0B; }
+
+        .lev-row { display: flex; align-items: center; gap: 10px; }
+        .lev-slider { flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; background: linear-gradient(to right, #F5B70A 60%, rgba(255,255,255,0.15) 60%); }
+        .lev-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #F5B70A; cursor: pointer; border: 2px solid #0B0B0B; }
+        .lev-badge { font-size: 11px; font-weight: 700; color: #F5B70A; border: 1px solid rgba(245,183,10,0.4); border-radius: 5px; padding: 3px 9px; flex-shrink: 0; }
+        .pct-row { display: flex; gap: 6px; }
+        .pct-btn { font-size: 10px; padding: 4px 10px; border-radius: 5px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.15s; }
+        .pct-btn:hover { border-color: #F5B70A; color: #F5B70A; }
+
+        /* --- TP/SL block --- */
+        .tpsl-block { display: flex; flex-direction: column; gap: 9px; flex-shrink: 0; }
+        .tpsl-head { display: flex; align-items: center; gap: 10px; }
+        .tpsl-check { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #fff; cursor: pointer; }
+        .tpsl-check input { accent-color: #F5B70A; width: 15px; height: 15px; }
+        .pricetype-toggle { display: inline-flex; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
+        .pt-btn { font-size: 11px; font-weight: 600; padding: 5px 12px; background: transparent; color: rgba(255,255,255,0.55); border: none; cursor: pointer; transition: all 0.15s; }
+        .pt-btn.active { background: #F5B70A; color: #0B0B0B; }
+        .tpsl-inputs { display: flex; gap: 8px; }
+        .tpsl-input { width: 92px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 6px 10px; color: rgba(255,255,255,0.6); font-size: 11px; }
+        .tpsl-pct-row { display: flex; gap: 6px; }
+        .tpsl-pct { font-size: 10px; padding: 4px 9px; border-radius: 5px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.15s; }
+        .tpsl-pct:hover { border-color: #F5B70A; color: #F5B70A; }
+
+        /* --- action buttons (right) --- */
+        .action-block { display: flex; gap: 10px; flex-shrink: 0; }
+        .action-btn {
+            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.02em;
+            padding: 12px 22px; border-radius: 7px; border: none; cursor: pointer; transition: all 0.15s;
+            display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 120px;
+        }
+        .action-btn .amt { font-size: 10px; font-weight: 400; opacity: 0.85; font-family: 'Inter', sans-serif; }
+        .btn-buy { background: #22c55e; color: #04210f; }
+        .btn-buy:hover { filter: brightness(1.08); }
+        .btn-sell { background: #ef4444; color: #2a0606; }
+        .btn-sell:hover { filter: brightness(1.08); }
+
+        @media (max-width: 1200px) {
+            .trade-panel { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-title">Trade Panel — Market / Limit Order</div>
+    <p class="demo-note">Switch the order type at the top-left of the order area. <b>Market</b> keeps the original layout and logic unchanged. Selecting <b>Limit</b> reveals a price input and changes the action buttons to "PLACE LIMIT ORDER". Everything else stays the same.</p>
+
+    <!-- ===== MARKET (default) ===== -->
+    <div class="trade-panel">
+        <!-- STATS -->
+        <div class="stats-block">
+            <div class="stat-item"><span class="stat-label">Market Price</span><span class="stat-value">66.58</span></div>
+            <div class="stat-item"><span class="stat-label">Balance</span><span class="stat-value">4980.94U <span class="sub neg">(-0.38%)</span></span></div>
+            <div class="stat-item"><span class="stat-label">Trades Left</span><span class="stat-value">39/40</span></div>
+        </div>
+        <div class="vdivider"></div>
+
+        <!-- ORDER CONFIG -->
+        <div class="order-config">
+            <!-- NEW: order type toggle + limit price -->
+            <div class="order-type-row">
+                <div class="order-type-toggle">
+                    <button class="ot-btn active" data-type="market">MARKET</button>
+                    <button class="ot-btn" data-type="limit">LIMIT</button>
+                </div>
+                <span class="mkt-price-hint" data-show="market">Filled at market price <b>66.58</b></span>
+                <div class="limit-price-wrap" data-show="limit">
+                    <input type="number" class="limit-price-input" placeholder="Limit price" value="66.58">
+                    <span class="limit-price-suffix">USDT</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <input type="text" class="amount-input" value="111" placeholder="Amount">
+                <div class="ccy-toggle">
+                    <button class="ccy-btn active">USDT</button>
+                    <button class="ccy-btn">SOLUSDT</button>
+                </div>
+            </div>
+            <div class="lev-row">
+                <input type="range" class="lev-slider" min="1" max="20" value="13">
+                <span class="lev-badge">1x</span>
+            </div>
+            <div class="pct-row">
+                <button class="pct-btn">25%</button>
+                <button class="pct-btn">50%</button>
+                <button class="pct-btn">75%</button>
+                <button class="pct-btn">100%</button>
+            </div>
+        </div>
+        <div class="vdivider"></div>
+
+        <!-- TP/SL -->
+        <div class="tpsl-block">
+            <div class="tpsl-head">
+                <label class="tpsl-check"><input type="checkbox" checked> TP/SL</label>
+                <div class="pricetype-toggle">
+                    <button class="pt-btn">Price</button>
+                    <button class="pt-btn active">ROI%</button>
+                </div>
+            </div>
+            <div class="tpsl-inputs">
+                <input type="text" class="tpsl-input" placeholder="TP ROI">
+                <input type="text" class="tpsl-input" placeholder="SL ROI">
+            </div>
+            <div class="tpsl-pct-row">
+                <button class="tpsl-pct">1%</button>
+                <button class="tpsl-pct">2%</button>
+                <button class="tpsl-pct">3%</button>
+                <button class="tpsl-pct">5%</button>
+                <button class="tpsl-pct">10%</button>
+            </div>
+        </div>
+        <div class="vdivider"></div>
+
+        <!-- ACTIONS -->
+        <div class="action-block">
+            <button class="action-btn btn-buy"><span class="lbl">BUY / LONG</span><span class="amt">111.00U</span></button>
+            <button class="action-btn btn-sell"><span class="lbl">SELL / SHORT</span><span class="amt">111.00U</span></button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.trade-panel').forEach(panel => {
+            const otBtns = panel.querySelectorAll('.ot-btn');
+            const showMarket = panel.querySelectorAll('[data-show="market"]');
+            const showLimit = panel.querySelectorAll('[data-show="limit"]');
+            const buyLbl = panel.querySelector('.btn-buy .lbl');
+            const sellLbl = panel.querySelector('.btn-sell .lbl');
+
+            otBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    otBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const type = btn.dataset.type;
+                    if (type === 'limit') {
+                        showMarket.forEach(e => e.style.display = 'none');
+                        showLimit.forEach(e => e.classList.add('show'));
+                        buyLbl.textContent = 'PLACE LIMIT BUY';
+                        sellLbl.textContent = 'PLACE LIMIT SELL';
+                    } else {
+                        showLimit.forEach(e => e.classList.remove('show'));
+                        showMarket.forEach(e => e.style.display = '');
+                        buyLbl.textContent = 'BUY / LONG';
+                        sellLbl.textContent = 'SELL / SHORT';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
