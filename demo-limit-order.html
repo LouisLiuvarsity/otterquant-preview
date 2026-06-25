@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otter Trade - Open Limit Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif; background: #0B0B0B; color: #fff;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            padding: 40px 20px; gap: 26px;
+        }
+        .demo-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: #F5B70A; }
+        .demo-note { font-size: 12px; color: rgba(255,255,255,0.45); max-width: 760px; text-align: center; line-height: 1.6; }
+        .demo-label { align-self: flex-start; max-width: 1340px; width: 100%; margin: 8px auto 0; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 600; }
+        .wrap { width: 100%; max-width: 1340px; }
+
+        /* ===== EXISTING POSITION ROW (reference) ===== */
+        .order-row {
+            display: flex; align-items: center; background: #0d0d0d;
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+            padding: 12px 18px; gap: 0; min-height: 60px;
+        }
+        .pos-side { display: flex; align-items: baseline; gap: 8px; flex-shrink: 0; min-width: 200px; }
+        .side-tag { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px; }
+        .side-tag.long { color: #22c55e; }
+        .side-tag.short { color: #ef4444; }
+        .side-qty { font-size: 12px; color: rgba(255,255,255,0.55); }
+        .pos-pnl { flex: 1; min-width: 120px; }
+        .pnl-main { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 15px; color: #ef4444; }
+        .pnl-sub { font-size: 11px; color: #ef4444; }
+        .cell { display: flex; flex-direction: column; gap: 3px; padding: 0 26px; border-left: 1px solid rgba(255,255,255,0.06); }
+        .cell-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+        .cell-value { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; }
+        .cell-label.tp { color: #22c55e; }
+        .cell-label.sl { color: #ef4444; }
+        .cell-value.muted { color: rgba(255,255,255,0.4); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; }
+        .spacer { flex: 1; }
+        .btn-edit { font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; background: #2a2a2a; color: #fff; border: none; cursor: pointer; transition: all 0.15s; }
+        .btn-edit:hover { background: #383838; }
+        .btn-close { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 13px; padding: 11px 24px; border-radius: 7px; background: #ef4444; color: #fff; border: none; cursor: pointer; margin-left: 12px; transition: all 0.15s; }
+        .btn-close:hover { filter: brightness(1.08); }
+
+        /* ===== OPEN LIMIT ORDER ROW (NEW) ===== */
+        .order-row.limit {
+            border-color: rgba(245,183,10,0.4);
+            background: linear-gradient(90deg, rgba(245,183,10,0.05), #0d0d0d 30%);
+        }
+        .limit-side { display: flex; align-items: center; gap: 10px; flex-shrink: 0; min-width: 230px; }
+        .limit-badge {
+            font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+            padding: 3px 8px; border-radius: 5px; background: rgba(245,183,10,0.15); color: #F5B70A; border: 1px solid rgba(245,183,10,0.4);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .limit-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #F5B70A; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .limit-sidewrap { display: flex; flex-direction: column; gap: 2px; }
+        .limit-side-tag { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px; }
+        .limit-side-tag.long { color: #22c55e; }
+        .limit-side-tag.short { color: #ef4444; }
+        .limit-side-qty { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+        .limit-price-cell { display: flex; flex-direction: column; gap: 3px; padding: 0 26px; border-left: 1px solid rgba(255,255,255,0.06); }
+        .limit-price-cell .cell-value { color: #F5B70A; }
+        .limit-distance { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+        /* inline price edit (hidden by default) */
+        .price-edit-wrap { display: none; align-items: center; gap: 6px; }
+        .price-edit-wrap.show { display: flex; }
+        .price-edit-input { width: 96px; background: rgba(255,255,255,0.05); border: 1px solid #F5B70A; border-radius: 6px; padding: 6px 8px; color: #fff; font-size: 13px; font-family: 'Orbitron', sans-serif; }
+        .price-edit-input:focus { outline: none; }
+        .btn-save { font-size: 11px; font-weight: 700; padding: 7px 12px; border-radius: 6px; background: #F5B70A; color: #0B0B0B; border: none; cursor: pointer; }
+        .btn-savecancel { font-size: 11px; padding: 7px 10px; border-radius: 6px; background: #2a2a2a; color: rgba(255,255,255,0.7); border: none; cursor: pointer; }
+
+        .btn-editprice { font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; background: #2a2a2a; color: #fff; border: none; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+        .btn-editprice:hover { background: #383838; }
+        .btn-editprice svg { width: 13px; height: 13px; }
+        .btn-cancel { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; padding: 11px 22px; border-radius: 7px; background: transparent; color: #ef4444; border: 1px solid rgba(239,68,68,0.5); cursor: pointer; margin-left: 12px; transition: all 0.15s; }
+        .btn-cancel:hover { background: rgba(239,68,68,0.12); }
+    </style>
+</head>
+<body>
+    <div class="demo-title">Open Limit Order — Pending Display</div>
+    <p class="demo-note">After placing a limit order, it shows as a <b>pending order row</b> until filled. The user can adjust the limit price inline (Edit Price) or cancel the order. Style is consistent with the existing position row, but highlighted to distinguish a not-yet-filled order.</p>
+
+    <!-- REFERENCE: existing filled position -->
+    <div class="demo-label">For reference — existing filled position (unchanged)</div>
+    <div class="wrap">
+        <div class="order-row">
+            <div class="pos-side">
+                <span class="side-tag long">LONG</span>
+                <span class="side-qty">4789.32 USDT</span>
+            </div>
+            <div class="pos-pnl">
+                <div class="pnl-main">+0.00 U</div>
+                <div class="pnl-sub">+0.00%</div>
+            </div>
+            <div class="cell"><span class="cell-label">Entry</span><span class="cell-value">64.00</span></div>
+            <div class="cell"><span class="cell-label">Mark</span><span class="cell-value">64.00</span></div>
+            <div class="cell"><span class="cell-label">Hold</span><span class="cell-value">0m 31s</span></div>
+            <div class="cell"><span class="cell-label tp">Take Profit</span><span class="cell-value muted">Not set</span></div>
+            <div class="cell"><span class="cell-label sl">Stop Loss</span><span class="cell-value muted">Not set</span></div>
+            <div class="spacer"></div>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-close">CLOSE (+0.00U)</button>
+        </div>
+    </div>
+
+    <!-- NEW: open limit order -->
+    <div class="demo-label">New — open (pending) limit order</div>
+    <div class="wrap">
+        <div class="order-row limit" id="limitRow">
+            <div class="limit-side">
+                <span class="limit-badge"><span class="dot"></span>LIMIT · PENDING</span>
+                <div class="limit-sidewrap">
+                    <span class="limit-side-tag long">LONG</span>
+                    <span class="limit-side-qty">4789.32 USDT · 1x</span>
+                </div>
+            </div>
+
+            <!-- LIMIT PRICE (with inline edit) -->
+            <div class="limit-price-cell">
+                <span class="cell-label">Limit Price</span>
+                <div id="priceDisplay" style="display:flex; flex-direction:column; gap:3px;">
+                    <span class="cell-value" id="priceValue">62.50</span>
+                    <span class="limit-distance">−6.1% from mark</span>
+                </div>
+                <div class="price-edit-wrap" id="priceEdit">
+                    <input type="number" class="price-edit-input" id="priceInput" value="62.50" step="0.01">
+                    <button class="btn-save" id="saveBtn">Save</button>
+                    <button class="btn-savecancel" id="cancelEditBtn">×</button>
+                </div>
+            </div>
+
+            <div class="cell"><span class="cell-label">Mark Price</span><span class="cell-value">66.58</span></div>
+            <div class="cell"><span class="cell-label">Order Type</span><span class="cell-value">Limit · Open</span></div>
+            <div class="cell"><span class="cell-label tp">Take Profit</span><span class="cell-value muted">Not set</span></div>
+            <div class="cell"><span class="cell-label sl">Stop Loss</span><span class="cell-value muted">Not set</span></div>
+            <div class="cell"><span class="cell-label">Created</span><span class="cell-value muted">12:45:08</span></div>
+
+            <div class="spacer"></div>
+            <button class="btn-editprice" id="editPriceBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg>
+                Edit Price
+            </button>
+            <button class="btn-cancel" id="cancelOrderBtn">CANCEL</button>
+        </div>
+    </div>
+
+    <script>
+        const MARK = 66.58;
+        const editPriceBtn = document.getElementById('editPriceBtn');
+        const priceDisplay = document.getElementById('priceDisplay');
+        const priceEdit = document.getElementById('priceEdit');
+        const priceInput = document.getElementById('priceInput');
+        const priceValue = document.getElementById('priceValue');
+        const saveBtn = document.getElementById('saveBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const cancelOrderBtn = document.getElementById('cancelOrderBtn');
+        const distance = document.querySelector('.limit-distance');
+
+        function updateDistance(p) {
+            const diff = ((p - MARK) / MARK * 100);
+            distance.textContent = `${diff>=0?'+':''}${diff.toFixed(1)}% from mark`;
+        }
+
+        editPriceBtn.addEventListener('click', () => {
+            priceDisplay.style.display = 'none';
+            priceEdit.classList.add('show');
+            priceInput.focus();
+        });
+        function closeEdit() {
+            priceEdit.classList.remove('show');
+            priceDisplay.style.display = 'flex';
+        }
+        saveBtn.addEventListener('click', () => {
+            const v = parseFloat(priceInput.value);
+            if (!isNaN(v)) { priceValue.textContent = v.toFixed(2); updateDistance(v); }
+            closeEdit();
+        });
+        cancelEditBtn.addEventListener('click', closeEdit);
+        cancelOrderBtn.addEventListener('click', () => {
+            if (confirm('Cancel this pending limit order?')) {
+                document.getElementById('limitRow').style.opacity = '0.4';
+                cancelOrderBtn.textContent = 'CANCELLED';
+                cancelOrderBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
